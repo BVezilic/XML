@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.rmi.CORBA.Util;
-
 import com.marklogic.client.DatabaseClientFactory.Authentication;
 
 public class ConnectionUtils {
@@ -42,7 +40,8 @@ public class ConnectionUtils {
 
 		InputStream propsStream = openStream(propsName);
 		if (propsStream == null)
-			throw new IOException("Could not read properties " + propsName);
+			//throw new IOException("Could not read properties " + propsName);
+			System.out.println("NULL");
 
 		Properties props = new Properties();
 		props.load(propsStream);
@@ -59,6 +58,6 @@ public class ConnectionUtils {
 	 * @throws IOException
 	 */
 	public static InputStream openStream(String fileName) throws IOException {
-		return Util.class.getClassLoader().getResourceAsStream(fileName);
+		return ConnectionUtils.class.getClassLoader().getResourceAsStream(fileName);
 	}
 }
