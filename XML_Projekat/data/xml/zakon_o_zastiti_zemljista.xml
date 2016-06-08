@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Akt xmlns="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina file:/D:/FTN/Semestar_8/XML/Projekat/XML/XML_Projekat/data/aktMixed.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
     <Naslov>ЗАКОН О ЗАШТИТИ ЗЕМЉИШТА</Naslov>
     <Glava Redni_broj="1" Naziv="ОСНОВНЕ ОДРЕДБЕ">
         <Clan Brojcana_oznaka="1" Naziv="Предмет закона">

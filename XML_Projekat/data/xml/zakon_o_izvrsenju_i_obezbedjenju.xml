@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina /../xsd/akt.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
     <sk:Naslov></sk:Naslov>
     <sk:Deo Redni_broj="2" Naziv="ОПШТА ПРАВИЛА ИЗВРШНОГ ПОСТУПКА">
         <sk:Glava Redni_broj="1" Naziv="ИЗВРШНА И ВЕРОДОСТОЈНА ИСПРАВА">
