@@ -3,6 +3,8 @@
 	xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+	
 	<xsl:template match="/">
         <fo:root>
             <fo:layout-master-set>
