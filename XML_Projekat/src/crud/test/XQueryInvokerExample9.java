@@ -12,8 +12,6 @@ import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
 
 import util.ConnectionUtils;
-import util.OperationType;
-import util.StringConstants;
 import util.ConnectionUtils.ConnectionProperties;
 
 public class XQueryInvokerExample9 {
@@ -55,17 +53,17 @@ public class XQueryInvokerExample9 {
 		invoker.xquery(query);
 		
 		// Interpret the results
-//		EvalResultIterator response = invoker.eval();
-//		System.out.print("[INFO] Response: ");
-//		
-//		if (response.hasNext()) {
-//
-//			for (EvalResult result : response) {
-//				System.out.println("\n" + result.getString());
-//			}
-//		} else { 		
-//			System.out.println("your query returned an empty sequence.");
-//		}
+		EvalResultIterator response = invoker.eval();
+		System.out.print("[INFO] Response: ");
+		
+		if (response.hasNext()) {
+
+			for (EvalResult result : response) {
+				System.out.println("\n" + result.getString());
+			}
+		} else { 		
+			System.out.println("your query returned an empty sequence.");
+		}
 //		
 		// Release the client
 		client.release();
