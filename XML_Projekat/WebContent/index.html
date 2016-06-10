@@ -18,21 +18,22 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <style type="text/css">
-
-.well {
+#listView {
 	height: 100vh;
 }
-
 </style>
 
 <title>XML Projekat</title>
 </head>
-<body div ng-app="XML_App">
+<body div ng-app="XML_App" ng-controller="mainControler">
+	<div class="row">
+		<div class="well col-xs-12">
+			<h1>Korisnik</h1>
+		</div>
+	</div>
 
 	<div class="row">
-		<div class="well col-xs-3">
-		
-		</div>
+		<div id="listView" class="well col-xs-3"></div>
 		<div class="col-xs-9"></div>
 	</div>
 
