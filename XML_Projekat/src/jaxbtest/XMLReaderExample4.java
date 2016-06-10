@@ -1,10 +1,12 @@
-package crud.test;
+package jaxbtest;
 
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -14,33 +16,26 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
-import com.marklogic.client.document.DocumentDescriptor;
-import com.marklogic.client.document.DocumentUriTemplate;
 import com.marklogic.client.document.XMLDocumentManager;
-import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.DocumentMetadataHandle;
-import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JAXBHandle;
-import com.marklogic.client.query.QueryManager;
-import com.marklogic.client.query.StringQueryDefinition;
 
+import example2.Fakultet;
+import example2.OdsekType;
+import example2.PolozenIspit;
+import example2.Student;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
 
-public class SingleFieldSearchExample6 {
+public class XMLReaderExample4 {
 
 	private static DatabaseClient client;
 	
 	private static TransformerFactory transformerFactory;
-	
-	private static final int NUMBER_OF_SAMPLES = 10;
-	
-	private static final String COLLECTION = "/ftn/bookshelf/test";
 	
 	static {
 		transformerFactory = TransformerFactory.newInstance();
@@ -48,7 +43,7 @@ public class SingleFieldSearchExample6 {
 	
 	public static void run(ConnectionProperties props) throws FileNotFoundException {
 		
-		System.out.println("[INFO] " + SingleFieldSearchExample6.class.getSimpleName());
+		System.out.println("[INFO] " + XMLReaderExample4.class.getSimpleName());
 		
 		// Initialize the database client
 		if (props.database.equals("")) {
@@ -59,64 +54,68 @@ public class SingleFieldSearchExample6 {
 			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
 		}
 		
-		// Populate database
-		populateDatabase(NUMBER_OF_SAMPLES);
+		// Create a document manager to work with XML files.
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+
+		// A handle to receive the document's content.
+		//DOMHandle content = new DOMHandle();
+		JAXBContext context = null;
+		try {
+			context = JAXBContext.newInstance("example2");
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JAXBHandle content = new JAXBHandle(context);
 		
-		// Initialize query manager
-		QueryManager queryManager = client.newQueryManager();
+		// A metadata handle for metadata retrieval
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		
-		// Query definition is used to specify Google-style query string
-		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
+		// A document URI identifier. 
+		String docId = "/test";
 		
-		// Set the criteria
-		String criteria = "angularjs OR test AND \"Kurt Cagle\"";
-		queryDefinition.setCriteria(criteria);
+		// Write the document to the database
+		System.out.println("[INFO] Retrieving \"" + docId + "\" from "
+				+ (props.database.equals("") ? "default" : props.database)
+				+ " database.");
 		
-		// Search within a specific collection
-		queryDefinition.setCollections(COLLECTION);
+		xmlManager.read(docId, metadata, content);
 		
-		// Perform search
-		DOMHandle results = queryManager.search(queryDefinition, new DOMHandle());
+		// Retrieving a document node form DOM handle.
+		Fakultet doc = (Fakultet)content.get();
+		/*
+		 * A collection defines a set of documents in the database. You can set
+		 * documents to be in any number of collections either at the time the
+		 * document is created or by updating it.
+		 * 
+		 */
 		
-		// Serialize search results to the standard output
-		Document resultsDocument = results.get();
-		System.out.println("[INFO] Showing the results for: " + criteria + "\n");
-		transform(resultsDocument, System.out);
-		
+		// Reading metadata
+		System.out.println("[INFO] Assigned collections: " + metadata.getCollections());
+
+		// Serializing DOM tree to standard output.
+		System.out.println("[INFO] Retrieved content:");
+		//transform(doc, System.out);
+		System.out.println("NAZIV FAKULTETA: " + doc.getNaziv());
+		for(OdsekType t : doc.getOdsek())
+		{
+			System.out.println("NAZIV ODSEKA: " + t.getNaziv());
+			System.out.println("ID ODSEKA: " + t.getId());
+			for(Student s: t.getStudenti().getStudent())
+			{
+				System.out.println("STUDENT: " + s.getBrojIndeksa() + " " + s.getIme() + " " + s.getPrezime());
+				for(PolozenIspit p:s.getPolozenIspit())
+				{
+					System.out.println("POLOZENI ISPIT" + p.getPredmet() + " " + p.getNastavnik() + " " + p.getOcena());
+				}
+			}
+		}
+		content.set(doc);
+		xmlManager.write("/sranje",content);
 		// Release the client
 		client.release();
 		
 		System.out.println("[INFO] End.");
-	}
-	
-	private static void populateDatabase(int numberOfSamples) throws FileNotFoundException {
-
-		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
-		
-		// Generate URI for each document
-		DocumentUriTemplate template = xmlManager.newDocumentUriTemplate("xml");
-		template.setDirectory("/example/xquery/search/");
-		
-		// Assign each document to the collection
-		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
-		metadata.getCollections().add(COLLECTION);
-
-		InputStreamHandle content;
-		
-		for (int i = 0; i < numberOfSamples; i++) {
-		
-			// Create an input stream handle to hold XML content.
-			if (i % 3 == 0)
-				content = new InputStreamHandle(new FileInputStream("data/books_modified.xml"));
-			else
-				content = new InputStreamHandle(new FileInputStream("data/books.xml"));
-			
-			// Write XML document to the database
-			DocumentDescriptor desc = xmlManager.create(template, metadata, content);
-			System.out.println("[INFO] Populating database with: \"" + desc.getUri() + "\".");
-			
-		}
-		System.out.println();
 	}
 	
 	/**

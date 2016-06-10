@@ -1,8 +1,11 @@
 package crud.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
@@ -33,11 +36,15 @@ private static DatabaseClient client;
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		
 		// Define a URI value for a document.
-		String docId = "data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml";
+		String docId = "/test";
 		String testDocId = "/example/test/books.xml";
 		
 		// Create an input stream handle to hold XML content.
-		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
+		//String exampleString = "<asd><dsa></dsa></asd>";
+		//InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("data/univerzitet2.xml"));
+		//InputStreamHandle handle = new InputStreamHandle(stream);
+		
 		
 		// Write the document to the database
 		System.out.println("[INFO] Inserting \"" + docId + "\" to \"" + props.database + "\" database.");
