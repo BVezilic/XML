@@ -7,8 +7,7 @@
         <sk:Glava Redni_broj="1" Naziv="ИЗВРШНА И ВЕРОДОСТОЈНА ИСПРАВА">
             <sk:Odeljak Redni_broj="1" Naziv="1. Основи за доношење решења о извршењу">
                 <sk:Clan Brojcana_oznaka="40" Naziv="">
-                    <sk:Stav> Решење о извршењу доноси се на основу извршне или веродостојне
-                        исправе. </sk:Stav>
+                    <sk:Stav> ĐĆ </sk:Stav>
                 </sk:Clan>
             </sk:Odeljak>
             <sk:Odeljak Redni_broj="2" Naziv="2. Извршна исправа">

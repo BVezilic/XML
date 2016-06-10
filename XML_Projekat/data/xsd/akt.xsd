@@ -86,6 +86,7 @@
             <xs:sequence minOccurs="0">
                 <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
             </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Tacka">
@@ -101,7 +102,16 @@
             <xs:sequence minOccurs="0">
                 <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Alineja"/>
             </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="Alineja" type="xs:string"/>
+    <xs:element name="Alineja">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="Redni_broj" type="xs:int"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

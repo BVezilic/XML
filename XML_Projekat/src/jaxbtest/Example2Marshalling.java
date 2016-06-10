@@ -33,12 +33,12 @@ public class Example2Marshalling {
 			System.out.println("[INFO] Example 2: JAXB unmarshalling/marshalling.\n");
 			
 			// Definiše se JAXB kontekst (putanja do paketa sa JAXB bean-ovima)
-			JAXBContext context = JAXBContext.newInstance("example2");
+			JAXBContext context = JAXBContext.newInstance("model");
 			
 			// Unmarshaller je objekat zadužen za konverziju iz XML-a u objektni model
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			Fakultet fakultet = (Fakultet) unmarshaller.unmarshal(new File("./data/univerzitet2.xml"));
+			Fakultet fakultet = (Fakultet) unmarshaller.unmarshal(new File("/data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
 			
 			// Izmena nad objektnim modelom dodavanjem novog odseka
 			fakultet.getOdsek().add(createOdsek("23", "GRID"));

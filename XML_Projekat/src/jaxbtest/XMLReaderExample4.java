@@ -1,12 +1,16 @@
 package jaxbtest;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -24,10 +28,8 @@ import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.JAXBHandle;
 
-import example2.Fakultet;
-import example2.OdsekType;
-import example2.PolozenIspit;
-import example2.Student;
+import model.Akt;
+import transformations.XSLFOTransformator;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
 
@@ -41,7 +43,7 @@ public class XMLReaderExample4 {
 		transformerFactory = TransformerFactory.newInstance();
 	}
 	
-	public static void run(ConnectionProperties props) throws FileNotFoundException {
+	public static void run(ConnectionProperties props) throws FileNotFoundException, JAXBException {
 		
 		System.out.println("[INFO] " + XMLReaderExample4.class.getSimpleName());
 		
@@ -60,12 +62,16 @@ public class XMLReaderExample4 {
 		// A handle to receive the document's content.
 		//DOMHandle content = new DOMHandle();
 		JAXBContext context = null;
+		Marshaller marshaller = null;
 		try {
-			context = JAXBContext.newInstance("example2");
+			context = JAXBContext.newInstance("model");
+			marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		JAXBHandle content = new JAXBHandle(context);
 		
 		// A metadata handle for metadata retrieval
@@ -82,7 +88,7 @@ public class XMLReaderExample4 {
 		xmlManager.read(docId, metadata, content);
 		
 		// Retrieving a document node form DOM handle.
-		Fakultet doc = (Fakultet)content.get();
+		Akt doc = (Akt)content.get();
 		/*
 		 * A collection defines a set of documents in the database. You can set
 		 * documents to be in any number of collections either at the time the
@@ -96,22 +102,13 @@ public class XMLReaderExample4 {
 		// Serializing DOM tree to standard output.
 		System.out.println("[INFO] Retrieved content:");
 		//transform(doc, System.out);
-		System.out.println("NAZIV FAKULTETA: " + doc.getNaziv());
-		for(OdsekType t : doc.getOdsek())
-		{
-			System.out.println("NAZIV ODSEKA: " + t.getNaziv());
-			System.out.println("ID ODSEKA: " + t.getId());
-			for(Student s: t.getStudenti().getStudent())
-			{
-				System.out.println("STUDENT: " + s.getBrojIndeksa() + " " + s.getIme() + " " + s.getPrezime());
-				for(PolozenIspit p:s.getPolozenIspit())
-				{
-					System.out.println("POLOZENI ISPIT" + p.getPredmet() + " " + p.getNastavnik() + " " + p.getOcena());
-				}
-			}
-		}
-		content.set(doc);
-		xmlManager.write("/sranje",content);
+		
+		//content.set(doc);
+		//xmlManager.write("/sranje",content);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		marshaller.marshal(doc, baos);
+		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
+		XSLFOTransformator.aktToHTMLStream(isFromFirstData);
 		// Release the client
 		client.release();
 		
@@ -154,7 +151,7 @@ public class XMLReaderExample4 {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, JAXBException {
 		run(ConnectionUtils.loadProperties());
 	}
 

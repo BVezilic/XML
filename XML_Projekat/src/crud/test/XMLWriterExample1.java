@@ -42,7 +42,7 @@ private static DatabaseClient client;
 		// Create an input stream handle to hold XML content.
 		//String exampleString = "<asd><dsa></dsa></asd>";
 		//InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
-		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("data/univerzitet2.xml"));
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
 		//InputStreamHandle handle = new InputStreamHandle(stream);
 		
 		

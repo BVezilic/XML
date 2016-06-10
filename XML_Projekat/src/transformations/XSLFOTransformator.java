@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.transform.Result;
@@ -17,14 +18,14 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.saxon.TransformerFactoryImpl;
-
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.xml.sax.SAXException;
+
+import net.sf.saxon.TransformerFactoryImpl;
 
 public class XSLFOTransformator {
 
@@ -40,6 +41,21 @@ public class XSLFOTransformator {
 	        Source text = new StreamSource(new File("data/xml/"+xmlName+".xml"));
 	        transformer.transform(text, new StreamResult(new File("WebContent/gen/html/"+xmlName+".html")));
 	        System.out.println("Uspesno zavrsena transformacija "+xmlName+ " u html, na putanji: WebContent/gen/"+xmlName+".html");
+		} catch (TransformerConfigurationException e) {			
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void aktToHTMLStream(InputStream xmlName) {
+		try {
+	        TransformerFactory factory = TransformerFactory.newInstance();
+	        Source xslt = new StreamSource(new File("data/xslt/akt.xsl"));
+	        Transformer transformer = factory.newTransformer(xslt);
+	        Source text = new StreamSource(xmlName);
+	        transformer.transform(text, new StreamResult(new File("WebContent/gen/html/"+"temp"+".html")));
+	        System.out.println("Uspesno zavrsena transformacija u html, na putanji: WebContent/gen/"+xmlName+".html");
 		} catch (TransformerConfigurationException e) {			
 			e.printStackTrace();
 		} catch (TransformerException e) {
