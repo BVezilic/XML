@@ -17,25 +17,48 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<style type="text/css">
-#listView {
-	height: 100vh;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="pageStyle.css">
 
 <title>XML Projekat</title>
 </head>
 <body div ng-app="XML_App" ng-controller="mainControler">
-	<div class="row">
-		<div class="well col-xs-12">
+	<div class="row ">
+		<div class="well header col-xs-12">
 			<h1>Korisnik</h1>
 		</div>
 	</div>
 
-	<div class="row">
-		<div id="listView" class="well col-xs-3"></div>
-		<div class="col-xs-9"></div>
+	<div class=" row container">
+		<div id="listView" class="well col-xs-4 ">
+			<br />
+			<form role="form">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th><h3>Naziv akta</h3></th>
+							<th></th>
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr style="text-align: left;" ng-repeat="akt in listaAkata">
+							<td style="vertical-align: middle;"><label>{{akt}}</label></td>
+							<td style="vertical-align: middle;"><button
+									style="width: 100%;" type="button" class="btn btn-primary">Pregled
+									akta</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<div class="well col-xs-7">
+			<form role="form">
+				<textarea readonly class="form-control" rows="5" id="comment"></textarea>
+			</form>
+		</div>
 	</div>
+
+	<script src="angularControllers.js"></script>
 
 </body>
 </html>
