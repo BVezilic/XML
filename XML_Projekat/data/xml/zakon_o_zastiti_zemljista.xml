@@ -2,13 +2,13 @@
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
-    <sk:Naslov>ЗАКОН О ЗАШТИТИ ЗЕМЉИШТА</sk:Naslov>
+    <sk:Naslov>ZAKON O ZAŠTITI ZEMLjIŠTA</sk:Naslov>
     <sk:Glava Redni_broj="1" Naziv="ОСНОВНЕ ОДРЕДБЕ">
         <sk:Clan Brojcana_oznaka="1" Naziv="Предмет закона">
-            <sk:Stav>Овим законом уређује се заштита земљишта, систематско праћење стања и квалитета
-                земљишта, мере санације, ремедијације, рекултивације, инспекцијски надзор и друга
-                питања од значаја за заштиту и очување земљишта као природног ресурса од националног
-                интереса.</sk:Stav>
+            <sk:Stav>Ovim zakonom uređuje se zaštita zemljišta, sistematsko praćenje stanja i kvaliteta
+                zemljišta, mere sanacije, remedijacije, rekultivacije, inspekcijski nadzor i druga
+                pitanja od značaja za zaštitu i očuvanje zemljišta kao prirodnog resursa od nacionalnog
+                interesa.</sk:Stav>
         </sk:Clan>
         <sk:Clan Brojcana_oznaka="2" Naziv="Примена закона">
             <sk:Stav>Одредбе овог закона примењују се на све типове земљишта Републике Србије као

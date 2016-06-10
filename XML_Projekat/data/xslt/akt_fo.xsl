@@ -27,49 +27,49 @@
 	
 	<xsl:template match="sk:Deo">
 		<fo:block font-family="Georgia">ДЕО <xsl:value-of select="@Redni_broj"/></fo:block>
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Glava">
-		<fo:block>Глава <xsl:value-of select="@Redni_broj"/></fo:block>
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia">Глава <xsl:value-of select="@Redni_broj"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Odeljak">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Pododeljak">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Clan">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
-		<fo:block>Члан <xsl:value-of select="@Brojcana_oznaka"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia">Члан <xsl:value-of select="@Brojcana_oznaka"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Stav">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Tacka"/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Tacka">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Podtacka"/>
 	</xsl:template>
 	
 	<xsl:template match="sk:Podtacka">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Alineja"/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Alineja">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia"><xsl:value-of select="text()"/></fo:block>
 	</xsl:template>
 	
 </xsl:stylesheet>
