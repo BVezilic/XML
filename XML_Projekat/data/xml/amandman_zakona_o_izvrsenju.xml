@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Amandman xmlns="http://www.ftn.uns.ac.rs/amandman"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/amandman file:/C:/Users/Komp/Desktop/XML/Projekat/XML/XML_Projekat/data/xsd/amandman.xsd">
+    <Kontekst>//Clan[@Brojcana_oznaka="41"]</Kontekst>
+    <Operacija>insert</Operacija>
+    <Sadrzaj>
+        <Stav xmlns="http://www.ftn.uns.ac.rs/skupstina">Ovo je neki jebeni stav</Stav>
+    </Sadrzaj>
+</Amandman>

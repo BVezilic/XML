@@ -1,28 +1,41 @@
 package jaxbtest;
 
 import java.io.File;
+import java.io.StringWriter;
+import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
+import com.marklogic.client.eval.ServerEvaluationCall;
 
-import example2.Fakultet;
 import example2.ObjectFactory;
 import example2.OdsekType;
 import example2.OdsekType.Studenti;
-import util.ConnectionUtils;
-import util.ConnectionUtils.ConnectionProperties;
 import example2.PolozenIspit;
 import example2.Student;
+import model.Stav;
+import model.amandman.Amandman;
+import util.ConnectionUtils;
+import util.ConnectionUtils.ConnectionProperties;
+import util.NSPrefixMapper;
+import util.OperationType;
+import util.StringConstants;
 
 public class Example2Marshalling {
 	
@@ -33,25 +46,25 @@ public class Example2Marshalling {
 			System.out.println("[INFO] Example 2: JAXB unmarshalling/marshalling.\n");
 			
 			// Definiše se JAXB kontekst (putanja do paketa sa JAXB bean-ovima)
-			JAXBContext context = JAXBContext.newInstance("model");
+			JAXBContext context = JAXBContext.newInstance("model.amandman");
 			
 			// Unmarshaller je objekat zadužen za konverziju iz XML-a u objektni model
 			Unmarshaller unmarshaller = context.createUnmarshaller();
-
-			Fakultet fakultet = (Fakultet) unmarshaller.unmarshal(new File("/data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
+			//SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			//Schema schema = schemaFactory.newSchema(new File("./data/xsd/amandman.xsd"));
+            
+			// Podešavanje unmarshaller-a za XML schema validaciju
+			//unmarshaller.setSchema(schema);
+			//zakon_o_izvrsenju_i_obezbedjenju.xml
+			//Akt amandman = (Akt) unmarshaller.unmarshal(new File("./data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
 			
-			// Izmena nad objektnim modelom dodavanjem novog odseka
-			fakultet.getOdsek().add(createOdsek("23", "GRID"));
 			
-			// Marshaller je objekat zadužen za konverziju iz objektnog u XML model
-			Marshaller marshaller = context.createMarshaller();
 			
-			// Podešavanje marshaller-a
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			Amandman amandman = (Amandman) unmarshaller.unmarshal(new File("./data/xml/amandman_zakona_o_izvrsenju.xml"));
 			
-			// Umesto System.out-a, može se koristiti FileOutputStream
-			//marshaller.marshal(fakultet, System.out);
-			//marshaller.
+			System.out.println(amandman.getKontekst());
+			System.out.println(amandman.getOperacija());
+			System.out.println(amandman.getSadrzaj().getStav().getContent().get(0));
 			
 			if (props.database.equals("")) {
 				System.out.println("[INFO] Using default database.");
@@ -63,7 +76,56 @@ public class Example2Marshalling {
 			
 			XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 			
-			String docId = "test/objekti";
+			Marshaller marshaller = context.createMarshaller();
+			
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NSPrefixMapper());
+			marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", Boolean.FALSE);
+			
+			StringWriter str = new StringWriter();
+			XMLOutputFactory output = XMLOutputFactory.newInstance();
+			XMLStreamWriter writer = output.createXMLStreamWriter(str);
+		         writer.setNamespaceContext(new NamespaceContext() {
+		            public Iterator getPrefixes(String namespaceURI) {
+		                return null;
+		            }
+
+		            public String getPrefix(String namespaceURI) {
+		                return "sk";
+		            }
+
+		            public String getNamespaceURI(String prefix) {
+		                return null;
+		            }
+		        });
+			QName qName = new QName("http://www.ftn.uns.ac.rs/skupstina", "Stav");
+			JAXBElement<Stav> sdr = new JAXBElement<Stav>(qName, Stav.class, amandman.getSadrzaj().getStav());
+			// Umesto System.out-a, može se koristiti FileOutputStream
+			marshaller.marshal(sdr, writer);
+			
+			System.out.println(str.toString());
+		
+			
+			String docId = "/test";
+//			EditableNamespaceContext namespaces = new EditableNamespaceContext();
+//			namespaces.put("sk", "http://www.ftn.uns.ac.rs/skupstina");
+//			
+//			DocumentPatchBuilder patchBuilder = xmlManager.newPatchBuilder();
+//			patchBuilder.setNamespaces(namespaces);
+//			
+//			patchBuilder.insertFragment(amandman.getKontekst(),Position.LAST_CHILD,str.toString());
+//			
+//			DocumentPatchHandle patchHandle = patchBuilder.build();
+//			
+//			xmlManager.patch(docId, patchHandle);
+			String query = StringConstants.getExecutable(OperationType.insertChild);
+			query = query.replace("replace1", docId);
+			query = query.replace("replace2",amandman.getKontekst() );
+			query = query.replace("replace3", str.toString());
+			
+			System.out.println(query);
+			ServerEvaluationCall invoker = client.newServerEval();
+			invoker.xquery(query);
 			
 			
 		} catch (JAXBException e) {
