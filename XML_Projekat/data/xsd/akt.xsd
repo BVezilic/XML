@@ -28,11 +28,17 @@
     <xs:element name="Naslov" type="xs:string"/>
     <xs:element name="Deo">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
-            </xs:sequence>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" ref="sk:Clan"/>
+                </xs:sequence>
+            </xs:choice>
             <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
             <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Glava">
@@ -42,11 +48,12 @@
                     <xs:element maxOccurs="unbounded" ref="sk:Odeljak"/>
                 </xs:sequence>
                 <xs:sequence>
-                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Clan"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
                 </xs:sequence>
             </xs:choice>
             <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
             <xs:attribute name="Naziv" type="xs:string" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Odeljak">
@@ -56,20 +63,22 @@
                     <xs:element maxOccurs="unbounded" ref="sk:Pododeljak"/>
                 </xs:sequence>
                 <xs:sequence>
-                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Clan"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
                 </xs:sequence>
             </xs:choice>
-            <xs:attribute name="Redni_broj" type="xs:int"/>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
             <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Pododeljak">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Clan"/>
+                <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
             </xs:sequence>
-            <xs:attribute name="Redna_oznaka" type="xs:string"/>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
             <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Clan">
@@ -77,8 +86,9 @@
             <xs:sequence>
                 <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Stav"/>
             </xs:sequence>
-            <xs:attribute name="Brojcana_oznaka" type="xs:int" use="required"/>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
             <xs:attribute name="Naziv" type="xs:string" use="optional"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Stav">
@@ -86,6 +96,7 @@
             <xs:sequence minOccurs="0">
                 <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
             </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Tacka">
@@ -94,6 +105,7 @@
                 <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Podtacka"/>
             </xs:sequence>
             <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Podtacka">
@@ -101,7 +113,18 @@
             <xs:sequence minOccurs="0">
                 <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Alineja"/>
             </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="Alineja" type="xs:string"/>
+    <xs:element name="Alineja">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="Redni_broj" type="xs:int"/>
+                    <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>
