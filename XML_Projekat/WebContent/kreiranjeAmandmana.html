@@ -1,0 +1,29 @@
+
+	<div ng-controller="amandmaniController">
+		<div id="listView" class="well col-xs-2 ">
+			<br />
+			<form role="form">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th><h3>Postojeci akti</h3></th>
+
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr style="text-align: left;" ng-repeat="akt in listaAkata">
+							<td style="vertical-align: middle;" ng-click="selectAkt(akt)"><label>{{akt}}</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+
+		<div class="col-xs-6">
+			<textarea class = "form-control" >{{selectedAkt}}</textarea>
+		</div>
+		
+		{{test}}  
+		{{selectedAkt}}
+	</div>
