@@ -4,9 +4,10 @@ var app = angular
 				'mainControler',
 				function($scope) {
 					$scope.sadrzajAkta = "";
-
-					$scope.listaAkata = [ "akt o oduzimanju radne dozvole",
-							"akt2", "akt3" ];
+					$scope.viewAkt = "";
+					//'gen/html/zakon_o_izvrsenju_i_obezbedjenju.html'
+					$scope.listaAkata = [ "zakon_o_izvrsenju_i_obezbedjenju.html",
+							"akt", "akt3" ];
 					$scope.listaOdabranihAkata = [];
 
 					$scope.addAkt = function(name) {
@@ -22,7 +23,7 @@ var app = angular
 					};
 
 					$scope.prikazSadrzajaAkta = function(id) {
-						$scope.sadrzajAkta = id;
+						$scope.viewAkt = 'gen/html/'+id;
 					};
 				})
 		.config(function($routeProvider) {
