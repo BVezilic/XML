@@ -3,72 +3,95 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
     <sk:Naslov>ZAKON O ZAŠTITI ZEMLjIŠTA</sk:Naslov>
-    <sk:Glava Redni_broj="1" Naziv="ОСНОВНЕ ОДРЕДБЕ">
-        <sk:Clan Brojcana_oznaka="1" Naziv="Предмет закона">
-            <sk:Stav>Ovim zakonom uređuje se zaštita zemljišta, sistematsko praćenje stanja i kvaliteta
+    <sk:Glava Redni_broj="1" Redna_oznaka="I." Naziv="OSNOVNE ODREDBE">
+        <sk:Clan Redni_broj="1" Redna_oznaka="1." Naziv="Predmet zakona">
+            <sk:Stav Redni_broj="1">Ovim zakonom uređuje se zaštita zemljišta, sistematsko praćenje stanja i kvaliteta
                 zemljišta, mere sanacije, remedijacije, rekultivacije, inspekcijski nadzor i druga
                 pitanja od značaja za zaštitu i očuvanje zemljišta kao prirodnog resursa od nacionalnog
                 interesa.</sk:Stav>
         </sk:Clan>
-        <sk:Clan Brojcana_oznaka="2" Naziv="Примена закона">
-            <sk:Stav>Одредбе овог закона примењују се на све типове земљишта Републике Србије као
-                природни ресурс, без обзира на облик својине, његову намену и коришћење.</sk:Stav>
+        <sk:Clan Redni_broj="2" Redna_oznaka="2." Naziv="Primena zakona">
+            <sk:Stav Redni_broj="1">Odredbe ovog zakona primenjuju se na sve tipove zemljišta Republike Srbije kao
+                prirodni resurs, bez obzira na oblik svojine, njegovu namenu i korišćenje.</sk:Stav>
         </sk:Clan>
-        <sk:Clan Brojcana_oznaka="3" Naziv="Циљ закона">
-            <sk:Stav> Циљ овог закона је да се очувају површине и функције земљишта као природног
-                ресурса и да се спрече или отклоне штетне промене у земљишту које могу да настану
-                као последица: <sk:Tacka Redni_broj="1">1) ерозионих процеса;</sk:Tacka>
-                <sk:Tacka Redni_broj="2">2) смањења садржаја органске материје у
-                    земљишту;</sk:Tacka>
-                <sk:Tacka Redni_broj="3">3) непримерене пољопривредне и шумске производње
-                    (неадекватне и неконтролисане агротехничке и мелиоративне мере, крчење шума и
-                    др);</sk:Tacka>
-                <sk:Tacka Redni_broj="4">4) неконтролисане промене намене, управљања и коришћења
-                    земљишта;</sk:Tacka>
-                <sk:Tacka Redni_broj="5">5) непланске урбанизације, односно изградње и развоја
-                    инфраструктуре;</sk:Tacka>
-                <sk:Tacka Redni_broj="6">6) закисељавања (ацидификација), заслањивања (салинизација)
-                    и алкализације земљишта;</sk:Tacka>
-                <sk:Tacka Redni_broj="7">7) сабијања земљишта, клизишта и одрона;</sk:Tacka>
-                <sk:Tacka Redni_broj="8">8) пожара и хемијских удеса;</sk:Tacka>
-                <sk:Tacka Redni_broj="9">9) загађења (насталог управљањем отпадом, испуштањем
-                    отпадних вода, емисијама из тачкастих и дифузних извора, хемијског загађења и
-                    др);</sk:Tacka>
-                <sk:Tacka Redni_broj="10">10) експлоатације минералних и органских
-                    сировина;</sk:Tacka>
-                <sk:Tacka Redni_broj="11">11) експлоатације шљунка, камена и песка;</sk:Tacka>
-                <sk:Tacka Redni_broj="12">12) недозвољених археолошких ископавања и истраживања и
-                    др.</sk:Tacka>
+        <sk:Clan Redni_broj="3" Redna_oznaka="3." Naziv="Cilj zakona">
+            <sk:Stav Redni_broj="1"> Cilj ovog zakona je da se očuvaju površine i funkcije zemljišta kao prirodnog
+                resursa i da se spreče ili otklone štetne promene u zemljištu koje mogu da nastanu
+                kao posledica: <sk:Tacka Redni_broj="1" Redna_oznaka="1)">erozionih procesa;</sk:Tacka>
+                <sk:Tacka Redni_broj="2" Redna_oznaka="2)">smanjenja sadržaja organske materije u
+                    zemljištu;</sk:Tacka>
+                <sk:Tacka Redni_broj="3" Redna_oznaka="3)">neprimerene poljoprivredne i šumske proizvodnje
+                    (neadekvatne i nekontrolisane agrotehničke i meliorativne mere, krčenje šuma i
+                    dr);</sk:Tacka>
+                <sk:Tacka Redni_broj="4" Redna_oznaka="4)">nekontrolisane promene namene, upravljanja i korišćenja
+                    zemljišta;</sk:Tacka>
+                <sk:Tacka Redni_broj="5" Redna_oznaka="5)">neplanske urbanizacije, odnosno izgradnje i razvoja
+                    infrastrukture;</sk:Tacka>
+                <sk:Tacka Redni_broj="6" Redna_oznaka="6)">zakiseljavanja (acidifikacija), zaslanjivanja (salinizacija)
+                    i alkalizacije zemljišta;</sk:Tacka>
+                <sk:Tacka Redni_broj="7" Redna_oznaka="7)">sabijanja zemljišta, klizišta i odrona;</sk:Tacka>
+                <sk:Tacka Redni_broj="8" Redna_oznaka="8)">požara i hemijskih udesa;</sk:Tacka>
+                <sk:Tacka Redni_broj="9" Redna_oznaka="9)">zagađenja (nastalog upravljanjem otpadom, ispuštanjem
+                    otpadnih voda, emisijama iz tačkastih i difuznih izvora, hemijskog zagađenja i
+                    dr);</sk:Tacka>
+                <sk:Tacka Redni_broj="10" Redna_oznaka="10)">eksploatacije mineralnih i organskih
+                    sirovina;</sk:Tacka>
+                <sk:Tacka Redni_broj="11" Redna_oznaka="11)">eksploatacije šljunka, kamena i peska;</sk:Tacka>
+                <sk:Tacka Redni_broj="12" Redna_oznaka="12)">nedozvoljenih arheoloških iskopavanja i istraživanja i
+                    dr.</sk:Tacka>
+            </sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="4" Redna_oznaka="4." Naziv="Značenje izraza">
+            <sk:Stav Redni_broj="1">Izrazi upotrebljeni u ovom zakonu imaju sledeće značenje:
+                <sk:Tacka Redni_broj="1" Redna_oznaka="1)">aktivnost koja utiče na zemljište jeste svaki privremeni,
+                    povremeni ili stalni zahvat kojim se menja ili se može promeniti stanje i
+                    uslovi na nekoj lokaciji;</sk:Tacka>
+                <sk:Tacka Redni_broj="2" Redna_oznaka="2)">granične vrednosti jesu vrednosti zagađujućih, štetnih i opasnih
+                    materija u zemljištu koje mogu biti:
+                    <sk:Podtacka Redni_broj="1" Redna_oznaka="(1)">granična minimalna vrednost jeste vrednost zagađujućih,
+                        štetnih i opasnih materija u zemljištu koja se bazira na njihovom prirodnom
+                        sadržaju i predstavlja vrednost za nezagađeno zemljište, pri čemu nije ili je
+                        minimalno narušena ekološka ravnoteža;</sk:Podtacka>
+                    <sk:Podtacka Redni_broj="2" Redna_oznaka="(2)">granična maksimalna vrednost jeste vrednost zagađujućih,
+                        štetnih i opasnih materija u zemljištu čije prekoračenje ukazuje na nivo
+                        kontaminacije koji narušava ekološku ravnotežu, nameće dodatna ispitivanja
+                        tog zemljišta kao i ograničenja u načinu upravljanja;</sk:Podtacka></sk:Tacka>
+                <sk:Tacka Redni_broj="3" Redna_oznaka="3)">degradacija zemljišta jeste proces narušavanja kvaliteta i
+                    funkcija zemljišta koji nastaje prirodnim putem ili ljudskom aktivnošću
+                    ili je posledica nepreduzimanja mera za sprečavanje štetnih posledica;</sk:Tacka>
+                <sk:Tacka Redni_broj="4" Redna_oznaka="4)">dobra stručna praksa predstavlja primenu naučnih, tehničkih i
+                    biotehničkih mera i/ili mera upravljanja i korišćenja zemljišta u cilju
+                    očuvanja i unapređivanja kvaliteta zemljišta;</sk:Tacka>
             </sk:Stav>
         </sk:Clan>
     </sk:Glava>
-    <sk:Glava Redni_broj="2" Naziv="ПРЕВЕНТИВНЕ МЕРЕ ЗАШТИТЕ ЗЕМЉИШТА">
-        <sk:Clan Brojcana_oznaka="8">
-            <sk:Stav>Превентивне мере заштите земљишта обухватају планирање и интегрисање заштите
-                земљишта у секторске политике и планове, утврђивање испуњености услова заштите
-                земљишта, доношење планских и програмских докумената за заштиту земљишта.</sk:Stav>
+    <sk:Glava Redni_broj="2" Redna_oznaka="II." Naziv="PREVENTIVNE MERE ZAŠTITE ZEMLjIŠTA">
+        <sk:Clan Redni_broj="8" Redna_oznaka="8.">
+            <sk:Stav Redni_broj="1">Preventivne mere zaštite zemljišta obuhvataju planiranje i integrisanje zaštite
+                zemljišta u sektorske politike i planove, utvrđivanje ispunjenosti uslova zaštite
+                zemljišta, donošenje planskih i programskih dokumenata za zaštitu zemljišta.</sk:Stav>
         </sk:Clan>
-        <sk:Clan Brojcana_oznaka="9" Naziv="Уређење простора и коришћење земљишта">
-            <sk:Stav>Спречавање деградације земљишта постиже се планирањем, уређењем простора,
-                коришћењем природних ресурса и добара у складу са просторним, урбанистичким и другим
-                планским документима (у даљем тексту: планска документа), који се доносе у складу са
-                посебним законима.</sk:Stav>
-            <sk:Stav>Мере и услови заштите земљишта, ради одрживог коришћења земљишта су саставни
-                део планских докумената.</sk:Stav>
-            <sk:Stav>Министарство надлежно за послове заштите животне средине (у даљем тексту:
-                Министарство), надлежни орган аутономне покрајине, односно јединице локалне
-                самоуправе учествују у поступку припреме и доношења планских докумената, на начин
-                одређен законом.</sk:Stav>
+        <sk:Clan Redni_broj="9" Redna_oznaka="9." Naziv="Uređenje prostora i korišćenje zemljišta">
+            <sk:Stav Redni_broj="1">Sprečavanje degradacije zemljišta postiže se planiranjem, uređenjem prostora,
+                korišćenjem prirodnih resursa i dobara u skladu sa prostornim, urbanističkim i drugim
+                planskim dokumentima (u daljem tekstu: planska dokumenta), koji se donose u skladu sa
+                posebnim zakonima.</sk:Stav>
+            <sk:Stav Redni_broj="2">Mere i uslovi zaštite zemljišta, radi održivog korišćenja zemljišta su sastavni
+                deo planskih dokumenata.</sk:Stav>
+            <sk:Stav Redni_broj="3">Ministarstvo nadležno za poslove zaštite životne sredine (u daljem tekstu:
+                Ministarstvo), nadležni organ autonomne pokrajine, odnosno jedinice lokalne
+                samouprave učestvuju u postupku pripreme i donošenja planskih dokumenata, na način
+                određen zakonom.</sk:Stav>
         </sk:Clan>
-        <sk:Clan Brojcana_oznaka="10" Naziv="Промена намене земљишта">
-            <sk:Stav>Земљиште се користи према намени одређеној у планским документима.</sk:Stav>
-            <sk:Stav>Када се планским документом мења намена земљишта, орган надлежан за доношење
-                планског документа, дужан је да у поступку одлучивања поседује сагласност
-                Министарства.</sk:Stav>
-            <sk:Stav>Сагласност из става 2. овог члана, Министарство даје на захтев надлежног
-                органа, по прибављеном мишљењу од стручних и научних организација о постојећем
-                фактичком стању земљишта и процени могућности промене намене земљишта, а на основу
-                података из информационог система за земљиште.</sk:Stav>
+        <sk:Clan Redni_broj="10" Redna_oznaka="10." Naziv="Promena namene zemljišta">
+            <sk:Stav Redni_broj="1">Zemljište se koristi prema nameni određenoj u planskim dokumentima.</sk:Stav>
+            <sk:Stav Redni_broj="2">Kada se planskim dokumentom menja namena zemljišta, organ nadležan za donošenje
+                planskog dokumenta, dužan je da u postupku odlučivanja poseduje saglasnost
+                Ministarstva.</sk:Stav>
+            <sk:Stav Redni_broj="3">Saglasnost iz stava 2. ovog člana, Ministarstvo daje na zahtev nadležnog
+                organa, po pribavljenom mišljenju od stručnih i naučnih organizacija o postojećem
+                faktičkom stanju zemljišta i proceni mogućnosti promene namene zemljišta, a na osnovu
+                podataka iz informacionog sistema za zemljište.</sk:Stav>
         </sk:Clan>
     </sk:Glava>
 </sk:Akt>

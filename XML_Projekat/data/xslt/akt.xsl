@@ -29,30 +29,29 @@
 	</xsl:template>
 	
 	<xsl:template match="sk:Deo">
-		<h2>ДЕО <xsl:value-of select="@Redni_broj"/></h2>
+		<h2>DEO <xsl:value-of select="@Redna_oznaka"/></h2>
 		<h2><xsl:value-of select="@Naziv"/></h2>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Glava">
-		<h3>Глава <xsl:value-of select="@Redni_broj"/></h3>
-		<h2><xsl:value-of select="@Naziv"/></h2>
+		<h3><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></h3>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Odeljak">
-		<h3><xsl:value-of select="@Naziv"/></h3>
+		<h3><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></h3>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Pododeljak">
-		<h4><xsl:value-of select="@Naziv"/></h4>
+		<h4><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></h4>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Clan">
 		<h3><xsl:value-of select="@Naziv"/></h3>
-		<h3>Члан <xsl:value-of select="@Brojcana_oznaka"/>.<br/></h3>
+		<h3>Član <xsl:value-of select="@Redna_oznaka"/></h3>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
@@ -62,17 +61,17 @@
 	</xsl:template>
 	
 	<xsl:template match="sk:Tacka">
-		<li class="noBullet"><xsl:value-of select="text()"/></li>
+		<li class="noBullet"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></li><br/>
 		<xsl:apply-templates select="sk:Podtacka"/>
 	</xsl:template>
 	
 	<xsl:template match="sk:Podtacka">
-		<li class="noBullet"><xsl:value-of select="text()"/></li>
+		<li class="noBullet"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></li><br/>
 		<xsl:apply-templates select="sk:Alineja"/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Alineja">
-		<li class="noBullet"><xsl:value-of select="text()"/></li>
+		<li class="noBullet"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></li><br/>
 	</xsl:template>
 	
 </xsl:stylesheet>
