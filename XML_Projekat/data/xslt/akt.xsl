@@ -12,6 +12,7 @@
 					}
 					p, li {
   					    text-indent: 50px;
+  					    text-align: justify;
 					}
 					.noBullet {
 						list-style-type: none;
