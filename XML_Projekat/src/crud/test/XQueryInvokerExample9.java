@@ -13,6 +13,8 @@ import com.marklogic.client.eval.ServerEvaluationCall;
 
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
+import util.OperationType;
+import util.StringConstants;
 
 public class XQueryInvokerExample9 {
 
@@ -44,10 +46,10 @@ public class XQueryInvokerExample9 {
 		// Read the file contents into a string object
 		//String query = readFile(filePath, StandardCharsets.UTF_8);
 		
-//		String query = StringConstants.getExecutable(OperationType.deleteNode);
-//		query = query.replace("replace1", "data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml");
-//		query = query.replace("replace2", "//sk:Clan[@Brojcana_oznaka=41]");
-		String query = "import module namespace search = \"http://marklogic.com/appservices/search\"at \"/MarkLogic/appservices/search/search.xqy\";search:search(\"Everyday\")";
+		String query = StringConstants.getExecutable(OperationType.deleteNode);
+		query = query.replace("replace1", "/test/xml");
+		query = query.replace("replace2", "//sk:Clan[@Brojcana_oznaka=41]");
+		//String query = "import module namespace search = \"http://marklogic.com/appservices/search\"at \"/MarkLogic/appservices/search/search.xqy\";search:search(\"Everyday\")";
 		
 		// Invoke the query
 		invoker.xquery(query);

@@ -1,6 +1,9 @@
 package jaxbtest;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.text.StringCharacterIterator;
 import java.util.Date;
@@ -22,15 +25,21 @@ import javax.xml.stream.XMLStreamWriter;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
+import com.marklogic.client.eval.EvalResult;
+import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
+import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.JAXBHandle;
 
 import example2.ObjectFactory;
 import example2.OdsekType;
 import example2.OdsekType.Studenti;
 import example2.PolozenIspit;
 import example2.Student;
+import model.Akt;
 import model.Stav;
 import model.amandman.Amandman;
+import transformations.XSLFOTransformator;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
 import util.NSPrefixMapper;
@@ -45,15 +54,15 @@ public class Example2Marshalling {
 		try {
 			System.out.println("[INFO] Example 2: JAXB unmarshalling/marshalling.\n");
 			
-			// Defini�e se JAXB kontekst (putanja do paketa sa JAXB bean-ovima)
+			// Definiše se JAXB kontekst (putanja do paketa sa JAXB bean-ovima)
 			JAXBContext context = JAXBContext.newInstance("model.amandman");
 			
-			// Unmarshaller je objekat zadu�en za konverziju iz XML-a u objektni model
+			// Unmarshaller je objekat zadužen za konverziju iz XML-a u objektni model
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			//SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			//Schema schema = schemaFactory.newSchema(new File("./data/xsd/amandman.xsd"));
             
-			// Pode�avanje unmarshaller-a za XML schema validaciju
+			// Podešavanje unmarshaller-a za XML schema validaciju
 			//unmarshaller.setSchema(schema);
 			//zakon_o_izvrsenju_i_obezbedjenju.xml
 			//Akt amandman = (Akt) unmarshaller.unmarshal(new File("./data/xml/zakon_o_izvrsenju_i_obezbedjenju.xml"));
@@ -100,13 +109,13 @@ public class Example2Marshalling {
 		        });
 			QName qName = new QName("http://www.ftn.uns.ac.rs/skupstina", "Stav");
 			JAXBElement<Stav> sdr = new JAXBElement<Stav>(qName, Stav.class, amandman.getSadrzaj().getStav());
-			// Umesto System.out-a, mo�e se koristiti FileOutputStream
+			// Umesto System.out-a, može se koristiti FileOutputStream
 			marshaller.marshal(sdr, writer);
 			
 			System.out.println(str.toString());
 		
 			
-			String docId = "/test";
+			String docId = "/test/xml";
 //			EditableNamespaceContext namespaces = new EditableNamespaceContext();
 //			namespaces.put("sk", "http://www.ftn.uns.ac.rs/skupstina");
 //			
@@ -118,15 +127,43 @@ public class Example2Marshalling {
 //			DocumentPatchHandle patchHandle = patchBuilder.build();
 //			
 //			xmlManager.patch(docId, patchHandle);
-			String query = StringConstants.getExecutable(OperationType.insertChild);
+			String query = StringConstants.getExecutable(OperationType.insertBefore);
 			query = query.replace("replace1", docId);
 			query = query.replace("replace2",amandman.getKontekst() );
-			query = query.replace("replace3", str.toString());
+			query = query.replace("replace3", "<sk:Clan Brojcana_oznaka=\"40\" Naziv=\"Врсте извршних исправа\"><sk:Stav>Ovo je neki jebeni stav</sk:Stav></sk:Clan>");
 			
 			System.out.println(query);
 			ServerEvaluationCall invoker = client.newServerEval();
 			invoker.xquery(query);
 			
+			EvalResultIterator response = invoker.eval();
+			System.out.print("[INFO] Response: ");
+			
+			if (response.hasNext()) {
+
+				for (EvalResult result : response) {
+					System.out.println("\n" + result.getString());
+				}
+			} else { 		
+				System.out.println("your query returned an empty sequence.");
+			}
+			
+			JAXBHandle content = new JAXBHandle(context);
+			
+			// A metadata handle for metadata retrieval
+			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+			
+			xmlManager.read(docId, metadata, content);
+			
+			// Retrieving a document node form DOM handle.
+			Akt doc = (Akt)content.get();
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			marshaller.marshal(doc, baos);
+			InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
+			XSLFOTransformator.aktToHTMLStream(isFromFirstData);
+			// Release the client
+			client.release();
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -140,7 +177,7 @@ public class Example2Marshalling {
 		odsek.setId(id);
 		odsek.setNaziv(naziv);
 
-		// Generi�u se studenti
+		// Generišu se studenti
 		odsek.setStudenti(createStudenti());
 		
 		return odsek;
@@ -152,7 +189,7 @@ public class Example2Marshalling {
 		ObjectFactory factory = new ObjectFactory();
 		Studenti studenti = factory.createOdsekTypeStudenti();
 		
-		// Generi�e se novi student
+		// Generiše se novi student
 		studenti.getStudent().add(createStudent(12345, "Tijana", "Novkovic"));
 		
 		return studenti;
@@ -166,7 +203,7 @@ public class Example2Marshalling {
 		student.setIme(ime);
 		student.setPrezime(prezime);
 		
-		// Generi�e polo�eni ispit
+		// Generiše položeni ispit
 		student.getPolozenIspit().add(createPolozenIspit("Dizajn", "Stevan Simic", 10));
 		
 		return student;
