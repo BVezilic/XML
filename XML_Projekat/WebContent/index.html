@@ -20,23 +20,35 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"></script>
 
-<!-- Ritch text editor -->
+
+<!-- Rich text editor -->
 
 <link rel="stylesheet" type="text/css" href="pageStyle.css">
 
 <title>XML Projekat</title>
 </head>
 <body div ng-app="XML_App" ng-controller="mainControler">
-	<div class="row ">
-		<div class="well header col-xs-12">
-			<h1>Korisnik</h1>
-		</div>
-	</div>
+	<div class="row">
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Korisnik</a>
+				</div>
 
+				<ul class="nav navbar-nav ">
+					<li><a href="http://localhost:8080/XML_Projekat/#/v1"><span
+							class=""></span>Odabir akata</a></li>
+					<li><a href="http://localhost:8080/XML_Projekat/#/v2"><span
+							class=""></span>Kreiranje amandmana</a></li>
+					<li><a href="http://localhost:8080/XML_Projekat/#/v3"><span
+							class=""></span>Glasanje</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 	<div class="row" ng-view></div>
 
-	
-	
+
 	<script src="angularControllers.js"></script>
 
 </body>

@@ -1,5 +1,5 @@
 var app = angular
-		.module('XML_App', [ 'ngRoute' ])
+		.module('XML_App', [ 'ngRoute'])
 		.controller(
 				'mainControler',
 				function($scope) {
@@ -25,6 +25,8 @@ var app = angular
 					$scope.prikazSadrzajaAkta = function(id) {
 						$scope.viewAkt = 'gen/html/'+id;
 					};
+					
+					$scope.proba = "";
 				})
 		.config(function($routeProvider) {
 			$routeProvider.when('/v1', {
