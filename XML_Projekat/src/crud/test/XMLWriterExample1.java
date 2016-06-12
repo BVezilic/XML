@@ -36,7 +36,7 @@ private static DatabaseClient client;
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		
 		// Define a URI value for a document.
-		String docId = "/test/xml";
+		String docId = "zakon_o_izvrsenju_i_obezbedjenju.xml";
 		String testDocId = "/example/test/books.xml";
 		
 		// Create an input stream handle to hold XML content.
