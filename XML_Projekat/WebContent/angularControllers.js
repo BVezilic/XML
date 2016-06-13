@@ -3,7 +3,7 @@ var odabraniAmandmani = [];
 
 var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 		'mainControler',
-		function($scope) {
+		function($scope, $http) {
 			$scope.user = "predsednikVlade";
 
 			$scope.sadrzajAkta = "";
@@ -53,6 +53,18 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 						});
 			};
 
+			$scope.persist = function(xml) {
+				console.log(xml);
+				$http({
+					  method: 'POST',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/persist',
+					  data: xml
+					}).then(function successCallback(response) {
+					    console.log("uspeo");
+					  }, function errorCallback(response) {
+						  console.log("fail");
+					  });
+			}
 			$scope.test = "";
 		}).config(function($stateProvider, $urlRouterProvider) {
 	

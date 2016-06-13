@@ -52,4 +52,11 @@ public class StringConstants {
 				return retVal;
 		}
 	}
+	
+	public static String formatName(String name)
+	{
+		name = name.replace(" ", "_");
+		name = name.toLowerCase();
+		return name;
+	}
 }

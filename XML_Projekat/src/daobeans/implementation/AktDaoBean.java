@@ -1,8 +1,12 @@
 package daobeans.implementation;
 
-import daobeans.generic.GenericDao;
-import model.akt.Akt;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
-public class AktDaoBean extends GenericDao<Akt, String> implements AktDaoLocal {
+import daobeans.generic.GenericDao;
+
+@Stateless
+@Local(AktDaoLocal.class)
+public class AktDaoBean extends GenericDao<Object, String> implements AktDaoLocal {
 
 }

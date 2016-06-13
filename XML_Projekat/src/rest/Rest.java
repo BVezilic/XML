@@ -1,27 +1,75 @@
 package rest;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 
+import daobeans.implementation.AktDaoLocal;
+import model.akt.Akt;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
+import util.StringConstants;
+import validation.XMLValidator;
 
 @Stateless
 @Path("/services")
 public class Rest {
 
+	@EJB
+	AktDaoLocal adl;
+	
 	@GET
 	@Path("/test")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String test() {
 		return "Test";
 	}
-
+	
+	@GET
+	@Path("/findAll")
+	@Produces(MediaType.TEXT_PLAIN)
+	public List<Object> findAll() throws IOException, JAXBException {
+		return adl.findAll();
+	}
+	
+	@POST
+	@Path("/persist")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean persist(String document)
+	{
+		Object retVal;
+		if((retVal = XMLValidator.validateXML("akt", document)) == null)
+			System.out.println("NO");
+		else
+		{
+			if(retVal instanceof Akt)
+			{
+				System.out.println("AKT " + ((Akt)retVal).getNaslov());
+				try {
+					adl.persist(((Akt)retVal), StringConstants.formatName(((Akt)retVal).getNaslov()));
+				} catch (JAXBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else
+				System.out.println("AMANDMAN");
+		}
+		return false;
+	}
+	
 	@GET
 	@Path("/login/{username}/{password}")
 	@Consumes(MediaType.APPLICATION_JSON)

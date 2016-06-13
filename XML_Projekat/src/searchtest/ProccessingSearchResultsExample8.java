@@ -80,19 +80,19 @@ public class ProccessingSearchResultsExample8 {
 			/**
 			 * sranje
 			 */
-			ServerEvaluationCall invoker = client.newServerEval();
-			String query = "declare namespace b = \"http://www.ftn.uns.ac.rs/xpath/examples\";"
-						   + "let $x := fn:doc(\"###\")/b:bookstore/b:bsname return fn:string($x)";
-			query = query.replace("###",result.getUri());
-			invoker.xquery(query);
-			response = invoker.eval();
-			if (response.hasNext()) {
-				for (EvalResult rs : response) {
-					System.out.println(rs.getString());
-				}
-			} else { 		
-				System.out.println("your query returned an empty sequence.");
-			}
+//			ServerEvaluationCall invoker = client.newServerEval();
+//			String query = "declare namespace b = \"http://www.ftn.uns.ac.rs/xpath/examples\";"
+//						   + "let $x := fn:doc(\"###\")/b:bookstore/b:bsname return fn:string($x)";
+//			query = query.replace("###",result.getUri());
+//			invoker.xquery(query);
+//			response = invoker.eval();
+//			if (response.hasNext()) {
+//				for (EvalResult rs : response) {
+//					System.out.println(rs.getString());
+//				}
+//			} else { 		
+//				System.out.println("your query returned an empty sequence.");
+//			}
 			/**
 			 * sranje
 			 */

@@ -11,7 +11,7 @@ import entitymanager.EntityManager;
 
 public abstract class GenericDao <T, ID extends Serializable> implements GenericDaoLocal<T, ID> {
 
-	public EntityManager<T, ID> em;
+	protected EntityManager<T,ID> em; 
 	
 	@Override
 	public T findById(ID id) throws JAXBException, IOException {
@@ -21,12 +21,13 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 
 	@Override
 	public List<T> findAll() throws IOException, JAXBException {
-		// TODO Auto-generated method stub
-		return null;
+		em = new EntityManager<T,ID>();
+		return (List<T>)em.findAll();
 	}
 
 	@Override
 	public T persist(T entity, String id) throws JAXBException, IOException {
+		em = new EntityManager<T,ID>();
 		em.persist(entity, id);
 		return entity;
 	}
