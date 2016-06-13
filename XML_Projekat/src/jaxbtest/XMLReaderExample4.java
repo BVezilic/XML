@@ -28,7 +28,7 @@ import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.JAXBHandle;
 
-import model.Akt;
+import model.akt.Akt;
 import transformations.XSLFOTransformator;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;

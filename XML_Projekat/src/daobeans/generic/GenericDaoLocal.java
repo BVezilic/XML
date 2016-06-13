@@ -1,4 +1,4 @@
-package daobeans;
+package daobeans.generic;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +13,9 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 
 	public List<T> findAll() throws IOException, JAXBException;
 
-	public T persist(T entity) throws JAXBException, IOException;
+	public T persist(T entity, String id) throws JAXBException, IOException;
 
-	public T merge(T entity, ID id) throws IOException, JAXBException;
+	public T merge(T entity, String id) throws IOException, JAXBException;
 
 	public void remove(ID id) throws IOException;
 	

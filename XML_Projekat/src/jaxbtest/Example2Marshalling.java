@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -36,8 +35,8 @@ import example2.OdsekType;
 import example2.OdsekType.Studenti;
 import example2.PolozenIspit;
 import example2.Student;
-import model.Akt;
-import model.Stav;
+import model.akt.Akt;
+import model.akt.Stav;
 import model.amandman.Amandman;
 import transformations.XSLFOTransformator;
 import util.ConnectionUtils;
@@ -129,7 +128,7 @@ public class Example2Marshalling {
 //			xmlManager.patch(docId, patchHandle);
 			String query = StringConstants.getExecutable(OperationType.insertBefore);
 			query = query.replace("replace1", docId);
-			query = query.replace("replace2",amandman.getKontekst() );
+			query = query.replace("replace2",amandman.getKontekst().getValue() );
 			query = query.replace("replace3", "<sk:Clan Brojcana_oznaka=\"40\" Naziv=\"Врсте извршних исправа\"><sk:Stav>Ovo je neki jebeni stav</sk:Stav></sk:Clan>");
 			
 			System.out.println(query);
