@@ -39,10 +39,18 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 
 			};
 
-			
 			$scope.test = "";
 		}).config(function($stateProvider, $urlRouterProvider) {
-
+	
+	
+	if (user == ""){
+		$stateProvider.state('logIn', {// naziv stanja!
+			url : '/logIn',
+			templateUrl : 'login.html',
+		});
+		$urlRouterProvider.otherwise('/logIn');
+	}
+	
 	if (user == "predsednikVlade") {
 		$stateProvider.state('prVlad', {// naziv stanja!
 			url : '/vl',
@@ -54,22 +62,24 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 		}).state('prVlad.amandmani', {
 			url : '/amandmani',
 			templateUrl : 'kreiranjeAmandmana.html',
-			controller: 'amandmaniController'
+			controller : 'amandmaniController'
 		}).state('prVlad.glasanje', {
 			url : '/glasanje',
 			templateUrl : 'glasanje.html',
-			controller: 'glasanjeController'
+			controller : 'glasanjeController'
 		});
+		$urlRouterProvider.otherwise('/vl/akt');
 	}
 	if (user == "gradjanin") {
 		$stateProvider.state('gradjanin', {// naziv stanja!
 			url : '/gr',
-			templateUrl : 'gradjanin.html'
+			templateUrl : 'gradjanin.html'		
 		});
+		$urlRouterProvider.otherwise('/gr');
 	}
 
 }).controller('amandmaniController', function($scope) {
-	
+
 	$scope.selectAkt = function(akt) {
 		$scope.$parent.selectedAkt = akt;
 
@@ -77,7 +87,7 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 
 	$scope.createAmandman = function(name, content) {
 		$scope.$parent.listaAmandmana.push(name);
-		
+
 	};
 
 	$scope.selectAmandman = function(amandman) {
