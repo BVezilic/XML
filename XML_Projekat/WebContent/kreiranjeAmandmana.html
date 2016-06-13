@@ -1,0 +1,65 @@
+
+<div>
+
+	<div class="col-xs-4">
+		<div id="listView" class="well col-xs-12 ">
+
+			<button class="btn btn-primary col-xs-4" ng-click="createAmandman(nazivAmandmana,sadrzajAmandmana)">Kreiranje amandmana</button>
+			<h4 class="col-xs-8">{{selectedAkt}}</h4>
+
+			<form role="form">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th><h3>Postojeci akti</h3></th>
+
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr style="text-align: left;" ng-repeat="akt in listaOdabranihAkata">
+							<td style="vertical-align: middle;" ng-click="selectAkt(akt)"><label>{{akt}}</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+
+		<div id="listView" class="well col-xs-12 ">
+
+			<button class="btn btn-primary col-xs-4">Uklanjanje
+				amandmana</button>
+			<h4 class="col-xs-8">{{selectedAmandman}}</h4>
+
+			<form role="form">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th><h3>Amandmani</h3></th>
+
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr style="text-align: left;"
+							ng-repeat="amandman in listaAmandmana">
+							<td style="vertical-align: middle;"
+								ng-click="selectAmandman(amandman)"><label>{{amandman}}</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="col-xs-8">
+		<div class="col-xs-12">
+			<input type="text" class="form-control" placeholder="Naziv amandmana" ng-model="nazivAmandmana"/>
+		</div>
+		<div class="col-xs-12">
+			<textarea class="form-control" ng-model="sadrzajAmandmana"></textarea>
+		</div>
+	</div>
+
+
+
+</div>
