@@ -127,7 +127,7 @@ var app = angular
 							session.loadRole();  
 							if(session.role == 'predsednikVlade'){
 								
-				                return $templateFactory.fromUrl('glasanje.html', $stateParams);
+				                return $templateFactory.fromUrl('glasanje2.html', $stateParams);
 				              } else {
 				                return $templateFactory.fromUrl('nisteUlogovani.html', $stateParams);
 				              }
@@ -172,8 +172,22 @@ var app = angular
 			};
 			$scope.test = "";
 
-		}).controller('glasanjeController', function($scope) {
+		}).controller('glasanjeController', function($scope,$http) {
+			
 			$scope.selectAmandman = function(amandman) {
 				$scope.$parent.selectedAmandman = amandman;
 			};
+			
+			$scope.izvediGlasanje = function(amandman,za,protiv,uzdrzani){
+			
+				var req = {
+						method : 'GET',
+						url : 'http://localhost:8080/XML_Projekat/rest/services/vote/'+za+'/'+protiv+'/'+uzdrzani+'/'+amandman
+					};
+					$http(req).then(function successCallback(response) {
+						var dobijeno = response.data;
+						
+						console.log(dobijeno);//<-------- Ovde ide lista ostalih neizglasanih amandmana
+					});
+			}
 		});
