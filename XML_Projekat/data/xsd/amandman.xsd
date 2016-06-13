@@ -12,7 +12,15 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="Kontekst" type="xs:string"/>
+    <xs:element name="Kontekst">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="Referentni_zakon" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="Operacija" type="xs:string"/>
     <xs:element name="Sadrzaj">
         <xs:complexType>
@@ -23,6 +31,7 @@
                 <xs:element ref="sk:Tacka"/>
                 <xs:element ref="sk:Podtacka"/>
             </xs:choice>
+            <xs:attribute name="Tip_sadrzaja" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>

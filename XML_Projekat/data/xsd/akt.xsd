@@ -5,6 +5,7 @@
     <xs:element name="Akt">
         <xs:complexType>
             <xs:sequence>
+                <xs:element ref="sk:MetaPodaci"/>
                 <xs:element minOccurs="0" ref="sk:Preambula"/>
                 <xs:element minOccurs="1" ref="sk:Naslov"/>
                 <xs:choice>
@@ -125,6 +126,30 @@
                     <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
                 </xs:extension>
             </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MetaPodaci">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sk:DatumPredlaganja"/>
+                <xs:element ref="sk:BrojClanova" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="vocab" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
+            <xs:attribute name="rel" type="xs:string"/>
+            <xs:attribute name="href" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DatumPredlaganja">
+        <xs:complexType mixed="true">
+            <xs:attribute name="property" type="xs:string"/>
+            <xs:attribute name="datatype" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="BrojClanova">
+        <xs:complexType mixed="true">
+            <xs:attribute name="property" type="xs:string"/>
+            <xs:attribute name="datatype" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>
