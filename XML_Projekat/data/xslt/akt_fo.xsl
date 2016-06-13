@@ -22,54 +22,111 @@
 	</xsl:template>
 	
 	<xsl:template match="sk:Naslov">
-		<fo:block font-family="Georgia"><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="18pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="text()"/></fo:block>
 	</xsl:template>
 	
 	<xsl:template match="sk:Deo">
-		<fo:block font-family="Georgia">ДЕО <xsl:value-of select="@Redni_broj"/></fo:block>
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="16pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt">DEO <xsl:value-of select="@Redna_oznaka"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="16pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Glava">
-		<fo:block>Глава <xsl:value-of select="@Redni_broj"/></fo:block>
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="14pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Odeljak">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="13pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Pododeljak">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-weight="bold" 
+			font-size="13pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;<xsl:value-of select="@Naziv"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Clan">
-		<fo:block><xsl:value-of select="@Naziv"/></fo:block>
-		<fo:block>Члан <xsl:value-of select="@Brojcana_oznaka"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="14pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Naziv"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="14pt" 
+			text-align="center"
+			space-before="12pt"
+			space-after="12pt">Član <xsl:value-of select="@Redna_oznaka"/></fo:block>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Stav">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="12pt" 
+			text-align="justify"
+			text-indent="1.5cm"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Tacka"/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Tacka">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="12pt" 
+			text-align="justify"
+			text-indent="1.5cm"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Podtacka"/>
 	</xsl:template>
 	
 	<xsl:template match="sk:Podtacka">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="12pt" 
+			text-align="justify"
+			text-indent="1.5cm"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></fo:block>
 		<xsl:apply-templates select="sk:Alineja"/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Alineja">
-		<fo:block><xsl:value-of select="text()"/></fo:block>
+		<fo:block font-family="Georgia" 
+			font-size="12pt" 
+			text-align="justify"
+			text-indent="1.5cm"
+			space-before="12pt"
+			space-after="12pt"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></fo:block>
 	</xsl:template>
 	
 </xsl:stylesheet>

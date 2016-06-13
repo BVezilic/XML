@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina file:/D:/FTN/Semestar_8/XML/Projekat/XML/XML_Projekat/data/xsd/akt.xsd">
+    <sk:Naslov>ZAKON O POLICIJI</sk:Naslov>
+    <sk:Glava Redni_broj="1" Naziv="OSNOVNE ODREDBE" Redna_oznaka="I.">
+        <sk:Clan Redni_broj="1" Redna_oznaka="1." Naziv="Predmet zakona">
+            <sk:Stav Redni_broj="1">Ovim zakonom uređuju se unutrašnji poslovi, organizacija i
+                nadležnost Ministarstva unutrašnjih poslova (u daljem tekstu: Ministarstvo),
+                policijski poslovi, organizacija i nadležnost Policije, kao i druga pitanja od
+                značaja za rad Policije i Ministarstva.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="2" Redna_oznaka="2." Naziv="Pojam unutrašnjih poslova">
+            <sk:Stav Redni_broj="1">Unutrašnji poslovi su zakonom utvrđeni poslovi državne uprave,
+                koje obavlja Ministarstvo, a čijim obavljanjem se ostvaruje i unapređuje bezbednost
+                građana i imovine, pruža podrška vladavini prava i obezbeđuje ostvarivanje Ustavom i
+                zakonom utvrđenih ljudskih i manjinskih prava i sloboda, kao i drugi, sa njima
+                povezani poslovi iz utvrđenog delokruga i nadležnosti Ministarstva.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="3" Redna_oznaka="3." Naziv="Policija">
+            <sk:Stav Redni_broj="1">Policija je centralna organizaciona jedinica Ministarstva koja u
+                obavljanju unutrašnjih odnosno policijskih poslova, štiti i unapređuje bezbednost
+                građana i imovine, poštujući Ustavom zajemčena ljudska i manjinska prava i slobode i
+                druge zaštićene vrednosti u demokratskom društvu, uz mogućnost na Ustavu i zakonu
+                zasnovane upotrebe sredstava prinude.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="6" Redna_oznaka="6." Naziv="Informisanje o radu Ministarstva">
+            <sk:Stav Redni_broj="1">Rad Ministarstva je javan.</sk:Stav>
+            <sk:Stav Redni_broj="2">Ministarstvo redovno blagovremeno i potpuno obaveštava javnost o
+                svom radu, osim u slučajevima preduzimanja mera i radnji u skladu sa zakonom kojim
+                se uređuje krivični postupak i kada bi to onemogućilo neometan operativni rad
+                Policije, ili ako bi se time: <sk:Tacka Redni_broj="1" Redna_oznaka="1)">povredio
+                    propis o tajnosti podataka;</sk:Tacka>
+                <sk:Tacka Redni_broj="2" Redna_oznaka="2)">povredilo dostojanstvo
+                    građana;</sk:Tacka>
+                <sk:Tacka Redni_broj="3" Redna_oznaka="3)">ugrozilo pravo na ličnu slobodu i
+                    bezbednost.</sk:Tacka></sk:Stav>
+            <sk:Stav Redni_broj="3">Ministarstvo jednom godišnje, a najkasnije u roku od tri meseca
+                od završetka kalendarske godine, objavljuje: <sk:Tacka Redni_broj="1"
+                    Redna_oznaka="1)">izveštaj o stanju bezbednosti u Republici Srbiji koji na
+                    transparentan i javan način obaveštava javnost o proceni bezbednosti, trendovima
+                    kretanja kriminala i drugih bezbednosnih pojava od značaja za bezbednost i prava
+                    građana;</sk:Tacka>
+                <sk:Tacka Redni_broj="2" Redna_oznaka="2)">izveštaj o radu Ministarstva, koji na
+                    transparentan i javan način obaveštava javnost o razvoju policije, statističkim
+                    podacima o sprovedenim aktivnostima i postignutim
+                rezultatima.</sk:Tacka></sk:Stav>
+            <sk:Stav Redni_broj="4">Pored izveštaja iz stava 3. ovog člana, Ministarstvo je u
+                obavezi da objavi na svojoj internet prezentaciji i tromesečne informacije o radu,
+                koje usvaja nadležni odbor Narodne skupštine Republike Srbije za unutrašnje
+                poslove.</sk:Stav>
+        </sk:Clan>
+    </sk:Glava>
+    <sk:Glava Redni_broj="2" Naziv="ORGANIZACIJA I NADLEŽNOST MINISTARSTVA" Redna_oznaka="II.">
+        <sk:Clan Redni_broj="8" Redna_oznaka="8." Naziv="Organizacija Ministarstva">
+            <sk:Stav Redni_broj="1">Za obavljanje poslova iz nadležnosti Ministarstva, obrazuju se
+                unutrašnje organizacione jedinice.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="9" Redna_oznaka="9.">
+            <sk:Stav Redni_broj="1">Vlada propisuje načela za unutrašnje uređenje Ministarstva, kao
+                i vrste organizacionih jedinica, sedišta i područja za koja se obrazuju te
+                jedinice.</sk:Stav>
+            <sk:Stav Redni_broj="2">Pravilnikom o unutrašnjem uređenju i sistematizaciji radnih
+                mesta, ministar - po prethodno pribavljenoj saglasnosti Vlade, utvrđuje delokrug i
+                kategorizaciju organizacionih jedinica Ministarstva, broj, sistematizaciju, vrstu,
+                odnosno status i opis radnih mesta, radna mesta za koja se predviđaju posebni uslovi
+                za njihovo popunjavanje, način rukovođenja, planiranja i izvršavanja
+                poslova.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Redni_broj="10" Redna_oznaka="10." Naziv="Zaposleni u Ministarstvu">
+            <sk:Stav Redni_broj="1">Zaposleni u Ministarstvu jesu policijski službenici, državni
+                službenici i nameštenici.</sk:Stav>
+            <sk:Stav Redni_broj="2">Policijski službenici jesu: <sk:Tacka Redni_broj="1"
+                    Redna_oznaka="1)">lica koja obavljaju policijske poslove u statusu ovlašćenih
+                    službenih lica i primenjuju policijska ovlašćenja (ovlašćena službena lica -
+                    OSL);</sk:Tacka>
+                <sk:Tacka Redni_broj="2" Redna_oznaka="2)">lica na posebnim dužnostima koja
+                    obavljaju druge unutrašnje poslove u neposrednoj vezi sa policijskim poslovima
+                    (lica na posebnim dužnostima - PD).</sk:Tacka></sk:Stav>
+            <sk:Stav Redni_broj="3">Policijski službenici u statusu ovlašćenih službenih lica,
+                moraju imati najmanje završenu policijsku obuku osnovnog nivoa.</sk:Stav>
+            <sk:Stav Redni_broj="4">Državni službenici jesu lica, koja u tom statusu, obavljaju
+                ostale poslove iz delokruga Ministarstva i sa njima povezane opšte, pravne,
+                informatičke, materijalno – finansijske, računovodstvene i administrativne
+                poslove.</sk:Stav>
+            <sk:Stav Redni_broj="5">Nameštenici jesu lica, koja, u tom statusu, obavljaju prateće
+                pomoćno - tehničke poslove.</sk:Stav>
+        </sk:Clan>
+    </sk:Glava>
+</sk:Akt>
