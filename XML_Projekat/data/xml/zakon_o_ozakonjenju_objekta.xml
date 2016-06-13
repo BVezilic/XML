@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina file:/D:/FTN/Semestar_8/XML/Projekat/XML/XML_Projekat/data/xsd/akt.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
     <sk:Naslov>ZAKON O OZAKONjENjU OBJEKATA</sk:Naslov>
     <sk:Glava Redni_broj="1" Naziv="UVODNE ODREDBE" Redna_oznaka="I.">
         <sk:Clan Redni_broj="1" Redna_oznaka="1.">
