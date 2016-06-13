@@ -2,6 +2,10 @@
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
+    <sk:MetaPodaci
+        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_ozakonjenju_objekata">
+        <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1994-06-13</sk:DatumPredlaganja>
+    </sk:MetaPodaci>
     <sk:Naslov>ZAKON O OZAKONjENjU OBJEKATA</sk:Naslov>
     <sk:Glava Redni_broj="1" Naziv="UVODNE ODREDBE" Redna_oznaka="I.">
         <sk:Clan Redni_broj="1" Redna_oznaka="1.">
