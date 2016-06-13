@@ -3,7 +3,7 @@ var odabraniAmandmani = [];
 
 var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 		'mainControler',
-		function($scope) {
+		function($scope, $http) {
 			$scope.user = "predsednikVlade";
 
 			$scope.sadrzajAkta = "";
@@ -38,33 +38,32 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 				$scope.selectedAkt = akt;
 
 			};
-			
-			$scope.login = function(username,password){
-				var req = {
-						 method: 'GET',
-						 url: 'localhost:8080/XML_Projekat/rest/services/login/'+username+'/'+password,
-						 
-						}
 
-						$http(req).then(function(response){
-							console.log(response.data);
-							
-							
-						});
+			$scope.login = function (username, password) {
+				var req = {
+					method : 'GET',
+					url : 'http://localhost:8080/XML_Projekat/rest/services/login/'
+							+ username + '/' + password
+
+				};
+				$http(req).then(function successCallback(response) {
+					var dobijeno = response.data;
+					
+					console.log(dobijeno);
+				});
 			};
 
 			$scope.test = "";
 		}).config(function($stateProvider, $urlRouterProvider) {
-	
-	
-	if (user == ""){
+
+	if (user == "") {
 		$stateProvider.state('logIn', {// naziv stanja!
 			url : '/logIn',
 			templateUrl : 'login.html',
 		});
 		$urlRouterProvider.otherwise('/logIn');
 	}
-	
+
 	if (user == "predsednikVlade") {
 		$stateProvider.state('prVlad', {// naziv stanja!
 			url : '/vl',
@@ -87,7 +86,7 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 	if (user == "gradjanin") {
 		$stateProvider.state('gradjanin', {// naziv stanja!
 			url : '/gr',
-			templateUrl : 'gradjanin.html'		
+			templateUrl : 'gradjanin.html'
 		});
 		$urlRouterProvider.otherwise('/gr');
 	}
@@ -114,3 +113,6 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 		$scope.$parent.selectedAmandman = amandman;
 	};
 });
+
+
+

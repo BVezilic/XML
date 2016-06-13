@@ -24,8 +24,8 @@ public class Rest {
 
 	@GET
 	@Path("/login/{username}/{password}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_XML)
+	
+	@Produces(MediaType.APPLICATION_JSON)
 	public Korisnik loginUser(@PathParam("username") String username, @PathParam("password") String password) {
 
 		Korisnici korisnici = new Korisnici();
@@ -42,8 +42,8 @@ public class Rest {
 		k2.setLozinka("pass2");
 		k3.setLozinka("pass3");
 		
-		k1.setUloga("obican");
-		k2.setUloga("specijalan");
+		k1.setUloga("gradjanin");
+		k2.setUloga("predsednikVlade");
 		k3.setUloga("najbolji");
 
 		
