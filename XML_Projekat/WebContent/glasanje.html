@@ -1,0 +1,26 @@
+<div class="">
+	<div class="col-xs-4 well">
+		<button class="btn btn-primary col-xs-4">Potvrdi glasanje</button>
+		<h4 class="col-xs-8">{{selectedAmandman}}</h4>
+
+		<form role="form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th><h3>Amandmani</h3></th>
+
+					</tr>
+
+				</thead>
+				<tbody>
+					<tr style="text-align: left;"
+						ng-repeat="amandman in listaAmandmana">
+						<td style="vertical-align: middle;"
+							ng-click="selectAmandman(amandman)"><label>{{amandman}}</label></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+</div>
