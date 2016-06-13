@@ -1,4 +1,4 @@
-var user = "predsednikVlade";
+var user = "";
 var odabraniAmandmani = [];
 
 var app = angular.module('XML_App', [ 'ui.router' ]).controller(
@@ -37,6 +37,20 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 			$scope.selectAkt = function(akt) {
 				$scope.selectedAkt = akt;
 
+			};
+			
+			$scope.login = function(username,password){
+				var req = {
+						 method: 'GET',
+						 url: 'localhost:8080/XML_Projekat/rest/services/login/'+username+'/'+password,
+						 
+						}
+
+						$http(req).then(function(response){
+							console.log(response.data);
+							
+							
+						});
 			};
 
 			$scope.test = "";
