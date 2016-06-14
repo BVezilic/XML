@@ -2,8 +2,8 @@
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd"
-    xmlns="http://www.w3.org/ns/rdfa#" 
-    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina">
+    xmlns:rdf="http://www.w3.org/ns/rdfa#" 
+    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/pred">
     <sk:MetaPodaci
         about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_izvrsenju_i_obezbedjenju">
         <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1999-08-17</sk:DatumPredlaganja>

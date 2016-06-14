@@ -2,6 +2,9 @@ package entitymanager;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -12,6 +15,9 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.transform.TransformerException;
+
+import org.xml.sax.SAXException;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
@@ -20,18 +26,22 @@ import com.marklogic.client.eval.EvalResult;
 import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.FileHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JAXBHandle;
 import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
+import com.marklogic.client.semantics.GraphManager;
+import com.marklogic.client.semantics.RDFMimeTypes;
 
 import conversion.XMLMarshaller;
 import model.akt.Akt;
 import transformations.XSLFOTransformator;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
+import util.MetadataExtractor;
 import util.SearchResultsUtil;
 
 public class EntityManager<T, ID extends Serializable> {
@@ -183,7 +193,7 @@ public class EntityManager<T, ID extends Serializable> {
 	{
 		return null;
 	}
-	public void persist(T entity, String id) throws IOException
+	public void persist(T entity, String id) throws IOException, SAXException, TransformerException
 	{
 		props = ConnectionUtils.loadProperties();
 		
@@ -204,6 +214,29 @@ public class EntityManager<T, ID extends Serializable> {
 		
 		xmlManager.write(id ,metadata ,handle);
 		
+		String xmlFilePath = "temp.xml";
+		String rdfFilePath = "rdf.rdf";
+		
+		
+		MetadataExtractor metadataExtractor = new MetadataExtractor();
+		
+		GraphManager graphManager = client.newGraphManager();
+		
+		// Set the default media type (RDF/XML)
+		graphManager.setDefaultMimetype(RDFMimeTypes.RDFXML);
+		
+		XMLMarshaller.objectToFile(entity);
+		
+		metadataExtractor.extractMetadata(
+				new FileInputStream(new File(xmlFilePath)), 
+				new FileOutputStream(new File(rdfFilePath)));
+		
+		FileHandle rdfFileHandle =
+				new FileHandle(new File(rdfFilePath))
+				.withMimetype(RDFMimeTypes.RDFXML);
+		
+		String SPARQL_NAMED_GRAPH_URI = "grafovi";
+		graphManager.merge(SPARQL_NAMED_GRAPH_URI, rdfFileHandle);
 		client.release();
 		
 	}

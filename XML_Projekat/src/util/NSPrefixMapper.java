@@ -35,6 +35,8 @@ public class NSPrefixMapper extends NamespacePrefixMapper {
 		addMapping("http://java.sun.com/xml/ns/jaxb", "jaxb");
 		addMapping("http://www.ftn.uns.ac.rs/skupstina", "sk");
 		addMapping("http://www.ftn.uns.ac.rs/amandman", "am");
+		addMapping("http://www.w3.org/ns/rdfa#", "rdf");
+		addMapping("http://www.ftn.uns.ac.rs/skupstina/predikat", "pred");
 	}
 
 	public void addMapping(String uri, String prefix){

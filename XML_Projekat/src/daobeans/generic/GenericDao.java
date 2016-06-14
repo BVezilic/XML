@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
+
+import org.xml.sax.SAXException;
 
 import entitymanager.EntityManager;
 
@@ -35,7 +38,15 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	@Override
 	public T persist(T entity, String id) throws JAXBException, IOException {
 		em = new EntityManager<T,ID>();
-		em.persist(entity, id);
+		try {
+			em.persist(entity, id);
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return entity;
 	}
 

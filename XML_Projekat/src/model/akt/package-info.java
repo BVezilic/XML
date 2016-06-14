@@ -5,5 +5,13 @@
 // Generated on: 2016.06.14 at 02:55:57 PM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/skupstina", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/skupstina", 
+									elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+								    xmlns={
+								            @XmlNs(namespaceURI = "http://www.w3.org/ns/rdfa#", prefix = "rdf"),
+								            @XmlNs(namespaceURI = "http://www.ftn.uns.ac.rs/skupstina/pred", prefix = "pred"),
+								            @XmlNs(namespaceURI = "http://www.w3.org/2001/XMLSchema-instance", prefix = "xsi")
+								    })
 package model.akt;
+
+import javax.xml.bind.annotation.XmlNs;

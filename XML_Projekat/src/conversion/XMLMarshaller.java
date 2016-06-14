@@ -2,6 +2,8 @@ package conversion;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBContext;
@@ -40,6 +42,30 @@ public class XMLMarshaller {
 		}catch(Exception e)
 		{
 			return null;
+		}
+	}
+	
+	public static void objectToFile(Object toConvert)
+	{
+		try{
+			if(toConvert instanceof Akt)
+			{
+				JAXBContext context = JAXBContext.newInstance("model.akt");
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NSPrefixMapper());
+				marshaller.marshal(toConvert, new FileOutputStream(new File("temp.xml")));
+			}else
+			{
+				JAXBContext context = JAXBContext.newInstance("model.amandman");
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NSPrefixMapper());
+				marshaller.marshal(toConvert, new FileOutputStream(new File("temp.xml")));
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }
