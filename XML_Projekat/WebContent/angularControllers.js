@@ -144,7 +144,7 @@ var app = angular
 						templateProvider : function(session, $stateParams, $templateFactory){
 							session.loadRole();  
 							if(session.role == 'predsednikVlade'){
-				                return $templateFactory.fromUrl('kreiranjeAmandmana.html', $stateParams);
+				                return $templateFactory.fromUrl('kreiranjeAmandmana2.html', $stateParams);
 				              } else {
 				                return $templateFactory.fromUrl('nisteUlogovani.html', $stateParams);
 				              }
@@ -166,7 +166,7 @@ var app = angular
 							session.loadRole();  
 							if(session.role == 'predsednikVlade'){
 								
-				                return $templateFactory.fromUrl('glasanje2.html', $stateParams);
+				                return $templateFactory.fromUrl('glasanje.html', $stateParams);
 				              } else {
 				                return $templateFactory.fromUrl('nisteUlogovani.html', $stateParams);
 				              }
@@ -247,6 +247,7 @@ var app = angular
 					};
 					$http(req).then(function successCallback(response) {
 						$scope.$parent.listaAmandmana = response.data;
+						$scope.$parent.selectedAmandman = "";
 					});
 			}
 		});

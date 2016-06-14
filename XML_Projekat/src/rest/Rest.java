@@ -235,7 +235,7 @@ public class Rest {
 	public List<String> dodajNoviAmandman(@PathParam("naslovAkta") String naslovAkta, @PathParam("naslovAmandmana") String naslovAmandmana, @PathParam("content") String content){
 		
 		Amandman a = new Amandman();
-		a.setOperacija(naslovAkta);
+		a.setOperacija(naslovAmandmana);
 		data.getPredlozeniAmandmani().add(a);
 		
 		System.out.println("Content dodatog amandmana: " + content);
