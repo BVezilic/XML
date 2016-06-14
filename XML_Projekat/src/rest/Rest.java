@@ -1,6 +1,7 @@
 package rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
@@ -40,6 +42,31 @@ public class Rest {
 	@Produces(MediaType.TEXT_PLAIN)
 	public List<Object> findAll() throws IOException, JAXBException {
 		return adl.findAll();
+	}
+	
+	@POST
+	@Path("/singleFieldSearch")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> singleFieldSearch(String keywords)
+	{
+		List<Object> retVal = null;
+		try {
+			retVal = new ArrayList<Object>(adl.findByKeyWord(keywords));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	
+	@GET
+	@Path("/getDocument")
+	@Produces(MediaType.TEXT_HTML)
+	public String getDocument(@QueryParam("uri")String uri) throws IOException, JAXBException {
+		System.out.println("OK " + uri);
+		//System.out.println((String)adl.findById(uri));
+		return (String)adl.findById(uri);
 	}
 	
 	@POST

@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -48,18 +50,23 @@ public class XSLFOTransformator {
 		}
 	}
 	
-	public static void aktToHTMLStream(InputStream xmlName) {
+	public static String aktToHTMLStream(InputStream xmlName) throws UnsupportedEncodingException {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();
-	        Source xslt = new StreamSource(new File("data/xslt/akt.xsl"));
+	        Source xslt = new StreamSource(new File("../standalone/deployments/XML_Projekat.war/data/xslt/akt.xsl"));
 	        Transformer transformer = factory.newTransformer(xslt);
+	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 	        Source text = new StreamSource(xmlName);
-	        transformer.transform(text, new StreamResult(new File("WebContent/gen/html/"+"temp"+".html")));
-	        System.out.println("Uspesno zavrsena transformacija u html, na putanji: WebContent/gen/"+xmlName+".html");
+	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	        transformer.transform(text, new StreamResult(baos));
+	        System.out.println("Uspesno zavrsena transformacija u html");
+	        return baos.toString("UTF-8");
 		} catch (TransformerConfigurationException e) {			
 			e.printStackTrace();
+			return "error";
 		} catch (TransformerException e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 	

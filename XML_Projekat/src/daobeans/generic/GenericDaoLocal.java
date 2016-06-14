@@ -9,9 +9,11 @@ import javax.xml.bind.JAXBException;
 
 public interface GenericDaoLocal<T, ID extends Serializable> {
 	
-	public T findById(ID id) throws JAXBException, IOException;
+	public T findById(String id) throws JAXBException, IOException;
 
 	public List<T> findAll() throws IOException, JAXBException;
+	
+	public List<Object> findByKeyWord(String keyword) throws IOException;
 
 	public T persist(T entity, String id) throws JAXBException, IOException;
 

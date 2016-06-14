@@ -14,15 +14,22 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	protected EntityManager<T,ID> em; 
 	
 	@Override
-	public T findById(ID id) throws JAXBException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public T findById(String id) throws JAXBException, IOException {
+		em = new EntityManager<T,ID>();
+		return (T)em.findById(id);
 	}
 
 	@Override
 	public List<T> findAll() throws IOException, JAXBException {
 		em = new EntityManager<T,ID>();
 		return (List<T>)em.findAll();
+	}
+	
+	@Override
+	public List<Object> findByKeyWord(String keyword) throws IOException
+	{
+		em = new EntityManager<T,ID>();
+		return em.findByKeyWord(keyword);
 	}
 
 	@Override

@@ -108,7 +108,7 @@ public class XMLReaderExample4 {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		marshaller.marshal(doc, baos);
 		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
-		XSLFOTransformator.aktToHTMLStream(isFromFirstData);
+		//XSLFOTransformator.aktToHTMLStream(isFromFirstData);
 		// Release the client
 		client.release();
 		
