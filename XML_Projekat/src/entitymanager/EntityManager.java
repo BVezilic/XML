@@ -10,12 +10,12 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
@@ -23,6 +23,8 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.document.DocumentDescriptor;
+import com.marklogic.client.document.DocumentUriTemplate;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.eval.EvalResult;
 import com.marklogic.client.eval.EvalResultIterator;
@@ -44,11 +46,15 @@ import com.marklogic.client.semantics.SPARQLQueryManager;
 
 import conversion.XMLMarshaller;
 import model.akt.Akt;
+import model.amandman.Amandman;
 import transformations.XSLFOTransformator;
+import util.CollectionConstants;
 import util.ConnectionUtils;
 import util.ConnectionUtils.ConnectionProperties;
 import util.MetadataExtractor;
+import util.OperationType;
 import util.SearchResultsUtil;
+import util.StringConstants;
 
 public class EntityManager<T, ID extends Serializable> {
 
@@ -254,44 +260,118 @@ public class EntityManager<T, ID extends Serializable> {
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		
 		InputStreamHandle handle = new InputStreamHandle(XMLMarshaller.objectoToXML(entity));
-		
-		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
-		metadata.getCollections().add("u_proceduri");
-		
-		xmlManager.write(id ,metadata ,handle);
-		
-		String xmlFilePath = "temp.xml";
-		String rdfFilePath = "rdf.rdf";
-		
-		
-		MetadataExtractor metadataExtractor = new MetadataExtractor();
-		
-		GraphManager graphManager = client.newGraphManager();
-		
-		// Set the default media type (RDF/XML)
-		graphManager.setDefaultMimetype(RDFMimeTypes.RDFXML);
-		
-		XMLMarshaller.objectToFile(entity);
-		
-		metadataExtractor.extractMetadata(
-				new FileInputStream(new File(xmlFilePath)), 
-				new FileOutputStream(new File(rdfFilePath)));
-		
-		FileHandle rdfFileHandle =
-				new FileHandle(new File(rdfFilePath))
-				.withMimetype(RDFMimeTypes.RDFXML);
-		
-		String SPARQL_NAMED_GRAPH_URI = "grafovi";
-		graphManager.merge(SPARQL_NAMED_GRAPH_URI, rdfFileHandle);
+		if(entity instanceof Akt)
+		{
+			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+			metadata.getCollections().add(CollectionConstants.aktProcedura);
+			
+			xmlManager.write(id ,metadata ,handle);
+			
+			String xmlFilePath = "temp.xml";
+			String rdfFilePath = "rdf.rdf";
+			
+			
+			MetadataExtractor metadataExtractor = new MetadataExtractor();
+			
+			GraphManager graphManager = client.newGraphManager();
+			
+			// Set the default media type (RDF/XML)
+			graphManager.setDefaultMimetype(RDFMimeTypes.RDFXML);
+			
+			XMLMarshaller.objectToFile(entity);
+			
+			metadataExtractor.extractMetadata(
+					new FileInputStream(new File(xmlFilePath)), 
+					new FileOutputStream(new File(rdfFilePath)));
+			
+			FileHandle rdfFileHandle =
+					new FileHandle(new File(rdfFilePath))
+					.withMimetype(RDFMimeTypes.RDFXML);
+			
+			String SPARQL_NAMED_GRAPH_URI = "grafovi";
+			graphManager.merge(SPARQL_NAMED_GRAPH_URI, rdfFileHandle);
+		}else if(entity instanceof Amandman)
+		{
+			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+			metadata.getCollections().add(CollectionConstants.amandmanProcedura);
+			DocumentUriTemplate template = xmlManager.newDocumentUriTemplate("xml");
+			template.setDirectory(id+"/");
+			DocumentDescriptor desc = xmlManager.create(template, metadata, handle);
+		}
 		client.release();
 		
 	}
-	public void delete(String resourceId)
+	public void delete(String resourceId) throws IOException
 	{
+		props = ConnectionUtils.loadProperties();
 		
+		if (props.database.equals("")) {
+			System.out.println("[INFO] Using default database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
+		} else {
+			System.out.println("[INFO] Using \"" + props.database + "\" database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
+		}
+		
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+		xmlManager.delete(resourceId);
 	}
-	public void update(Object entity, String resourceId)
+	
+	public void update(String resourceId) throws IOException, JAXBException, XMLStreamException
 	{
+		props = ConnectionUtils.loadProperties();
+		
+		if (props.database.equals("")) {
+			System.out.println("[INFO] Using default database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
+		} else {
+			System.out.println("[INFO] Using \"" + props.database + "\" database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
+		}
+		
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+		JAXBContext context = JAXBContext.newInstance("model.amandman");
+		JAXBHandle content = new JAXBHandle(context);
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+		xmlManager.read(resourceId, metadata, content);
+		Amandman doc = (Amandman)content.get();
+		String query = "";
+		switch(doc.getOperacija())
+		{
+		case "deleteNode":
+			query = StringConstants.getExecutable(OperationType.deleteNode);
+			query = query.replace("replace1", doc.getKontekst().getReferentniZakon());
+			query = query.replace("replace2", doc.getKontekst().getValue() );
+			break;
+		case "insertBefore":
+			query = StringConstants.getExecutable(OperationType.insertBefore);
+			query = query.replace("replace1", doc.getKontekst().getReferentniZakon());
+			query = query.replace("replace2",doc.getKontekst().getValue() );
+			query = query.replace("replace3", XMLMarshaller.amandmanConversion(doc));
+			break;
+		case "insertAfter":
+			query = StringConstants.getExecutable(OperationType.insertAfter);
+			query = query.replace("replace1", doc.getKontekst().getReferentniZakon());
+			query = query.replace("replace2",doc.getKontekst().getValue() );
+			query = query.replace("replace3", XMLMarshaller.amandmanConversion(doc));
+			break;
+		case "insertChild":
+			query = StringConstants.getExecutable(OperationType.insertChild);
+			query = query.replace("replace1", doc.getKontekst().getReferentniZakon());
+			query = query.replace("replace2",doc.getKontekst().getValue() );
+			query = query.replace("replace3", XMLMarshaller.amandmanConversion(doc));
+			break;
+		case "replaceNode":
+			query = StringConstants.getExecutable(OperationType.replaceNode);
+			query = query.replace("replace1", doc.getKontekst().getReferentniZakon());
+			query = query.replace("replace2", doc.getKontekst().getValue() );
+			query = query.replace("replace3", XMLMarshaller.amandmanConversion(doc));
+			break;
+		}
+		ServerEvaluationCall invoker = client.newServerEval();
+		invoker.xquery(query);
+		
+		EvalResultIterator response = invoker.eval();
 		
 	}
 }

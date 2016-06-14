@@ -10,6 +10,7 @@
                 <xs:element ref="ak:Operacija"/>
                 <xs:element minOccurs="0" ref="ak:Sadrzaj"/>
             </xs:sequence>
+            <xs:attribute name="Naziv" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Kontekst">

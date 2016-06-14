@@ -16,10 +16,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-
 import daobeans.implementation.AktDaoLocal;
 import model.akt.Akt;
+import model.amandman.Amandman;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
 import util.StringConstants;
@@ -33,10 +32,10 @@ public class Rest {
 	AktDaoLocal adl;
 	
 	@GET
-	@Path("/test")
+	@Path("/amandman")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String test() {
-		return "Test";
+	public void amandman(@QueryParam("amd")String amd) throws IOException, JAXBException {
+		adl.merge(amd);
 	}
 	
 	@GET
@@ -83,10 +82,10 @@ public class Rest {
 	@POST
 	@Path("/persist")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean persist(String document)
+	public boolean persist(String document,@QueryParam("tip")String tip) throws JAXBException, IOException
 	{
 		Object retVal;
-		if((retVal = XMLValidator.validateXML("akt", document)) == null)
+		if((retVal = XMLValidator.validateXML(tip, document)) == null)
 			System.out.println("NO");
 		else
 		{
@@ -103,7 +102,7 @@ public class Rest {
 					e.printStackTrace();
 				}
 			}else
-				System.out.println("AMANDMAN");
+				adl.persist(((Amandman)retVal), ((Amandman)retVal).getKontekst().getReferentniZakon()+"/"+((Amandman)retVal).getNaziv());
 		}
 		return false;
 	}

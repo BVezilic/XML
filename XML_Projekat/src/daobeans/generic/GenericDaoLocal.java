@@ -19,7 +19,7 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 
 	public T persist(T entity, String id) throws JAXBException, IOException;
 
-	public T merge(T entity, String id) throws IOException, JAXBException;
+	public T merge(String id) throws IOException, JAXBException;
 
 	public void remove(ID id) throws IOException;
 	

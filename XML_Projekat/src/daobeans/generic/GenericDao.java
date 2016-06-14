@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
@@ -58,9 +59,15 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	}
 
 	@Override
-	public T merge(T entity, String id) throws IOException, JAXBException {
-		// TODO Auto-generated method stub
-		return null;
+	public T merge(String id) throws IOException, JAXBException {
+		em = new EntityManager<T,ID>();
+		try {
+			em.update(id);
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (T)id;
 	}
 
 	@Override

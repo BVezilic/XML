@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Amandman xmlns="http://www.ftn.uns.ac.rs/amandman"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/amandman file:/C:/Users/Komp/Desktop/XML/Projekat/XML/XML_Projekat/data/xsd/amandman.xsd">
-    <Kontekst Referentni_zakon="zakon_o_izvrsenju_i_obezbedjenju">//sk:Clan[@Brojcana_oznaka=41]</Kontekst>
-    <Operacija>insert</Operacija>
+<Amandman Naziv = "Prvi" xmlns="http://www.ftn.uns.ac.rs/amandman"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Kontekst Referentni_zakon="zakon_o_izvršenju_i_obezbeđenju">//sk:Clan[@Redni_broj=1]</Kontekst>
+    <Operacija>insertBefore</Operacija>
     <Sadrzaj Tip_sadrzaja="stav">
         <Stav Redni_broj="3" xmlns="http://www.ftn.uns.ac.rs/skupstina">Ovo je neki jebeni stav</Stav>
     </Sadrzaj>

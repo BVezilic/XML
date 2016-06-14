@@ -57,8 +57,20 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 				console.log(xml);
 				$http({
 					  method: 'POST',
-					  url: 'http://localhost:8080/XML_Projekat/rest/services/persist',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/persist?tip=akt',
 					  data: xml
+					}).then(function successCallback(response) {
+					    console.log("uspeo");
+					  }, function errorCallback(response) {
+						  console.log("fail");
+					  });
+			}
+			$scope.persistAmandman = function(amandman) {
+				console.log(amandman);
+				$http({
+					  method: 'POST',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/persist?tip=amandman',
+					  data: amandman
 					}).then(function successCallback(response) {
 					    console.log("uspeo");
 					  }, function errorCallback(response) {
@@ -90,6 +102,16 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 					    console.log("uspeo");
 					    console.log(response.data);
 					    $scope.rezultat = response.data;
+					  }, function errorCallback(response) {
+						  console.log("fail");
+					  });
+			}
+			$scope.passAmandman = function() {
+				$http({
+					  method: 'GET',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/amandman?amd=zakon_o_izvršenju_i_obezbeđenju/Prvi/4287559140521463355.xml',
+					}).then(function successCallback(response) {
+					    console.log("uspeo");
 					  }, function errorCallback(response) {
 						  console.log("fail");
 					  });

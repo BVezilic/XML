@@ -12,6 +12,12 @@
 <br/>
 <br/>
 <br/>
+<textarea ng-model="amandman"></textarea>
+<button class="btn btn-primary" ng-click="persistAmandman(amandman)">SubmitAmandman</button>
+<br/>
+<br/>
+<br/>
+<br/>
 <input type="text" ng-model="criteria"/>
 <button class="btn btn-primary" ng-click="search(criteria)">Search</button>
 <div ng-repeat="rez in rezultat track by $index">
@@ -28,3 +34,7 @@
   <input ng-model="dateTo" type="date" name="bday" max="2016-01-02"><br>
   <button class="btn btn-primary" ng-click="searchMeta(dateFrom, dateTo)">Search by date</button>
 </form>
+<br/>
+<br/>
+<br/>
+<button class="btn btn-primary" ng-click="passAmandman()">Amandman</button>
