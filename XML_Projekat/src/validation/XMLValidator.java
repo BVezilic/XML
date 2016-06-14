@@ -24,7 +24,7 @@ public class XMLValidator {
 		Object retVal = null;
 		try {
 			JAXBContext context = JAXBContext.newInstance("model."+tipDokumenta);
-	
+			
 			// Unmarshaller je objekat zadužen za konverziju iz XML-a u objektni model
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			

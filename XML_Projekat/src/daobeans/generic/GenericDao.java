@@ -29,6 +29,13 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	}
 	
 	@Override
+	public List<Object> findByMetaData(String metadata) throws IOException
+	{
+		em = new EntityManager<T,ID>();
+		return em.findByMetaData(metadata);
+	}
+	
+	@Override
 	public List<Object> findByKeyWord(String keyword) throws IOException
 	{
 		em = new EntityManager<T,ID>();

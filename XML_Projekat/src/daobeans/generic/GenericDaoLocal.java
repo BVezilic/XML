@@ -14,6 +14,8 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 	public List<T> findAll() throws IOException, JAXBException;
 	
 	public List<Object> findByKeyWord(String keyword) throws IOException;
+	
+	public List<Object> findByMetaData(String metadata) throws IOException;
 
 	public T persist(T entity, String id) throws JAXBException, IOException;
 

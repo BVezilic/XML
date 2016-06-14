@@ -10,7 +10,7 @@
 								    xmlns={
 								            @XmlNs(namespaceURI = "http://www.w3.org/ns/rdfa#", prefix = "rdf"),
 								            @XmlNs(namespaceURI = "http://www.ftn.uns.ac.rs/skupstina/pred", prefix = "pred"),
-								            @XmlNs(namespaceURI = "http://www.w3.org/2001/XMLSchema-instance", prefix = "xsi")
+								            @XmlNs(namespaceURI = "http://www.w3.org/2001/XMLSchema#", prefix = "xsi")
 								    })
 package model.akt;
 

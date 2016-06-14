@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -19,6 +20,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
@@ -29,12 +31,16 @@ import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.FileHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JAXBHandle;
+import com.marklogic.client.io.JacksonHandle;
 import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.marklogic.client.semantics.GraphManager;
 import com.marklogic.client.semantics.RDFMimeTypes;
+import com.marklogic.client.semantics.SPARQLMimeTypes;
+import com.marklogic.client.semantics.SPARQLQueryDefinition;
+import com.marklogic.client.semantics.SPARQLQueryManager;
 
 import conversion.XMLMarshaller;
 import model.akt.Akt;
@@ -105,9 +111,49 @@ public class EntityManager<T, ID extends Serializable> {
 		client.release();
 		return arl;
 	}
-	public List<Object> findByMetaData(String metadata)
+	public List<Object> findByMetaData(String metadata) throws IOException
 	{
-		return null;
+		List<Object> arl = new ArrayList<Object>();
+		props = ConnectionUtils.loadProperties();
+		
+		if (props.database.equals("")) {
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
+		} else {
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
+		}
+		String query = "PREFIX xsi: <http://www.w3.org/2001/XMLSchema#>"
+				+ "SELECT * FROM <grafovi> WHERE { "
+				+ "?s <http://www.ftn.uns.ac.rs/skupstina/predpredlozen> ?date ."
+				+ "FILTER ( ?date >= \"1990-01-31\"^^xsi:date && ?date < \"2005-01-31\"^^xsi:date)}";
+		
+		SPARQLQueryManager sparqlQueryManager = client.newSPARQLQueryManager();
+		SPARQLQueryDefinition sqlQuery = sparqlQueryManager.newQueryDefinition(query);
+		JacksonHandle resultsHandle = new JacksonHandle();
+		resultsHandle.setMimetype(SPARQLMimeTypes.SPARQL_JSON);
+		resultsHandle = sparqlQueryManager.executeSelect(sqlQuery, resultsHandle);
+		EvalResultIterator response = null;
+		JsonNode tuples = resultsHandle.get().path("results").path("bindings");
+		for ( JsonNode row : tuples ) {
+			String subject = row.path("s").path("value").asText();
+			String[] uri = subject.split("/");
+			
+			ServerEvaluationCall invoker = client.newServerEval();
+			String xQuery = "declare namespace sk = \"http://www.ftn.uns.ac.rs/skupstina\";"
+						   + "let $x := fn:doc(\"###\")/sk:Akt/sk:Naslov return fn:string($x)";
+			xQuery = xQuery.replace("###",uri[uri.length-1]);
+			invoker.xquery(xQuery);
+			response = invoker.eval();
+			String name = "";
+			if (response.hasNext()) {
+				for (EvalResult rs : response) {
+					System.out.println(rs.getString());
+					name = rs.getString();
+				}
+			}
+			arl.add(new SearchResultsUtil(name,uri[uri.length-1],""));
+		}
+		
+		return arl;
 	}
 	
 	public Object findById(String id) throws IOException, JAXBException, UnsupportedEncodingException

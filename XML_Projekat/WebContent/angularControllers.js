@@ -81,6 +81,7 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 					  });
 			}
 			$scope.searchMeta = function(dateFrom, dateTo) {
+				console.log(console.log(new Date(dateFrom.getTime() + dateFrom.getTimezoneOffset()*60000)));
 				$http({
 					  method: 'GET',
 					  url: 'http://localhost:8080/XML_Projekat/rest/services/metaSearch',

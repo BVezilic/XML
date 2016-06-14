@@ -48,10 +48,11 @@ public class Rest {
 	
 	@GET
 	@Path("/metaSearch")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
 		System.out.println(dateFrom + " | " + dateTo);
-		return null;
+		//System.out.println(adl.findByMetaData("str").toString());
+		return adl.findByMetaData("str");
 	}
 	
 	@POST
