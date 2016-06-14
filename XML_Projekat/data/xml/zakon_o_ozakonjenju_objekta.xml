@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd"
+    xmlns="http://www.w3.org/ns/rdfa#" 
+    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina">
     <sk:MetaPodaci
         about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_ozakonjenju_objekata">
         <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1994-06-13</sk:DatumPredlaganja>
