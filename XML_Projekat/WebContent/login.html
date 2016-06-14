@@ -18,3 +18,13 @@
   <a ng-href='http://localhost:8080/XML_Projekat/rest/services/getDocument?uri={{rez.documentURI}}'>{{rez.documentName}}</a>
 </div>
 <div ng-model="page"></div>
+<br/>
+<br/>
+<p>Pretraga po datumu:</p>
+<form>
+  From
+  <input ng-model="dateFrom" type="date" name="bday" min="1979-12-31"><br>
+  To:
+  <input ng-model="dateTo" type="date" name="bday" max="2016-01-02"><br>
+  <button class="btn btn-primary" ng-click="searchMeta(dateFrom, dateTo)">Search by date</button>
+</form>

@@ -16,6 +16,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
+
 import daobeans.implementation.AktDaoLocal;
 import model.akt.Akt;
 import model.korisnik.Korisnici;
@@ -42,6 +44,14 @@ public class Rest {
 	@Produces(MediaType.TEXT_PLAIN)
 	public List<Object> findAll() throws IOException, JAXBException {
 		return adl.findAll();
+	}
+	
+	@GET
+	@Path("/metaSearch")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
+		System.out.println(dateFrom + " | " + dateTo);
+		return null;
 	}
 	
 	@POST

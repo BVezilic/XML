@@ -80,6 +80,19 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 						  console.log("fail");
 					  });
 			}
+			$scope.searchMeta = function(dateFrom, dateTo) {
+				$http({
+					  method: 'GET',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/metaSearch',
+					  params: {"dateFrom":dateFrom, "dateTo":dateTo}
+					}).then(function successCallback(response) {
+					    console.log("uspeo");
+					    console.log(response.data);
+					    $scope.rezultat = response.data;
+					  }, function errorCallback(response) {
+						  console.log("fail");
+					  });
+			}
 			$scope.test = "";
 		}).config(function($stateProvider, $urlRouterProvider) {
 	
