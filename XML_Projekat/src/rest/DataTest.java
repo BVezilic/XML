@@ -11,17 +11,18 @@ import model.akt.Clan;
 import model.amandman.Amandman;
 import model.amandman.Sadrzaj;
 
-@Singleton
 @Startup
+@Singleton
 public class DataTest {
 
-	public ArrayList<Amandman> amandmani = new ArrayList<Amandman>();
-	public ArrayList<Akt> akti = new ArrayList<Akt>();
-	public ArrayList<Amandman> predlozeniAmandmani = new ArrayList<Amandman>();
-	public ArrayList<Akt> odabraniAkti = new ArrayList<Akt>();
+	private ArrayList<Amandman> amandmani = new ArrayList<Amandman>();
+	private ArrayList<Akt> akti = new ArrayList<Akt>();
+	private ArrayList<Amandman> predlozeniAmandmani = new ArrayList<Amandman>();
+	private ArrayList<Akt> odabraniAkti = new ArrayList<Akt>();
 	
 	@PostConstruct
-	public void setup(){
+	void init(){
+		
 		Amandman a1 = new Amandman();
 		Amandman a2 = new Amandman();
 		
@@ -60,5 +61,45 @@ public class DataTest {
 		ak1.getClan().add(c1);
 		ak2.getClan().add(c2);
 		
+		akti.add(ak1);
+		akti.add(ak2);
+		
+		
+		
+		System.out.println("Syso u PostConstruct: " + akti.toString());
 	}
+
+	public ArrayList<Amandman> getAmandmani() {
+		return amandmani;
+	}
+
+	public void setAmandmani(ArrayList<Amandman> amandmani) {
+		this.amandmani = amandmani;
+	}
+
+	public ArrayList<Akt> getAkti() {
+		return akti;
+	}
+
+	public void setAkti(ArrayList<Akt> akti) {
+		this.akti = akti;
+	}
+
+	public ArrayList<Amandman> getPredlozeniAmandmani() {
+		return predlozeniAmandmani;
+	}
+
+	public void setPredlozeniAmandmani(ArrayList<Amandman> predlozeniAmandmani) {
+		this.predlozeniAmandmani = predlozeniAmandmani;
+	}
+
+	public ArrayList<Akt> getOdabraniAkti() {
+		return odabraniAkti;
+	}
+
+	public void setOdabraniAkti(ArrayList<Akt> odabraniAkti) {
+		this.odabraniAkti = odabraniAkti;
+	}
+	
+	
 }

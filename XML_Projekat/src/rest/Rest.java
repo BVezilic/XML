@@ -85,10 +85,19 @@ public class Rest {
 			Integer p = Integer.parseInt(protiv);
 			
 			if ( z > u + p){
-				for (Amandman a : data.predlozeniAmandmani) {
+				for (Amandman a : data.getPredlozeniAmandmani()) {
 					if (a.getOperacija().equals(amandman)){
-						data.amandmani.add(a);
-						data.predlozeniAmandmani.remove(a);
+						data.getAmandmani().add(a);
+						data.getPredlozeniAmandmani().remove(a);
+						break;
+					}
+				}
+			}else
+			{
+				for (Amandman a : data.getPredlozeniAmandmani()) {
+					if (a.getOperacija().equals(amandman)){
+						data.getAmandmani().add(a);
+						data.getPredlozeniAmandmani().remove(a);
 						break;
 					}
 				}
@@ -105,11 +114,13 @@ public class Rest {
 	@Path("/akti")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getNasloviAkata(){
-		List<Akt> akti = data.akti;
+		List<Akt> akti = data.getAkti();
+		System.out.println("Akti: " + data.getAkti().toString());
 		List<String> naslovi = new ArrayList<String>();
 		for (Akt akt : akti) {
 			naslovi.add(akt.getNaslov());
 		}
+		System.out.println("Naslovi: " + naslovi);
 		return naslovi;
 	}
 	
@@ -117,7 +128,7 @@ public class Rest {
 	@Path("/akt/{naslov}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Clan getClanByNaslovAkta(@PathParam("naslov") String naslov){
-		List<Akt> akti = data.akti;
+		List<Akt> akti = data.getAkti();
 		for (Akt akt : akti) {
 			if (akt.getNaslov().equals(naslov)){
 				return akt.getClan().get(0);
@@ -139,7 +150,7 @@ public class Rest {
 	@Path("/amandmani")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getNasloviAmandmana(){
-		List<Amandman> amandman = data.amandmani;
+		List<Amandman> amandman = data.getAmandmani();
 		List<String> naslovi = new ArrayList<String>();
 		for (Amandman a : amandman) {
 			naslovi.add(a.getOperacija());
@@ -151,7 +162,7 @@ public class Rest {
 	@Path("/predlozeniAmandmani")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getNasloviPredlozenihAmandmana(){
-		List<Amandman> amandman = data.predlozeniAmandmani;
+		List<Amandman> amandman = data.getPredlozeniAmandmani();
 		List<String> naslovi = new ArrayList<String>();
 		for (Amandman a : amandman) {
 			naslovi.add(a.getOperacija());
@@ -179,7 +190,7 @@ public class Rest {
 	@Path("/odabraniAkti")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getNasloviOdabranihAkata(){
-		List<Akt> akti = data.odabraniAkti;
+		List<Akt> akti = data.getOdabraniAkti();
 		List<String> naslovi = new ArrayList<String>();
 		for (Akt akt : akti) {
 			naslovi.add(akt.getNaslov());
@@ -187,14 +198,18 @@ public class Rest {
 		return naslovi;
 	}
 	
+	
+	
+	
+	
 	@PUT
 	@Path("/odabraniAkti/add/{naslov}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> dodajUOdabranjeAkte(@PathParam("naslov") String naslov){
-		List<Akt> akti = data.akti;
+		List<Akt> akti = data.getAkti();
 		for (Akt akt : akti) {
 			if (akt.getNaslov().equals(naslov)){
-				data.odabraniAkti.add(akt);
+				data.getOdabraniAkti().add(akt);
 			}
 		}
 		return getNasloviOdabranihAkata();
@@ -204,10 +219,10 @@ public class Rest {
 	@Path("/odabraniAkti/remove/{naslov}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> obrisiOdabraniAkt(@PathParam("naslov") String naslov){
-		List<Akt> akti = data.akti;
+		List<Akt> akti = data.getAkti();
 		for (Akt akt : akti) {
 			if (akt.getNaslov().equals(naslov)){
-				data.odabraniAkti.remove(akt);
+				data.getOdabraniAkti().remove(akt);
 				break;
 			}
 		}
@@ -221,7 +236,7 @@ public class Rest {
 		
 		Amandman a = new Amandman();
 		a.setOperacija(naslovAkta);
-		data.predlozeniAmandmani.add(a);
+		data.getPredlozeniAmandmani().add(a);
 		
 		System.out.println("Content dodatog amandmana: " + content);
 		

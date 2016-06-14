@@ -8,24 +8,65 @@ var app = angular
 				function($scope, $http, $window) {
 					$scope.user = "predsednikVlade";
 
+					//HTTP FUNKCIJE
+					var loadAkt = function() {
+						var req = {
+							method : 'GET',
+							url : 'http://localhost:8080/XML_Projekat/rest/services/akti'
+						}
+						$http(req).then(function successCallback(response) {
+							$scope.listaAkata = response.data;
+							
+						});
+					};
+					
+					var loadOdabaniAkt = function(){
+						var req = {
+								method : 'GET',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/odabraniAkti'
+							}
+							$http(req).then(function successCallback(response) {
+								$scope.listaOdabranihAkata = response.data;								
+							});
+					};
+					
+					var addAkt = function(naslov){
+						var req = {
+								method : 'PUT',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/odabraniAkti/add/'+naslov
+							}
+							$http(req).then(function successCallback(response) {
+								$scope.listaOdabranihAkata = response.data;								
+							});
+					};
+					
+					var removeAkt = function(naslov){
+						var req = {
+								method : 'DELETE',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/odabraniAkti/remove/'+naslov
+							}
+							$http(req).then(function successCallback(response) {
+								$scope.listaOdabranihAkata = response.data;								
+							});
+					};
+					
+					
+					//INIT FUNKCIJE
+					loadAkt();
+					loadOdabaniAkt();
+					
 					$scope.sadrzajAkta = "";
 					$scope.viewAkt = "";
 					// 'gen/html/zakon_o_izvrsenju_i_obezbedjenju.html'
-					$scope.listaAkata = [
-							"zakon_o_izvrsenju_i_obezbedjenju.html", "akt",
-							"akt3" ];
+					$scope.listaAkata = [];
 					$scope.listaOdabranihAkata = [];
 
 					$scope.addAkt = function(name) {
-						var index = $scope.listaOdabranihAkata.indexOf(name);
-						if (index == -1) {
-							$scope.listaOdabranihAkata.push(name);
-						}
+						addAkt(name);
 					};
 
 					$scope.removeAkt = function(name) {
-						var index = $scope.listaOdabranihAkata.indexOf(name);
-						$scope.listaOdabranihAkata.splice(index, 1);
+						removeAkt(name);
 					};
 
 					$scope.prikazSadrzajaAkta = function(id) {
@@ -36,7 +77,7 @@ var app = angular
 
 					$scope.selectedAkt = "";
 					$scope.selectedAmandman = "";
-					$scope.listaAmandmana = [ 'amandman1' ];
+					$scope.listaAmandmana = [];
 					$scope.selectAkt = function(akt) {
 						$scope.selectedAkt = akt;
 
@@ -60,8 +101,6 @@ var app = angular
 									$window.location.href = 'http://localhost:8080/XML_Projekat/#/vl';
 								}
 							}
-
-							console.log(user);
 						});
 					};
 
@@ -116,7 +155,7 @@ var app = angular
 						templateProvider : function(session, $stateParams, $templateFactory){
 							session.loadRole();  
 							if(session.role == 'predsednikVlade'){
-				                return $templateFactory.fromUrl('odabirAkata.html', $stateParams);
+				                return $templateFactory.fromUrl('odabirAkata2.html', $stateParams);
 				              } else {
 				                return $templateFactory.fromUrl('nisteUlogovani.html', $stateParams);
 				              }
@@ -155,15 +194,26 @@ var app = angular
 				this.role = user;
 				return this.role;
 			};
-		}).controller('amandmaniController', function($scope) {
+		}).controller('amandmaniController', function($scope, $http) {
 
+			var addAmandman = function(naslovAkta,naslovAmandmana,content){
+				var req = {
+						method : 'PUT',
+						url : 'http://localhost:8080/XML_Projekat/rest/services/amandman/add/'+naslovAkta+'/'+naslovAmandmana+'/'+content
+					}
+					$http(req).then(function successCallback(response) {
+						$scope.$parent.listaAmandmana = response.data;								
+					});
+			};
+			
+			
 			$scope.selectAkt = function(akt) {
 				$scope.$parent.selectedAkt = akt;
 
 			};
 
-			$scope.createAmandman = function(name, content) {
-				$scope.$parent.listaAmandmana.push(name);
+			$scope.createAmandman = function(akt,name, content) {
+				addAmandman(akt, name, content);
 
 			};
 
@@ -173,6 +223,17 @@ var app = angular
 			$scope.test = "";
 
 		}).controller('glasanjeController', function($scope,$http) {
+			
+			var removeAmandman = function(naslovAmandmana){
+				var req = {
+						method : 'DELETE',
+						url : 'http://localhost:8080/XML_Projekat/rest/services/amandman/add/'+naslovAmandmana
+					}
+					$http(req).then(function successCallback(response) {
+						$scope.$parent.listaAmandmana = response.data;								
+					});
+			};
+			
 			
 			$scope.selectAmandman = function(amandman) {
 				$scope.$parent.selectedAmandman = amandman;
@@ -185,9 +246,7 @@ var app = angular
 						url : 'http://localhost:8080/XML_Projekat/rest/services/vote/'+za+'/'+protiv+'/'+uzdrzani+'/'+amandman
 					};
 					$http(req).then(function successCallback(response) {
-						var dobijeno = response.data;
-						
-						console.log(dobijeno);//<-------- Ovde ide lista ostalih neizglasanih amandmana
+						$scope.$parent.listaAmandmana = response.data;
 					});
 			}
 		});
