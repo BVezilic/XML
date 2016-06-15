@@ -1,156 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsi:schema elementFormDefault="qualified" targetNamespace="http://www.ftn.uns.ac.rs/skupstina"
-    xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
-    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/predikat" xmlns:rdf="http://www.w3.org/ns/rdfa#"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema">
-    <xsi:element name="Akt">
-        <xsi:complexType>
-            <xsi:sequence>
-                <xsi:element ref="sk:MetaPodaci"/>
-                <xsi:element minOccurs="0" ref="sk:Preambula"/>
-                <xsi:element minOccurs="1" ref="sk:Naslov"/>
-                <xsi:choice>
-                    <xsi:sequence>
-                        <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Deo"/>
-                    </xsi:sequence>
-                    <xsi:sequence>
-                        <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Clan"/>
-                    </xsi:sequence>
-                    <xsi:sequence>
-                        <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
-                    </xsi:sequence>
-                    <xsi:sequence>
-                        <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
-                    </xsi:sequence>
-                </xsi:choice>
-            </xsi:sequence>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Preambula" type="xsi:string"/>
-    <xsi:element name="Naslov" type="xsi:string"/>
-    <xsi:element name="Deo">
-        <xsi:complexType>
-            <xsi:choice>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
-                </xsi:sequence>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" ref="sk:Clan"/>
-                </xsi:sequence>
-            </xsi:choice>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Naziv" type="xsi:string"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Glava">
-        <xsi:complexType>
-            <xsi:choice>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" ref="sk:Odeljak"/>
-                </xsi:sequence>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
-                </xsi:sequence>
-            </xsi:choice>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Naziv" type="xsi:string" use="required"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Odeljak">
-        <xsi:complexType>
-            <xsi:choice>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" ref="sk:Pododeljak"/>
-                </xsi:sequence>
-                <xsi:sequence>
-                    <xsi:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
-                </xsi:sequence>
-            </xsi:choice>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Naziv" type="xsi:string"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Pododeljak">
-        <xsi:complexType>
-            <xsi:sequence>
-                <xsi:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
-            </xsi:sequence>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Naziv" type="xsi:string"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Clan">
-        <xsi:complexType>
-            <xsi:sequence>
-                <xsi:element maxOccurs="unbounded" minOccurs="1" ref="sk:Stav"/>
-            </xsi:sequence>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Naziv" type="xsi:string" use="optional"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Stav">
-        <xsi:complexType mixed="true">
-            <xsi:sequence minOccurs="0">
-                <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
-            </xsi:sequence>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Tacka">
-        <xsi:complexType mixed="true">
-            <xsi:sequence minOccurs="0">
-                <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Podtacka"/>
-            </xsi:sequence>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Podtacka">
-        <xsi:complexType mixed="true">
-            <xsi:sequence minOccurs="0">
-                <xsi:element maxOccurs="unbounded" minOccurs="2" ref="sk:Alineja"/>
-            </xsi:sequence>
-            <xsi:attribute name="Redni_broj" type="xsi:int" use="required"/>
-            <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="Alineja">
-        <xsi:complexType>
-            <xsi:simpleContent>
-                <xsi:extension base="xsi:string">
-                    <xsi:attribute name="Redni_broj" type="xsi:int"/>
-                    <xsi:attribute name="Redna_oznaka" type="xsi:string" use="required"/>
-                </xsi:extension>
-            </xsi:simpleContent>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="MetaPodaci">
-        <xsi:complexType>
-            <xsi:sequence>
-                <xsi:element ref="sk:DatumPredlaganja"/>
-                <xsi:element ref="sk:BrojClanova" minOccurs="0"/>
-            </xsi:sequence>
-            <xsi:attribute name="vocab" type="xsi:string"/>
-            <xsi:attribute name="about" type="xsi:string"/>
-            <xsi:attribute name="rel" type="xsi:string"/>
-            <xsi:attribute name="href" type="xsi:string"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="DatumPredlaganja">
-        <xsi:complexType mixed="true">
-            <xsi:attribute name="property" type="xsi:string"/>
-            <xsi:attribute name="datatype" type="xsi:string"/>
-        </xsi:complexType>
-    </xsi:element>
-    <xsi:element name="BrojClanova">
-        <xsi:complexType mixed="true">
-            <xsi:attribute name="property" type="xsi:string"/>
-            <xsi:attribute name="datatype" type="xsi:string"/>
-        </xsi:complexType>
-    </xsi:element>
-</xsi:schema>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://www.ftn.uns.ac.rs/skupstina"
+    xmlns:sk="http://www.ftn.uns.ac.rs/skupstina" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/pred" xmlns:rdf="http://www.w3.org/ns/rdfa#">
+    <xs:element name="Akt">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sk:MetaPodaci"/>
+                <xs:element minOccurs="0" ref="sk:Preambula"/>
+                <xs:element minOccurs="1" ref="sk:Naslov"/>
+                <xs:choice>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Deo"/>
+                    </xs:sequence>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Clan"/>
+                    </xs:sequence>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
+                    </xs:sequence>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
+                    </xs:sequence>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Preambula" type="xs:string"/>
+    <xs:element name="Naslov" type="xs:string"/>
+    <xs:element name="Deo">
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Glava"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" ref="sk:Clan"/>
+                </xs:sequence>
+            </xs:choice>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Glava">
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" ref="sk:Odeljak"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
+                </xs:sequence>
+            </xs:choice>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Naziv" type="xs:string" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Odeljak">
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" ref="sk:Pododeljak"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
+                </xs:sequence>
+            </xs:choice>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Pododeljak">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Clan"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Clan">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="1" ref="sk:Stav"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Naziv" type="xs:string" use="optional"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Stav">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0">
+                <xs:sequence maxOccurs="1" minOccurs="0">
+                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Tacka"/>
+                </xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="sk:link"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Tacka">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0">
+                <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Podtacka"/>
+                </xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="sk:link"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Podtacka">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0">
+                <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" minOccurs="2" ref="sk:Alineja"/>
+                </xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="sk:link"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int" use="required"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Alineja">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="sk:link"/>
+            </xs:sequence>
+            <xs:attribute name="Redni_broj" type="xs:int"/>
+            <xs:attribute name="Redna_oznaka" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="link">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="ref" type="xs:int"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MetaPodaci">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sk:DatumPredlaganja"/>
+                <xs:element ref="sk:BrojClanova" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="vocab" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
+            <xs:attribute name="rel" type="xs:string"/>
+            <xs:attribute name="href" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DatumPredlaganja">
+        <xs:complexType mixed="true">
+            <xs:attribute name="property" type="xs:string"/>
+            <xs:attribute name="datatype" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="BrojClanova">
+        <xs:complexType mixed="true">
+            <xs:attribute name="property" type="xs:string"/>
+            <xs:attribute name="datatype" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

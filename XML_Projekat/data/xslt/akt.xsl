@@ -51,13 +51,13 @@
 	</xsl:template>
 	
 	<xsl:template match="sk:Clan">
-		<h3><xsl:value-of select="@Naziv"/></h3>
+		<h3><xsl:attribute name="id"><xsl:value-of select="@Redni_broj"/></xsl:attribute><xsl:value-of select="@Naziv"/></h3>
 		<h3>Član <xsl:value-of select="@Redna_oznaka"/></h3>
 		<xsl:apply-templates/> 
 	</xsl:template>
 	
 	<xsl:template match="sk:Stav">
-		<p><xsl:value-of select="text()"/></p>
+		<p><xsl:value-of select="text()"/><xsl:apply-templates select="sk:link"/></p>
 		<xsl:apply-templates select="sk:Tacka"/> 
 	</xsl:template>
 	
@@ -75,4 +75,7 @@
 		<li class="noBullet"><xsl:value-of select="@Redna_oznaka"/>&#160;&#160;<xsl:value-of select="text()"/></li><br/>
 	</xsl:template>
 	
+	<xsl:template match="sk:link">
+		<a><xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:value-of select="text()"/></a>
+	</xsl:template>
 </xsl:stylesheet>

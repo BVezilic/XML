@@ -2,11 +2,10 @@
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd"
-    xmlns="http://www.w3.org/ns/rdfa#" 
-    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina">
-    <sk:MetaPodaci
-        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_izvrsenju_i_obezbedjenju">
-        <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1999-08-17</sk:DatumPredlaganja>
+    xmlns="http://www.w3.org/ns/rdfa#" xmlns:pred="http://www.ftn.uns.ac.rs/skupstina">
+    <sk:MetaPodaci about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_izvrsenju_i_obezbedjenju">
+        <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date"
+            >1999-08-17</sk:DatumPredlaganja>
     </sk:MetaPodaci>
     <sk:Naslov>ZAKON O IZVRŠENjU I OBEZBEĐENjU</sk:Naslov>
     <sk:Deo Redni_broj="1" Redna_oznaka="PRVI" Naziv="OSNOVNE ODREDBE">
@@ -43,6 +42,21 @@
                 odlučuje javni izvršitelj.</sk:Stav>
             <sk:Stav Redni_broj="4">Kada se donese rešenje o izvršenju ili obezbeđenju, sprovodi se
                 izvršenje.</sk:Stav>
+        </sk:Clan>
+        <sk:Clan Naziv="Identifikacioni podaci o izvršnom dužniku i izvršnom
+            poveriocu"
+            Redna_oznaka="30." Redni_broj="30">
+            <sk:Stav Redni_broj="1"> Identifikacioni podaci o izvršnom dužniku i izvršnom poveriocu
+                koji je fizičko lice jesu: <sk:Tacka Redni_broj="1" Redna_oznaka="1)">ime i prezime
+                    i prebivalište;</sk:Tacka>
+                <sk:Tacka Redna_oznaka="2)" Redni_broj="2">datum rođenja i jedinstveni matični broj
+                    građana.</sk:Tacka>
+            </sk:Stav>
+            <sk:Stav Redni_broj="2">Identifikacioni podaci o izvršnom dužniku i izvršnom poveriocu
+                koji je pravno lice jesu: <sk:Tacka Redni_broj="1" Redna_oznaka="1)">poslovno
+                    ime;</sk:Tacka>
+                <sk:Tacka Redna_oznaka="2)" Redni_broj="2">matični broj i poreski identifikacioni
+                    broj.</sk:Tacka></sk:Stav>
         </sk:Clan>
     </sk:Deo>
     <sk:Deo Redni_broj="2" Redna_oznaka="DRUGI" Naziv="OPŠTA PRAVILA IZVRŠNOG POSTUPKA">
@@ -94,10 +108,11 @@
                 <sk:Clan Redni_broj="59" Redna_oznaka="59."
                     Naziv="Predlog za izvršenje na osnovu izvršne isprave">
                     <sk:Stav Redni_broj="1">U predlogu za izvršenje naznačavaju se identifikacioni
-                        podaci o izvršnom poveriocu i izvršnom dužniku (član 30), izvršna isprava,
-                        potraživanje izvršnog poverioca, jedno sredstvo ili jedan predmet ili više
-                        sredstava i predmeta izvršenja, i drugi podaci koji su potrebni za
-                        sprovođenje izvršenja.</sk:Stav>
+                        podaci o izvršnom poveriocu i izvršnom dužniku
+                        (<sk:link ref="30">član 30</sk:link>), izvršna isprava, potraživanje
+                        izvršnog poverioca, jedno sredstvo ili jedan predmet ili više sredstava i
+                        predmeta izvršenja, i drugi podaci koji su potrebni za sprovođenje
+                        izvršenja.</sk:Stav>
                     <sk:Stav Redni_broj="2">Uz predlog za izvršenje prilaže se izvršna isprava u
                         originalu, overenoj kopiji ili prepisu, i druga isprava određena ovim
                         zakonom, s tim što izvršna isprava mora da sadrži potvrdu o

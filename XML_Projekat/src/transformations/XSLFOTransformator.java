@@ -93,14 +93,14 @@ public class XSLFOTransformator {
 		System.out.println("Uspesno zavrsena transformacija "+xmlName+ " u pdf, na putanji: WebContent/gen/"+xmlName+".pdf");
 	}
 	public static void main(String[] args) {
-		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
+//		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
 		XSLFOTransformator.aktToHTML("zakon_o_izvrsenju_i_obezbedjenju");
-		XSLFOTransformator.aktToHTML("zakon_o_policiji");
-		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
-		
-		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
-		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
-		XSLFOTransformator.aktToPDF("zakon_o_policiji");
-		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
+//		XSLFOTransformator.aktToHTML("zakon_o_policiji");
+//		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
+//		
+//		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
+//		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
+//		XSLFOTransformator.aktToPDF("zakon_o_policiji");
+//		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
 	}
 }
