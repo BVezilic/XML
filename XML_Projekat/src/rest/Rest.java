@@ -1,31 +1,127 @@
 package rest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 
+import daobeans.implementation.AktDaoLocal;
 import model.akt.Akt;
 import model.akt.Clan;
 import model.amandman.Amandman;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
+import util.CollectionConstants;
+import util.StringConstants;
+import validation.XMLValidator;
 
 @Stateless
 @Path("/services")
 public class Rest {
 
-	
 	@EJB
 	DataTest data;
+
+	@EJB
+	AktDaoLocal adl;
+	
+	@GET
+	@Path("/amandman")
+	@Produces(MediaType.TEXT_PLAIN)
+	public void amandman(@QueryParam("amd")String amd) throws IOException, JAXBException {
+		adl.merge(amd);
+	}
+	
+	@GET
+	@Path("/passAkt")
+	@Produces(MediaType.TEXT_PLAIN)
+	public void passAkt(@QueryParam("akt")String akt) throws IOException, JAXBException {
+		adl.changeCollection(akt, new String[] {CollectionConstants.akti, CollectionConstants.aktPrihvacen});
+	}
+
+	
+	@GET
+	@Path("/findAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> findAll() throws IOException, JAXBException {
+		System.out.println(adl.findAllAmandmani().toString());
+		return adl.findAllAmandmani();
+	}
+	
+	@GET
+	@Path("/metaSearch")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
+		System.out.println(dateFrom + " | " + dateTo);
+		//System.out.println(adl.findByMetaData("str").toString());
+		return adl.findByMetaData("str","str");
+	}
+	
+	@POST
+	@Path("/singleFieldSearch")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> singleFieldSearch(String keywords)
+	{
+		List<Object> retVal = null;
+		try {
+			retVal = new ArrayList<Object>(adl.findByKeyWord(keywords));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	
+	@GET
+	@Path("/getDocument")
+	@Produces(MediaType.TEXT_HTML)
+	public String getDocument(@QueryParam("uri")String uri, @QueryParam("tip")String tip) throws IOException, JAXBException {
+		System.out.println("OK " + uri);
+		//System.out.println((String)adl.findById(uri));
+		return (String)adl.findById(uri, tip);
+	}
+	
+	@POST
+	@Path("/persist")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean persist(String document,@QueryParam("tip")String tip) throws JAXBException, IOException
+	{
+		Object retVal;
+		if((retVal = XMLValidator.validateXML(tip, document)) == null)
+			System.out.println("NO");
+		else
+		{
+			if(retVal instanceof Akt)
+			{
+				System.out.println("AKT " + ((Akt)retVal).getNaslov());
+				try {
+					adl.persist(((Akt)retVal), StringConstants.formatName(((Akt)retVal).getNaslov()));
+				} catch (JAXBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else
+				adl.persist(((Amandman)retVal), ((Amandman)retVal).getKontekst().getReferentniZakon()+"/"+((Amandman)retVal).getNaziv());
+		}
+		return false;
+	}
 	
 	@GET
 	@Path("/test")
