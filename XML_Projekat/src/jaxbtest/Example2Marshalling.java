@@ -160,7 +160,7 @@ public class Example2Marshalling {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			marshaller.marshal(doc, baos);
 			InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
-			XSLFOTransformator.aktToHTMLStream(isFromFirstData);
+			//XSLFOTransformator.dokumentToHTMLStream(isFromFirstData);
 			// Release the client
 			client.release();
 			

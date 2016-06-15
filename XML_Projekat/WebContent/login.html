@@ -21,7 +21,7 @@
 <input type="text" ng-model="criteria"/>
 <button class="btn btn-primary" ng-click="search(criteria)">Search</button>
 <div ng-repeat="rez in rezultat track by $index">
-  <a ng-href='http://localhost:8080/XML_Projekat/rest/services/getDocument?uri={{rez.documentURI}}'>{{rez.documentName}}</a>
+  <a ng-href='http://localhost:8080/XML_Projekat/rest/services/getDocument?uri={{rez.documentURI}}&tip=akt'>{{rez.documentName}}</a>
 </div>
 <div ng-model="page"></div>
 <br/>
@@ -45,7 +45,3 @@
 <br/>
 <br/>
 <br/>
-<form action="http://localhost:8080/XML_Projekat/rest/services/file" method="post">
-  <input type="file" name="xml" accept=".xml">
-  <input type="submit" value="submite">
-</form>

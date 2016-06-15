@@ -9,7 +9,7 @@ import javax.xml.bind.JAXBException;
 
 public interface GenericDaoLocal<T, ID extends Serializable> {
 	
-	public T findById(String id) throws JAXBException, IOException;
+	public T findById(String id, String tip) throws JAXBException, IOException;
 
 	public List<T> findAll() throws IOException, JAXBException;
 	
@@ -26,4 +26,6 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 	public InputStream findBy(String xQuery, boolean wrap) throws IOException;
 	
 	public void changeCollection(String id, String[] Collections) throws IOException;
+	
+	public List<Object> findAllAmandmani() throws IOException;
 }

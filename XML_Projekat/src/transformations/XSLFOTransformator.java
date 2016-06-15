@@ -65,10 +65,30 @@ public class XSLFOTransformator {
 		}
 	}
 	
-	public static String aktToHTMLStream(InputStream xmlName) throws UnsupportedEncodingException {
+	public static String dokumentToHTMLStream(InputStream xmlName, String tip) throws UnsupportedEncodingException {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();
-	        Source xslt = new StreamSource(new File("../standalone/deployments/XML_Projekat.war/data/xslt/akt.xsl"));
+	        Source xslt = new StreamSource(new File("../standalone/deployments/XML_Projekat.war/data/xslt/"+tip+".xsl"));
+	        Transformer transformer = factory.newTransformer(xslt);
+	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	        Source text = new StreamSource(xmlName);
+	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	        transformer.transform(text, new StreamResult(baos));
+	        System.out.println("Uspesno zavrsena transformacija u html");
+	        return baos.toString("UTF-8");
+		} catch (TransformerConfigurationException e) {			
+			e.printStackTrace();
+			return "error";
+		} catch (TransformerException e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	public static String amandmanToHTMLStream(InputStream xmlName) throws UnsupportedEncodingException {
+		try {
+	        TransformerFactory factory = TransformerFactory.newInstance();
+	        Source xslt = new StreamSource(new File("../standalone/deployments/XML_Projekat.war/data/xslt/amandman.xsl"));
 	        Transformer transformer = factory.newTransformer(xslt);
 	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 	        Source text = new StreamSource(xmlName);

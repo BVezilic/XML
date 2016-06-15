@@ -18,9 +18,9 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	protected EntityManager<T,ID> em; 
 	
 	@Override
-	public T findById(String id) throws JAXBException, IOException {
+	public T findById(String id, String tip) throws JAXBException, IOException {
 		em = new EntityManager<T,ID>();
-		return (T)em.findById(id);
+		return (T)em.findById(id, tip);
 	}
 
 	@Override
@@ -87,6 +87,12 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	{
 		em = new EntityManager<T,ID>();
 		em.changeCollection(id, Collections);
+	}
+	@Override
+	public List<Object> findAllAmandmani() throws IOException
+	{
+		em = new EntityManager<T,ID>();
+		return em.findAllAmandmani();
 	}
 
 }

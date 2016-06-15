@@ -112,7 +112,23 @@ public class EntityManager<T, ID extends Serializable> {
 					name = rs.getString();
 				}
 			}
-			arl.add(new SearchResultsUtil(name,result.getUri(),""));
+			
+			invoker = client.newServerEval();
+			query = StringConstants.getExecutable(OperationType.listCollections);
+			query = query.replace("replace1",result.getUri());
+			invoker.xquery(query);
+			response = invoker.eval();
+			String collection = "";
+			if (response.hasNext()) {
+				for (EvalResult rs : response) {
+					if(!rs.getString().equals(CollectionConstants.amandmani))
+					{
+						collection = rs.getString();
+						collection = collection.replace("_", " ");
+					}
+				}
+			}
+			arl.add(new SearchResultsUtil(name,result.getUri(),collection));
 		}
 		
 		// Release the client
@@ -158,13 +174,28 @@ public class EntityManager<T, ID extends Serializable> {
 					name = rs.getString();
 				}
 			}
-			arl.add(new SearchResultsUtil(name,uri[uri.length-1],""));
+			invoker = client.newServerEval();
+			query = StringConstants.getExecutable(OperationType.listCollections);
+			query = query.replace("replace1",uri[uri.length-1]);
+			invoker.xquery(query);
+			response = invoker.eval();
+			String collection = "";
+			if (response.hasNext()) {
+				for (EvalResult rs : response) {
+					if(!rs.getString().equals(CollectionConstants.amandmani))
+					{
+						collection = rs.getString();
+						collection = collection.replace("_", " ");
+					}
+				}
+			}
+			arl.add(new SearchResultsUtil(name,uri[uri.length-1],collection));
 		}
 		
 		return arl;
 	}
 	
-	public Object findById(String id) throws IOException, JAXBException, UnsupportedEncodingException
+	public Object findById(String id, String tipDokumenta) throws IOException, JAXBException, UnsupportedEncodingException
 	{
 		props = ConnectionUtils.loadProperties();
 		
@@ -174,7 +205,7 @@ public class EntityManager<T, ID extends Serializable> {
 			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
 		}
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
-		JAXBContext context = JAXBContext.newInstance("model.akt");
+		JAXBContext context = JAXBContext.newInstance("model."+tipDokumenta);
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
@@ -185,7 +216,7 @@ public class EntityManager<T, ID extends Serializable> {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		marshaller.marshal(doc, baos);
 		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
-		String retVal = XSLFOTransformator.aktToHTMLStream(isFromFirstData);
+		String retVal = XSLFOTransformator.dokumentToHTMLStream(isFromFirstData, tipDokumenta);
 		// Release the client
 		client.release();
 		return retVal;
@@ -206,6 +237,7 @@ public class EntityManager<T, ID extends Serializable> {
 		
 		// Query definition is used to specify Google-style query string
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
+		queryDefinition.setCollections(CollectionConstants.akti);
 		
 		// Set the criteria
 		String criteria = "";
@@ -236,7 +268,22 @@ public class EntityManager<T, ID extends Serializable> {
 					name = rs.getString();
 				}
 			}
-			arl.add(new SearchResultsUtil(name,result.getUri(),""));
+			invoker = client.newServerEval();
+			query = StringConstants.getExecutable(OperationType.listCollections);
+			query = query.replace("replace1",result.getUri());
+			invoker.xquery(query);
+			response = invoker.eval();
+			String collection = "";
+			if (response.hasNext()) {
+				for (EvalResult rs : response) {
+					if(!rs.getString().equals(CollectionConstants.amandmani))
+					{
+						collection = rs.getString();
+						collection = collection.replace("_", " ");
+					}
+				}
+			}
+			arl.add(new SearchResultsUtil(name,result.getUri(),collection));
 		}
 		
 		// Release the client
@@ -402,5 +449,63 @@ public class EntityManager<T, ID extends Serializable> {
 		metadata.getCollections().clear();
 		metadata.getCollections().addAll(Collections);
 		xmlManager.write(id, metadata, content);
+	}
+	public List<Object> findAllAmandmani() throws IOException
+	{
+		List<Object> arl = new ArrayList<Object>();
+		props = ConnectionUtils.loadProperties();
+		
+		if (props.database.equals("")) {
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
+		} else {
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
+		}
+		
+		QueryManager queryManager = client.newQueryManager();
+		
+		// Query definition is used to specify Google-style query string
+		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
+		queryDefinition.setCollections(CollectionConstants.amandmani);
+		
+		// Set the criteria
+		String criteria = "";
+		queryDefinition.setCriteria(criteria);
+		
+		SearchHandle results = queryManager.search(queryDefinition, new SearchHandle());
+		
+		// Serialize search results to the standard output
+		MatchDocumentSummary matches[] = results.getMatchResults();
+
+		MatchDocumentSummary result;
+		EvalResultIterator response = null;
+		for (int i = 0; i < matches.length; i++) {
+			result = matches[i];
+			String uri = result.getUri();
+			String[] split = uri.split("/");
+			String name = split[0].toUpperCase();
+			name = name.replace("_", " ");
+			name = name + " - " + split[1];
+			
+			ServerEvaluationCall invoker = client.newServerEval();
+			String query = StringConstants.getExecutable(OperationType.listCollections);
+			query = query.replace("replace1",result.getUri());
+			invoker.xquery(query);
+			response = invoker.eval();
+			String collection = "";
+			if (response.hasNext()) {
+				for (EvalResult rs : response) {
+					if(!rs.getString().equals(CollectionConstants.amandmani))
+					{
+						collection = rs.getString();
+						collection = collection.replace("_", " ");
+					}
+				}
+			}
+			arl.add(new SearchResultsUtil(name,uri,collection));
+		}
+		
+		// Release the client
+		client.release();
+		return arl;
 	}
 }

@@ -50,9 +50,10 @@ public class Rest {
 	
 	@GET
 	@Path("/findAll")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Object> findAll() throws IOException, JAXBException {
-		return adl.findAll();
+		System.out.println(adl.findAllAmandmani().toString());
+		return adl.findAllAmandmani();
 	}
 	
 	@GET
@@ -83,10 +84,10 @@ public class Rest {
 	@GET
 	@Path("/getDocument")
 	@Produces(MediaType.TEXT_HTML)
-	public String getDocument(@QueryParam("uri")String uri) throws IOException, JAXBException {
+	public String getDocument(@QueryParam("uri")String uri, @QueryParam("tip")String tip) throws IOException, JAXBException {
 		System.out.println("OK " + uri);
 		//System.out.println((String)adl.findById(uri));
-		return (String)adl.findById(uri);
+		return (String)adl.findById(uri, tip);
 	}
 	
 	@POST

@@ -92,6 +92,20 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 						  console.log("fail");
 					  });
 			}
+//			$scope.search = function(criteria) {
+//				console.log(criteria);
+//				$http({
+//					  method: 'GET',
+//					  url: 'http://localhost:8080/XML_Projekat/rest/services/findAll',
+//					}).then(function successCallback(response) {
+//					    console.log("uspeo");
+//					    console.log(response.data);
+//					    $scope.page = response.data;
+//					    $scope.rezultat = response.data;
+//					  }, function errorCallback(response) {
+//						  console.log("fail");
+//					  });
+//			}
 			$scope.searchMeta = function(dateFrom, dateTo) {
 				console.log(console.log(new Date(dateFrom.getTime() + dateFrom.getTimezoneOffset()*60000)));
 				$http({
