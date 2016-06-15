@@ -1,8 +1,0 @@
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:h="http://www.w3.org/1999/xhtml">
-  <rdf:Description rdf:about="UNKOWN ROOTzakon_o_izvrsenju_i_obezbedjenju">
-    <pred:predlozen xmlns:pred="http://www.ftn.uns.ac.rs/rdf/examples/predicate/" rdf:datatype="http://www.w3.org/2001/XMLSchema-instancedate">1965-08-17</pred:predlozen>
-  </rdf:Description>
-  <rdf:Description rdf:about="UNKOWN ROOTzakon_o_izvrsenju_i_obezbedjenju">
-    <pred:brakt xmlns:pred="http://www.ftn.uns.ac.rs/rdf/examples/predicate/" rdf:datatype="http://www.w3.org/2001/XMLSchema-instancestring">12</pred:brakt>
-  </rdf:Description>
-</rdf:RDF>

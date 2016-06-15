@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sk:Akt xmlns:sk="http://www.ftn.uns.ac.rs/skupstina"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema#"
-    xs:schemaLocation="http://www.ftn.uns.ac.rs/skupstina ../xsd/akt.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema#"
     xmlns:rdf="http://www.w3.org/ns/rdfa#" 
-    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/predikat">
+    xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/pred">
     <sk:MetaPodaci
-        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_izvrsenju_i_obezbedjenju">
-        <sk:DatumPredlaganja property="pred:predlozen" datatype="xs:date">1999-08-17</sk:DatumPredlaganja>
+        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_izvršenju_i_obezbeđenju">
+        <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1999-08-17</sk:DatumPredlaganja>
     </sk:MetaPodaci>
     <sk:Naslov>ZAKON O IZVRŠENjU I OBEZBEĐENjU</sk:Naslov>
     <sk:Deo Redni_broj="1" Redna_oznaka="PRVI" Naziv="OSNOVNE ODREDBE">

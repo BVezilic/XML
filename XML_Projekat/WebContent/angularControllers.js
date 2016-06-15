@@ -123,7 +123,7 @@ var app = angular.module('XML_App', [ 'ui.router' ]).controller(
 			$scope.passAmandman = function() {
 				$http({
 					  method: 'GET',
-					  url: 'http://localhost:8080/XML_Projekat/rest/services/amandman?amd=zakon_o_izvršenju_i_obezbeđenju/Prvi/1916572645506940001.xml',
+					  url: 'http://localhost:8080/XML_Projekat/rest/services/amandman?amd=zakon_o_izvršenju_i_obezbeđenju/Prvi/1095734169306078094.xml',
 					}).then(function successCallback(response) {
 					    console.log("uspeo");
 					  }, function errorCallback(response) {
