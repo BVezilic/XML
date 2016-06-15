@@ -46,7 +46,7 @@ public class StringConstants {
 				retVal += "xdmp:document-get-collections(\"replace1\")";
 				return retVal;
 			case dropDatabase:
-				retVal+= "for $doc in doc() return xdmp:document-delete(xdmp:node-uri($doc))";
+				retVal += "for $doc in doc() return xdmp:document-delete(xdmp:node-uri($doc))";
 				return retVal;
 			default:
 				return retVal;

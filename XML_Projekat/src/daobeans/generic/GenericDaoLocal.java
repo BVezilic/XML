@@ -15,7 +15,7 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 	
 	public List<Object> findByKeyWord(String keyword) throws IOException;
 	
-	public List<Object> findByMetaData(String metadata) throws IOException;
+	public List<Object> findByMetaData(String dateFrom, String dateTo) throws IOException;
 
 	public T persist(T entity, String id) throws JAXBException, IOException;
 
@@ -24,4 +24,6 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 	public void remove(ID id) throws IOException;
 	
 	public InputStream findBy(String xQuery, boolean wrap) throws IOException;
+	
+	public void changeCollection(String id, String[] Collections) throws IOException;
 }

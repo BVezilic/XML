@@ -12,5 +12,6 @@ public enum OperationType {
 	allDocuments,
 	document,
 	listCollections,
-	dropDatabase
+	dropDatabase,
+	changeCollection
 }

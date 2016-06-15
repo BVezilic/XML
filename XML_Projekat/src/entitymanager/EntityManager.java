@@ -29,6 +29,7 @@ import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.eval.EvalResult;
 import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
+import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.FileHandle;
 import com.marklogic.client.io.InputStreamHandle;
@@ -84,6 +85,7 @@ public class EntityManager<T, ID extends Serializable> {
 		
 		// Set the criteria
 		queryDefinition.setCriteria(keyword);
+		queryDefinition.setCollections(CollectionConstants.akti);
 		
 		SearchHandle results = queryManager.search(queryDefinition, new SearchHandle());
 		
@@ -117,7 +119,7 @@ public class EntityManager<T, ID extends Serializable> {
 		client.release();
 		return arl;
 	}
-	public List<Object> findByMetaData(String metadata) throws IOException
+	public List<Object> findByMetaData(String dateFrom, String dateTo) throws IOException
 	{
 		List<Object> arl = new ArrayList<Object>();
 		props = ConnectionUtils.loadProperties();
@@ -130,7 +132,7 @@ public class EntityManager<T, ID extends Serializable> {
 		String query = "PREFIX xsi: <http://www.w3.org/2001/XMLSchema#>"
 				+ "SELECT * FROM <grafovi> WHERE { "
 				+ "?s <http://www.ftn.uns.ac.rs/skupstina/predpredlozen> ?date ."
-				+ "FILTER ( ?date >= \"1990-01-31\"^^xsi:date && ?date < \"2005-01-31\"^^xsi:date)}";
+				+ "FILTER ( ?date >= \""+dateFrom+"\"^^xsi:date && ?date < \""+dateTo+"\"^^xsi:date)}";
 		
 		SPARQLQueryManager sparqlQueryManager = client.newSPARQLQueryManager();
 		SPARQLQueryDefinition sqlQuery = sparqlQueryManager.newQueryDefinition(query);
@@ -179,7 +181,7 @@ public class EntityManager<T, ID extends Serializable> {
 		JAXBHandle content = new JAXBHandle(context);
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		xmlManager.read(id, metadata, content);
-		Akt doc = (Akt)content.get();
+		Object doc = (Object)content.get();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		marshaller.marshal(doc, baos);
 		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
@@ -264,6 +266,7 @@ public class EntityManager<T, ID extends Serializable> {
 		{
 			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 			metadata.getCollections().add(CollectionConstants.aktProcedura);
+			metadata.getCollections().add(CollectionConstants.akti);
 			
 			xmlManager.write(id ,metadata ,handle);
 			
@@ -294,6 +297,7 @@ public class EntityManager<T, ID extends Serializable> {
 		{
 			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 			metadata.getCollections().add(CollectionConstants.amandmanProcedura);
+			metadata.getCollections().add(CollectionConstants.amandmani);
 			DocumentUriTemplate template = xmlManager.newDocumentUriTemplate("xml");
 			template.setDirectory(id+"/");
 			DocumentDescriptor desc = xmlManager.create(template, metadata, handle);
@@ -372,6 +376,31 @@ public class EntityManager<T, ID extends Serializable> {
 		invoker.xquery(query);
 		
 		EvalResultIterator response = invoker.eval();
+		// menjanje amandmanove kolekcije nakon sto se izvrsio
+		metadata.getCollections().clear();
+		metadata.getCollections().add(CollectionConstants.amandmanPrihvacen);
+		metadata.getCollections().add(CollectionConstants.amandmani);
+		InputStreamHandle handle = new InputStreamHandle(XMLMarshaller.objectoToXML(doc));
+		xmlManager.write(resourceId ,metadata ,handle);
+	}
+	
+	public void changeCollection(String id, String[] Collections) throws IOException
+	{
+		props = ConnectionUtils.loadProperties();
 		
+		if (props.database.equals("")) {
+			System.out.println("[INFO] Using default database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
+		} else {
+			System.out.println("[INFO] Using \"" + props.database + "\" database.");
+			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
+		}
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+		DOMHandle content = new DOMHandle();
+		xmlManager.read(id, metadata, content);
+		metadata.getCollections().clear();
+		metadata.getCollections().addAll(Collections);
+		xmlManager.write(id, metadata, content);
 	}
 }

@@ -21,8 +21,10 @@ import model.akt.Akt;
 import model.amandman.Amandman;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
+import util.CollectionConstants;
 import util.StringConstants;
 import validation.XMLValidator;
+
 
 @Stateless
 @Path("/services")
@@ -39,6 +41,14 @@ public class Rest {
 	}
 	
 	@GET
+	@Path("/passAkt")
+	@Produces(MediaType.TEXT_PLAIN)
+	public void passAkt(@QueryParam("akt")String akt) throws IOException, JAXBException {
+		adl.changeCollection(akt, new String[] {CollectionConstants.akti, CollectionConstants.aktPrihvacen});
+	}
+
+	
+	@GET
 	@Path("/findAll")
 	@Produces(MediaType.TEXT_PLAIN)
 	public List<Object> findAll() throws IOException, JAXBException {
@@ -51,7 +61,7 @@ public class Rest {
 	public List<Object> metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
 		System.out.println(dateFrom + " | " + dateTo);
 		//System.out.println(adl.findByMetaData("str").toString());
-		return adl.findByMetaData("str");
+		return adl.findByMetaData("str","str");
 	}
 	
 	@POST

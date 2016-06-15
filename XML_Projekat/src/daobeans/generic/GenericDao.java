@@ -30,10 +30,10 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	}
 	
 	@Override
-	public List<Object> findByMetaData(String metadata) throws IOException
+	public List<Object> findByMetaData(String dateFrom, String dateTo) throws IOException
 	{
 		em = new EntityManager<T,ID>();
-		return em.findByMetaData(metadata);
+		return em.findByMetaData(dateFrom, dateTo);
 	}
 	
 	@Override
@@ -80,6 +80,13 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	public InputStream findBy(String xQuery, boolean wrap) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void changeCollection(String id, String[] Collections) throws IOException
+	{
+		em = new EntityManager<T,ID>();
+		em.changeCollection(id, Collections);
 	}
 
 }
