@@ -1,127 +1,43 @@
 package rest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
 
-import daobeans.implementation.AktDaoLocal;
 import model.akt.Akt;
+import model.akt.Clan;
 import model.amandman.Amandman;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
-import util.CollectionConstants;
-import util.StringConstants;
-import validation.XMLValidator;
-
 
 @Stateless
 @Path("/services")
 public class Rest {
 
+	
 	@EJB
-	AktDaoLocal adl;
+	DataTest data;
 	
 	@GET
-	@Path("/amandman")
+	@Path("/test")
 	@Produces(MediaType.TEXT_PLAIN)
-	public void amandman(@QueryParam("amd")String amd) throws IOException, JAXBException {
-		adl.merge(amd);
-	}
-	
-	@GET
-	@Path("/passAkt")
-	@Produces(MediaType.TEXT_PLAIN)
-	public void passAkt(@QueryParam("akt")String akt) throws IOException, JAXBException {
-		adl.changeCollection(akt, new String[] {CollectionConstants.akti, CollectionConstants.aktPrihvacen});
+	public String test() {
+		return "Test";
 	}
 
-	
-	@GET
-	@Path("/findAll")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> findAll() throws IOException, JAXBException {
-		System.out.println(adl.findAllAmandmani().toString());
-		return adl.findAllAmandmani();
-	}
-	
-	@GET
-	@Path("/metaSearch")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
-		System.out.println(dateFrom + " | " + dateTo);
-		//System.out.println(adl.findByMetaData("str").toString());
-		return adl.findByMetaData("str","str");
-	}
-	
-	@POST
-	@Path("/singleFieldSearch")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> singleFieldSearch(String keywords)
-	{
-		List<Object> retVal = null;
-		try {
-			retVal = new ArrayList<Object>(adl.findByKeyWord(keywords));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return retVal;
-	}
-	
-	@GET
-	@Path("/getDocument")
-	@Produces(MediaType.TEXT_HTML)
-	public String getDocument(@QueryParam("uri")String uri, @QueryParam("tip")String tip) throws IOException, JAXBException {
-		System.out.println("OK " + uri);
-		//System.out.println((String)adl.findById(uri));
-		return (String)adl.findById(uri, tip);
-	}
-	
-	@POST
-	@Path("/persist")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean persist(String document,@QueryParam("tip")String tip) throws JAXBException, IOException
-	{
-		Object retVal;
-		if((retVal = XMLValidator.validateXML(tip, document)) == null)
-			System.out.println("NO");
-		else
-		{
-			if(retVal instanceof Akt)
-			{
-				System.out.println("AKT " + ((Akt)retVal).getNaslov());
-				try {
-					adl.persist(((Akt)retVal), StringConstants.formatName(((Akt)retVal).getNaslov()));
-				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else
-				adl.persist(((Amandman)retVal), ((Amandman)retVal).getKontekst().getReferentniZakon()+"/"+((Amandman)retVal).getNaziv());
-		}
-		return false;
-	}
-	
 	@GET
 	@Path("/login/{username}/{password}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_XML)
+	
+	@Produces(MediaType.APPLICATION_JSON)
 	public Korisnik loginUser(@PathParam("username") String username, @PathParam("password") String password) {
 
 		Korisnici korisnici = new Korisnici();
@@ -130,16 +46,16 @@ public class Rest {
 		Korisnik k2 = new Korisnik();
 		Korisnik k3 = new Korisnik();
 		
-		k1.setKorisnickoIme("user1");
-		k2.setKorisnickoIme("user2");
+		k1.setKorisnickoIme("1");
+		k2.setKorisnickoIme("2");
 		k3.setKorisnickoIme("user3");
 
-		k1.setLozinka("pass1");
-		k2.setLozinka("pass2");
+		k1.setLozinka("1");
+		k2.setLozinka("2");
 		k3.setLozinka("pass3");
 		
-		k1.setUloga("obican");
-		k2.setUloga("specijalan");
+		k1.setUloga("gradjanin");
+		k2.setUloga("predsednikVlade");
 		k3.setUloga("najbolji");
 
 		
@@ -159,25 +75,173 @@ public class Rest {
 	}
 
 	@GET
-	@Path("/vote/{za}/{uzdrzano}/{protiv}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Boolean vote(@PathParam("za") String za, @PathParam("uzdrzano") String uzdrzano,
-			@PathParam("protiv") String protiv) {
+	@Path("/vote/{za}/{uzdrzano}/{protiv}/{amandman}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> vote(@PathParam("za") String za, @PathParam("uzdrzano") String uzdrzano,
+			@PathParam("protiv") String protiv, @PathParam("amandman") String amandman) {
 		try {
 			Integer z = Integer.parseInt(za);
 			Integer u = Integer.parseInt(uzdrzano);
 			Integer p = Integer.parseInt(protiv);
 			
-			if ( z > (z + u + p) / 2){
-				return true;
-			} else {
-				return false;
+			if ( z > u + p){
+				for (Amandman a : data.getPredlozeniAmandmani()) {
+					if (a.getOperacija().equals(amandman)){
+						data.getAmandmani().add(a);
+						data.getPredlozeniAmandmani().remove(a);
+						break;
+					}
+				}
+			}else
+			{
+				for (Amandman a : data.getPredlozeniAmandmani()) {
+					if (a.getOperacija().equals(amandman)){
+						data.getAmandmani().add(a);
+						data.getPredlozeniAmandmani().remove(a);
+						break;
+					}
+				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
+		
+		return getNasloviPredlozenihAmandmana();
+	}
+	
+	@GET
+	@Path("/akti")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getNasloviAkata(){
+		List<Akt> akti = data.getAkti();
+		System.out.println("Akti: " + data.getAkti().toString());
+		List<String> naslovi = new ArrayList<String>();
+		for (Akt akt : akti) {
+			naslovi.add(akt.getNaslov());
+		}
+		System.out.println("Naslovi: " + naslovi);
+		return naslovi;
+	}
+	
+	@GET
+	@Path("/akt/{naslov}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Clan getClanByNaslovAkta(@PathParam("naslov") String naslov){
+		List<Akt> akti = data.getAkti();
+		for (Akt akt : akti) {
+			if (akt.getNaslov().equals(naslov)){
+				return akt.getClan().get(0);
+			}
+		}
+		
+		return null;
+	}
+	
+	@GET
+	@Path("/akt/{filter}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> filterAkta(@PathParam("filter") String filter){
+		System.out.println("Filtriram po: " + filter);
+		return getNasloviAkata();
 	}
 
+	@GET
+	@Path("/amandmani")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getNasloviAmandmana(){
+		List<Amandman> amandman = data.getAmandmani();
+		List<String> naslovi = new ArrayList<String>();
+		for (Amandman a : amandman) {
+			naslovi.add(a.getOperacija());
+		}
+		return naslovi;
+	}
+	
+	@GET
+	@Path("/predlozeniAmandmani")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getNasloviPredlozenihAmandmana(){
+		List<Amandman> amandman = data.getPredlozeniAmandmani();
+		List<String> naslovi = new ArrayList<String>();
+		for (Amandman a : amandman) {
+			naslovi.add(a.getOperacija());
+		}
+		return naslovi;
+	}
+	
+	@GET
+	@Path("/amandman/{filter}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> filterAmandmana(@PathParam("filter") String filter){
+		System.out.println("Filtriram po: " + filter);
+		return getNasloviAmandmana();
+	}
+	
+	@GET
+	@Path("/predlozeniAmandman/{filter}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> filterPredlozenihAmandmana(@PathParam("filter") String filter){
+		System.out.println("Filtriram po: " + filter);
+		return getNasloviPredlozenihAmandmana();
+	}
+	
+	@GET
+	@Path("/odabraniAkti")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getNasloviOdabranihAkata(){
+		List<Akt> akti = data.getOdabraniAkti();
+		List<String> naslovi = new ArrayList<String>();
+		for (Akt akt : akti) {
+			naslovi.add(akt.getNaslov());
+		}
+		return naslovi;
+	}
+	
+	
+	
+	
+	
+	@PUT
+	@Path("/odabraniAkti/add/{naslov}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> dodajUOdabranjeAkte(@PathParam("naslov") String naslov){
+		List<Akt> akti = data.getAkti();
+		for (Akt akt : akti) {
+			if (akt.getNaslov().equals(naslov)){
+				data.getOdabraniAkti().add(akt);
+			}
+		}
+		return getNasloviOdabranihAkata();
+	}
+	
+	@DELETE
+	@Path("/odabraniAkti/remove/{naslov}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> obrisiOdabraniAkt(@PathParam("naslov") String naslov){
+		List<Akt> akti = data.getAkti();
+		for (Akt akt : akti) {
+			if (akt.getNaslov().equals(naslov)){
+				data.getOdabraniAkti().remove(akt);
+				break;
+			}
+		}
+		return getNasloviOdabranihAkata();
+	}
+	
+	@PUT
+	@Path("/amandman/add/{naslovAkta}/{naslovAmandmana}/{content}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> dodajNoviAmandman(@PathParam("naslovAkta") String naslovAkta, @PathParam("naslovAmandmana") String naslovAmandmana, @PathParam("content") String content){
+		
+		Amandman a = new Amandman();
+		a.setOperacija(naslovAmandmana);
+		data.getPredlozeniAmandmani().add(a);
+		
+		System.out.println("Content dodatog amandmana: " + content);
+		
+		return getNasloviPredlozenihAmandmana();
+	}
+	
+	
 }

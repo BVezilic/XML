@@ -1,5 +1,4 @@
-
-<div class="col-xs-4 well">
+<div id="listView" class="well col-xs-4 ">
 	<div class="well well-sm col-xs-12">
 		<button class="btn btn-primary col-xs-2">
 			<span class="glyphicon glyphicon-search"></span>
@@ -24,10 +23,8 @@
 		</div>
 	</div>
 
-	<button class="btn btn-primary col-xs-4"
-		ng-click="izvediGlasanje(selectedAmandman,glasZa,glasProtiv,glasUzdrzani)">Potvrdi
-		glasanje</button>
-	<h4 class="col-xs-8">{{selectedAmandman}}</h4>
+
+	<h4 class="col-xs-12">{{selectedAmandman}}</h4>
 
 	<form role="form">
 		<table class="table table-hover table-bordered">
@@ -39,25 +36,11 @@
 
 			</thead>
 			<tbody>
-				<tr style="text-align: left;" ng-repeat="amandman in listaAmandmana">
+				<tr style="text-align: left;" ng-repeat="amandman in listaIzglasanihAmandmana">
 					<td style="vertical-align: middle;"
-						ng-click="selectAmandman(amandman)"><label>{{amandman}}</label></td>
+						ng-click="prikazSadrzajaAmandmana(amandman)"><label>{{amandman}}</label></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
-</div>
-<div class="col-xs-8 well">
-	<div class=col-xs-4>
-		<input type="text" class="form-control" placeholder="Za"
-			ng-model="glasZa" />
-	</div>
-	<div class=col-xs-4>
-		<input type="text" class="form-control" placeholder="Uzdrzani"
-			ng-model="glasUzdrzani" />
-	</div>
-	<div class=col-xs-4>
-		<input type="text" class="form-control" placeholder="Protiv"
-			ng-model="glasProtiv" />
-	</div>
 </div>
