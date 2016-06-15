@@ -19,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
 import daobeans.implementation.AktDaoLocal;
+import daobeans.implementation.AmandmanDaoLocal;
+import daobeans.implementation.KorisnikDaoLocal;
 import model.akt.Akt;
 import model.akt.Clan;
 import model.amandman.Amandman;
@@ -36,92 +38,13 @@ public class Rest {
 	DataTest data;
 
 	@EJB
-	AktDaoLocal adl;
+	AktDaoLocal aktDao;
 	
-	@GET
-	@Path("/amandman")
-	@Produces(MediaType.TEXT_PLAIN)
-	public void amandman(@QueryParam("amd")String amd) throws IOException, JAXBException {
-		adl.merge(amd);
-	}
+	@EJB
+	AmandmanDaoLocal amandmanDao;
 	
-	@GET
-	@Path("/passAkt")
-	@Produces(MediaType.TEXT_PLAIN)
-	public void passAkt(@QueryParam("akt")String akt) throws IOException, JAXBException {
-		adl.changeCollection(akt, new String[] {CollectionConstants.akti, CollectionConstants.aktPrihvacen});
-	}
-
-	
-	@GET
-	@Path("/findAll")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> findAll() throws IOException, JAXBException {
-		System.out.println(adl.findAllAmandmani().toString());
-		return adl.findAllAmandmani();
-	}
-	
-	@GET
-	@Path("/metaSearch")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> metaSearch(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws IOException, JAXBException {
-		System.out.println(dateFrom + " | " + dateTo);
-		//System.out.println(adl.findByMetaData("str").toString());
-		return adl.findByMetaData("str","str");
-	}
-	
-	@POST
-	@Path("/singleFieldSearch")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> singleFieldSearch(String keywords)
-	{
-		List<Object> retVal = null;
-		try {
-			retVal = new ArrayList<Object>(adl.findByKeyWord(keywords));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return retVal;
-	}
-	
-	@GET
-	@Path("/getDocument")
-	@Produces(MediaType.TEXT_HTML)
-	public String getDocument(@QueryParam("uri")String uri, @QueryParam("tip")String tip) throws IOException, JAXBException {
-		System.out.println("OK " + uri);
-		//System.out.println((String)adl.findById(uri));
-		return (String)adl.findById(uri, tip);
-	}
-	
-	@POST
-	@Path("/persist")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean persist(String document,@QueryParam("tip")String tip) throws JAXBException, IOException
-	{
-		Object retVal;
-		if((retVal = XMLValidator.validateXML(tip, document)) == null)
-			System.out.println("NO");
-		else
-		{
-			if(retVal instanceof Akt)
-			{
-				System.out.println("AKT " + ((Akt)retVal).getNaslov());
-				try {
-					adl.persist(((Akt)retVal), StringConstants.formatName(((Akt)retVal).getNaslov()));
-				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else
-				adl.persist(((Amandman)retVal), ((Amandman)retVal).getKontekst().getReferentniZakon()+"/"+((Amandman)retVal).getNaziv());
-		}
-		return false;
-	}
+	@EJB
+	KorisnikDaoLocal korisnikDao;
 	
 	@GET
 	@Path("/test")
@@ -170,6 +93,58 @@ public class Rest {
 		
 	}
 
+	@POST
+	@Path("/search/akt/keyword/{keyword}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> pretragaAktaPoKljucnojReci(@PathParam("keyword")String keyword)
+	{
+		List<Object> retVal = null;
+		try {
+			retVal = new ArrayList<Object>(aktDao.findByKeyWord(keyword));
+		} catch (IOException e) {
+			System.out.println("Greska prilikom pretrage akta po kljucnoj reci");
+		}
+		return retVal;
+	}
+	
+	@GET
+	@Path("/search/akt/meta/{dateFrom}/{dateTo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> pretragaAktaPoMetaPodacima(@PathParam("dateFrom")String dateFrom, @PathParam("dateTo")String dateTo) {
+		//TODO: Formirati datum da bude yyyy-mm-dd
+		try {
+			return aktDao.findByMetaData(dateFrom,dateTo);
+		} catch (IOException e) {
+			System.out.println("Greska prilikom pretrage akta sa metapodacima");
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("/akt/html")
+	@Produces(MediaType.TEXT_HTML)
+	public String getHTMLAkt(@QueryParam("uri")String uri) {
+		try {
+			return (String)aktDao.findById(uri, "akt");
+		} catch (JAXBException | IOException e) {
+			System.out.println("Greska prilikom prikaza akt html-a");
+			return null;
+		} 
+	}
+	
+	@GET
+	@Path("/amandman/html")
+	@Produces(MediaType.TEXT_HTML)
+	public String getHTMLAmandman(@QueryParam("uri")String uri) {
+		try {
+			return (String)aktDao.findById(uri, "amandman");
+		} catch (JAXBException | IOException e) {
+			System.out.println("Greska prilikom prikaza amandmana html-a");
+			return null;
+		} 
+	}
+	
 	@GET
 	@Path("/vote/{za}/{uzdrzano}/{protiv}/{amandman}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -209,15 +184,45 @@ public class Rest {
 	@GET
 	@Path("/akti")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> getNasloviAkata(){
-		List<Akt> akti = data.getAkti();
-		System.out.println("Akti: " + data.getAkti().toString());
-		List<String> naslovi = new ArrayList<String>();
-		for (Akt akt : akti) {
-			naslovi.add(akt.getNaslov());
+	public List<Object> getAkti(){
+		try {
+			return aktDao.findAll();
+		} catch (IOException | JAXBException e) {
+			System.out.println("Greska prilikom dobavljanja svih akata");
+			return null;
 		}
-		System.out.println("Naslovi: " + naslovi);
-		return naslovi;
+	}
+	
+	@POST
+	@Path("/akt/add")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean dodajNoviAkt(String document) throws JAXBException, IOException
+	{
+		Object retVal;
+		if((retVal = XMLValidator.validateXML("akt", document)) == null)
+			System.out.println("Nije validan xml");
+		else
+		{
+			try {
+				aktDao.persist(((Akt)retVal), StringConstants.formatName(((Akt)retVal).getNaslov()));
+			} catch (JAXBException | IOException e) {
+				System.out.println("Greska prilikom dodavanja novog akta");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@GET
+	@Path("/akt/prihvati/{aktId}")
+	public boolean prihvatiAkt(@PathParam("aktId")String aktId) {
+		try {
+			aktDao.changeCollection(aktId, new String[] {CollectionConstants.akti, CollectionConstants.aktPrihvacen});
+		} catch (IOException e) {
+			System.out.println("Greska prilikom prihvatanja akta");
+			return false;
+		}
+		return true;
 	}
 	
 	@GET
@@ -239,19 +244,19 @@ public class Rest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> filterAkta(@PathParam("filter") String filter){
 		System.out.println("Filtriram po: " + filter);
-		return getNasloviAkata();
+		return null;
 	}
 
 	@GET
 	@Path("/amandmani")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> getNasloviAmandmana(){
-		List<Amandman> amandman = data.getAmandmani();
-		List<String> naslovi = new ArrayList<String>();
-		for (Amandman a : amandman) {
-			naslovi.add(a.getOperacija());
+	public List<Object> getAmandmani(){
+		try {
+			return aktDao.findAllAmandmani();
+		} catch (IOException e) {
+			System.out.println("Greska prilikom getovanja amandmana");
+			return null;
 		}
-		return naslovi;
 	}
 	
 	@GET
@@ -271,7 +276,7 @@ public class Rest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> filterAmandmana(@PathParam("filter") String filter){
 		System.out.println("Filtriram po: " + filter);
-		return getNasloviAmandmana();
+		return null;
 	}
 	
 	@GET
@@ -293,10 +298,6 @@ public class Rest {
 		}
 		return naslovi;
 	}
-	
-	
-	
-	
 	
 	@PUT
 	@Path("/odabraniAkti/add/{naslov}")
@@ -326,17 +327,35 @@ public class Rest {
 	}
 	
 	@PUT
-	@Path("/amandman/add/{naslovAkta}/{naslovAmandmana}/{content}")
+	@Path("/amandman/add")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> dodajNoviAmandman(@PathParam("naslovAkta") String naslovAkta, @PathParam("naslovAmandmana") String naslovAmandmana, @PathParam("content") String content){
-		
-		Amandman a = new Amandman();
-		a.setOperacija(naslovAmandmana);
-		data.getPredlozeniAmandmani().add(a);
-		
-		System.out.println("Content dodatog amandmana: " + content);
-		
-		return getNasloviPredlozenihAmandmana();
+	public boolean dodajAmandman(String document){
+		Object retVal;
+		if((retVal = XMLValidator.validateXML("amandman", document)) == null)
+			System.out.println("Nije validan xml");
+		else
+		{
+			try {
+				amandmanDao.persist(((Amandman)retVal), ((Amandman)retVal).getKontekst().getReferentniZakon()+"/"+((Amandman)retVal).getNaziv());
+			} catch (JAXBException | IOException e) {
+				System.out.println("Greska prilikom dodavanja amandmana.");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@PUT
+	@Path("/amandman/updateAkt/{amandmanId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean primeniAmandmanNaAkt(@PathParam("amandmanId")String amandmanId){
+		try {
+			amandmanDao.merge(amandmanId);
+		} catch (IOException | JAXBException e) {
+			System.out.println("Greska prilikom primene amandmana na akt");
+			return false;
+		}
+		return true;
 	}
 	
 	
