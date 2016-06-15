@@ -50,6 +50,21 @@ public class XSLFOTransformator {
 		}
 	}
 	
+	public static void amandmanToHTML(String xmlName) {
+		try {
+	        TransformerFactory factory = TransformerFactory.newInstance();
+	        Source xslt = new StreamSource(new File("data/xslt/amandman.xsl"));
+	        Transformer transformer = factory.newTransformer(xslt);
+	        Source text = new StreamSource(new File("data/xml/"+xmlName+".xml"));
+	        transformer.transform(text, new StreamResult(new File("WebContent/gen/html/"+xmlName+".html")));
+	        System.out.println("Uspesno zavrsena transformacija "+xmlName+ " u html, na putanji: WebContent/gen/"+xmlName+".html");
+		} catch (TransformerConfigurationException e) {			
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static String aktToHTMLStream(InputStream xmlName) throws UnsupportedEncodingException {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();
@@ -116,14 +131,16 @@ public class XSLFOTransformator {
 		System.out.println("Uspesno zavrsena transformacija "+xmlName+ " u pdf, na putanji: WebContent/gen/"+xmlName+".pdf");
 	}
 	public static void main(String[] args) {
-		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
-		XSLFOTransformator.aktToHTML("zakon_o_izvrsenju_i_obezbedjenju");
-		XSLFOTransformator.aktToHTML("zakon_o_policiji");
-		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
+//		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
+//		XSLFOTransformator.aktToHTML("zakon_o_izvrsenju_i_obezbedjenju");
+//		XSLFOTransformator.aktToHTML("zakon_o_policiji");
+//		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
 		
-		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
-		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
-		XSLFOTransformator.aktToPDF("zakon_o_policiji");
-		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
+		XSLFOTransformator.amandmanToHTML("amandman_zakona_o_izvrsenju");
+		
+//		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
+//		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
+//		XSLFOTransformator.aktToPDF("zakon_o_policiji");
+//		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
 	}
 }

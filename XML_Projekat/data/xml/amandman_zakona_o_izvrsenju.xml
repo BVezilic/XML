@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Amandman Naziv = "Prvi" xmlns="http://www.ftn.uns.ac.rs/amandman"
+<Amandman Naziv="Prvi" xmlns="http://www.ftn.uns.ac.rs/amandman"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Kontekst Referentni_zakon="zakon_o_izvršenju_i_obezbeđenju">//sk:Clan[@Redni_broj=1]</Kontekst>
     <Operacija>insertBefore</Operacija>
