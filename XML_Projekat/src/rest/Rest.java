@@ -46,11 +46,11 @@ public class Rest {
 		Korisnik k2 = new Korisnik();
 		Korisnik k3 = new Korisnik();
 		
-		k1.setKorisnickoIme("user1");
+		k1.setKorisnickoIme("1");
 		k2.setKorisnickoIme("2");
 		k3.setKorisnickoIme("user3");
 
-		k1.setLozinka("pass1");
+		k1.setLozinka("1");
 		k2.setLozinka("2");
 		k3.setLozinka("pass3");
 		

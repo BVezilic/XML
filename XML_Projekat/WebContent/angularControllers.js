@@ -80,6 +80,8 @@ var app = angular
 					loadOdabaniAkt();
 					loadAmandman();
 					loadPredlozeniAmandman();
+					
+					
 					$scope.sadrzajAkta = "";
 					$scope.viewAkt = "";
 					// 'gen/html/zakon_o_izvrsenju_i_obezbedjenju.html'
@@ -119,6 +121,9 @@ var app = angular
 								.then(
 										function successCallback(response) {
 											var dobijeno = response.data;
+											loadAmandman();
+											loadOdabaniAkt();
+											loadPredlozeniAmandman();
 											if (dobijeno != null) {
 												user = dobijeno.uloga;
 												if (user == 'gradjanin') {
@@ -332,6 +337,8 @@ var app = angular
 								function successCallback(response) {
 									$scope.$parent.listaIzglasanihAmandmana = response.data;
 								});
+						
+						
 					};
 
 					var removeAmandman = function(naslovAmandmana) {
