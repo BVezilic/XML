@@ -3,6 +3,7 @@ package rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,6 +28,7 @@ import model.amandman.Amandman;
 import model.korisnik.Korisnici;
 import model.korisnik.Korisnik;
 import util.CollectionConstants;
+import util.SearchResultsUtil;
 import util.StringConstants;
 import validation.XMLValidator;
 
@@ -147,32 +149,41 @@ public class Rest {
 	}
 	
 	@GET
-	@Path("/vote/{za}/{uzdrzano}/{protiv}/{amandman}")
+	@Path("/predlozeniAmandmani")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object> predlozeniAmandmani()
+	{
+		try {
+			ArrayList<Object> retVal = new ArrayList<Object>(aktDao.findAllAmandmani());
+			Predicate<Object> predlozen = new Predicate<Object>() {
+				  @Override
+				  public boolean test(Object s) {
+				    return !((SearchResultsUtil)s).getDocumentCollection().equals("AMANDMAN U PROCEDURI");
+				  }
+				};
+			retVal.removeIf(predlozen);
+			return retVal;
+		} catch (IOException e) {
+			System.out.println("Greska prilikom getovanja amandmana");
+			return null;
+		}
+	}
+	
+	@POST
+	@Path("/vote/{za}/{uzdrzano}/{protiv}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> vote(@PathParam("za") String za, @PathParam("uzdrzano") String uzdrzano,
-			@PathParam("protiv") String protiv, @PathParam("amandman") String amandman) {
+			@PathParam("protiv") String protiv, String amandman) {
 		try {
 			Integer z = Integer.parseInt(za);
 			Integer u = Integer.parseInt(uzdrzano);
 			Integer p = Integer.parseInt(protiv);
 			
 			if ( z > u + p){
-				for (Amandman a : data.getPredlozeniAmandmani()) {
-					if (a.getOperacija().equals(amandman)){
-						data.getAmandmani().add(a);
-						data.getPredlozeniAmandmani().remove(a);
-						break;
-					}
-				}
+				amandmanDao.merge(amandman);
 			}else
 			{
-				for (Amandman a : data.getPredlozeniAmandmani()) {
-					if (a.getOperacija().equals(amandman)){
-						data.getAmandmani().add(a);
-						data.getPredlozeniAmandmani().remove(a);
-						break;
-					}
-				}
+				amandmanDao.changeCollection(amandman, new String[]{CollectionConstants.amandmani,CollectionConstants.amandmanPrihvacen});
 			}
 
 		} catch (Exception e) {
@@ -360,5 +371,16 @@ public class Rest {
 		return true;
 	}
 	
-	
+	@POST
+	@Path("/remove")
+	public boolean removeAmandman(String uri)
+	{
+		try {
+			amandmanDao.remove(uri);
+		} catch (IOException e) {
+			System.out.println("Greska prilikom brisanja akta ili amandmana");
+			return false;
+		}
+		return true;
+	}
 }

@@ -131,6 +131,7 @@ public class EntityManager<T, ID extends Serializable> {
 					{
 						collection = rs.getString();
 						collection = collection.replace("_", " ");
+						collection = collection.toUpperCase();
 					}
 				}
 			}
@@ -186,6 +187,7 @@ public class EntityManager<T, ID extends Serializable> {
 					{
 						collection = rs.getString();
 						collection = collection.replace("_", " ");
+						collection = collection.toUpperCase();
 					}
 				}
 			}
@@ -266,6 +268,7 @@ public class EntityManager<T, ID extends Serializable> {
 					{
 						collection = rs.getString();
 						collection = collection.replace("_", " ");
+						collection = collection.toUpperCase();
 					}
 				}
 			}
@@ -443,6 +446,7 @@ public class EntityManager<T, ID extends Serializable> {
 					{
 						collection = rs.getString();
 						collection = collection.replace("_", " ");
+						collection = collection.toUpperCase();
 					}
 				}
 			}
