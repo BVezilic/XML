@@ -1,4 +1,4 @@
-var user = "gradjanin";
+var user = "predsednik_skupstine";
 var odabraniAmandmani = [];
 
 var app = angular
@@ -87,14 +87,31 @@ var app = angular
 							$scope.listaOdabranihAkata = response.data;
 						});
 					};
+					
+					
+					var removeAmandman = function(uri){
+						var req = {
+								method : 'POST',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/remove',
+								data: uri
+							}
+							$http(req).then(function successCallback(response) {
+								loadPredlozeniAmandman();
+								$scope.selectedAmandman = {};
+							});
+					};
 
 					// INIT FUNKCIJE
 					loadAkt();
 					//loadOdabaniAkt();
 					loadAmandman();
-					//loadPredlozeniAmandman();
+					loadPredlozeniAmandman();
 					$scope.pullAmandmani = function(){
 						loadAmandman();
+					};
+					
+					$scope.removeAmandman = function(uri){
+						removeAmandman(uri);
 					};
 					
 					$scope.sadrzajAkta = "";
@@ -169,7 +186,7 @@ var app = angular
 												if (user == 'gradjanin') {
 													$window.location.href = 'http://localhost:8080/XML_Projekat/#/gr';
 												}
-												if (user == 'predsednikVlade') {
+												if (user == 'predsednik_skupstine') {
 													$window.location.href = 'http://localhost:8080/XML_Projekat/#/vl';
 												}
 											}
@@ -208,7 +225,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
 												'predsednikVlade.html',
 												$stateParams);
@@ -225,9 +242,9 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'kreiranjeAmandmana2.html',
+												'kreiranjeAmandmana.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -243,7 +260,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
 												'odabirAkata.html',
 												$stateParams);
@@ -260,10 +277,10 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 
 										return $templateFactory.fromUrl(
-												'glasanje.html', $stateParams);
+												'glasanje2.html', $stateParams);
 									} else {
 										return $templateFactory.fromUrl(
 												'nisteUlogovani.html',
@@ -332,16 +349,27 @@ var app = angular
 				'amandmaniController',
 				function($scope, $http) {
 					
+					var loadPredlozeniAmandman = function() {
+						var req = {
+							method : 'GET',
+							url : 'http://localhost:8080/XML_Projekat/rest/services/predlozeniAmandmani'
+						}
+						$http(req).then(function successCallback(response) {
+							$scope.listaAmandmana = response.data;
+							
+						});
+					};
+					
 					var addAmandman = function(
 							content) {
-						console.log($scope.sadrzajAmandmana);
+				
 						var req = {
 							method : 'POST',
 							url : 'http://localhost:8080/XML_Projekat/rest/services/amandman/add',
 							data: $scope.sadrzajAmandmana
 						}
 						$http(req).then(function successCallback(response) {
-							$scope.$parent.listaAmandmana = response.data;
+							loadPredlozeniAmandman();
 						});
 					};
 
@@ -377,6 +405,17 @@ var app = angular
 						
 						
 					};
+					
+					var loadPredlozeniAmandman = function() {
+						var req = {
+							method : 'GET',
+							url : 'http://localhost:8080/XML_Projekat/rest/services/predlozeniAmandmani'
+						}
+						$http(req).then(function successCallback(response) {
+							$scope.$parent.listaAmandmana = response.data;
+							
+						});
+					};
 
 					var removeAmandman = function(naslovAmandmana) {
 						var req = {
@@ -397,20 +436,19 @@ var app = angular
 							uzdrzani) {
 
 						var req = {
-							method : 'GET',
+							method : 'POST',
 							url : 'http://localhost:8080/XML_Projekat/rest/services/vote/'
 									+ za
 									+ '/'
 									+ protiv
 									+ '/'
-									+ uzdrzani
-									+ '/'
-									+ amandman
+									+ uzdrzani,
+							data: amandman
+									
+									
 						};
 						$http(req).then(function successCallback(response) {
-							$scope.$parent.listaAmandmana = response.data;
-							$scope.$parent.selectedAmandman = "";
-							loadAmandman();
+							loadPredlozeniAmandman();
 						});
 					}
 				});
