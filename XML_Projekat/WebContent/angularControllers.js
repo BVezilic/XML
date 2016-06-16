@@ -1,4 +1,4 @@
-var user = "gradjanin";
+var user = "predsednikVlade";
 var odabraniAmandmani = [];
 
 var app = angular
