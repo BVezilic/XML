@@ -109,16 +109,18 @@ public class Rest {
 	}
 	
 	@GET
-	@Path("/search/akt/meta/{dateFrom}/{dateTo}")
+	@Path("/search/akt/meta")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> pretragaAktaPoMetaPodacima(@PathParam("dateFrom")String dateFrom, @PathParam("dateTo")String dateTo) {
+	public List<Object> pretragaAktaPoMetaPodacima(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) {
 		//TODO: Formirati datum da bude yyyy-mm-dd
-		try {
-			return aktDao.findByMetaData(dateFrom,dateTo);
-		} catch (IOException e) {
-			System.out.println("Greska prilikom pretrage akta sa metapodacima");
-			return null;
-		}
+		System.out.println(dateFrom + " " + dateTo);
+		return null;
+//		try {
+//			return aktDao.findByMetaData(dateFrom,dateTo);
+//		} catch (IOException e) {
+//			System.out.println("Greska prilikom pretrage akta sa metapodacima");
+//			return null;
+//		}
 	}
 	
 	@GET

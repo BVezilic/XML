@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ko:korisnici xmlns:ko="http://www.ftn.uns.ac.rs/korisnik"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/korisnik file:/D:/FTN/Semestar_8/XML/Projekat/XML/XML_Projekat/WebContent/data/xsd/korisnici.xsd">
+    <ko:korisnik>
+        <ko:korisnicko_ime>1</ko:korisnicko_ime>
+        <ko:lozinka>1</ko:lozinka>
+        <ko:uloga>gradjanin</ko:uloga>
+    </ko:korisnik>
+    <ko:korisnik>
+        <ko:korisnicko_ime>2</ko:korisnicko_ime>
+        <ko:lozinka>2</ko:lozinka>
+        <ko:uloga>odbornik</ko:uloga>
+    </ko:korisnik>
+    <ko:korisnik>
+        <ko:korisnicko_ime>3</ko:korisnicko_ime>
+        <ko:lozinka>3</ko:lozinka>
+        <ko:uloga>predsednik_skupstine</ko:uloga>
+    </ko:korisnik>
+</ko:korisnici>

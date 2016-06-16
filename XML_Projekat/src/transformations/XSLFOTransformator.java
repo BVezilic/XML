@@ -35,6 +35,7 @@ public class XSLFOTransformator {
 		super();
 	}
 
+	@Deprecated
 	public static void aktToHTML(String xmlName) {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();
@@ -50,6 +51,7 @@ public class XSLFOTransformator {
 		}
 	}
 	
+	@Deprecated
 	public static void amandmanToHTML(String xmlName) {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();
@@ -85,6 +87,7 @@ public class XSLFOTransformator {
 		}
 	}
 	
+	@Deprecated
 	public static String amandmanToHTMLStream(InputStream xmlName) throws UnsupportedEncodingException {
 		try {
 	        TransformerFactory factory = TransformerFactory.newInstance();

@@ -7,7 +7,20 @@ var app = angular
 				'mainControler',
 				function($scope, $http, $window) {
 					$scope.user = "predsednikVlade";
-
+					$scope.dateFrom = "";
+					$scope.dateTo = "";
+					$scope.searchAktByMeta = function() {
+						console.log("tekstic " + $scope.dateFrom);
+						$http({
+						  method: 'GET',
+						  url: 'http://localhost:8080/XML_Projekat/rest/services/search/akt/meta',
+						  params: {"dateFrom":$scope.dateFrom, "dateTo":$scope.dateTo}	
+						}).then(function successCallback(response) {
+						    console.log("Usepsna pretraga po datumu")
+						  }, function errorCallback(response) {
+						    console.log("Greska prilikom pretrage po metapodacima")
+						  });
+					}
 					$scope.listaIzglasanihAmandmana = [];
 					// HTTP FUNKCIJE
 					var loadAmandman = function() {
@@ -232,7 +245,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednikVlade') {
 										return $templateFactory.fromUrl(
-												'odabirAkata2.html',
+												'odabirAkata.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -283,7 +296,7 @@ var app = angular
 							console.log("uloga" + session.role);
 							if (session.role == 'gradjanin') {
 								return $templateFactory.fromUrl(
-										'pregledAkata.html', $stateParams);
+										'pregledAkata2.html', $stateParams);
 							} else {
 								return $templateFactory.fromUrl(
 										'nisteUlogovani.html', $stateParams);
@@ -297,7 +310,7 @@ var app = angular
 							session.loadRole();
 							if (session.role == 'gradjanin') {
 								return $templateFactory.fromUrl(
-										'pregledAmandmana2.html', $stateParams);
+										'pregledAmandmana.html', $stateParams);
 							} else {
 								return $templateFactory.fromUrl(
 										'nisteUlogovani.html', $stateParams);
