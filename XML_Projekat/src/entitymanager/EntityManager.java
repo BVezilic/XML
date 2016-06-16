@@ -162,6 +162,7 @@ public class EntityManager<T, ID extends Serializable> {
 		for ( JsonNode row : tuples ) {
 			String subject = row.path("s").path("value").asText();
 			String[] uri = subject.split("/");
+			System.out.println(uri[uri.length-1]);
 			
 			ServerEvaluationCall invoker = client.newServerEval();
 			String xQuery = "declare namespace sk = \"http://www.ftn.uns.ac.rs/skupstina\";"

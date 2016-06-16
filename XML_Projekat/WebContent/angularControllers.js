@@ -6,19 +6,20 @@ var app = angular
 		.controller(
 				'mainControler',
 				function($scope, $http, $window) {
-					$scope.user = "predsednikVlade";
+					$scope.user = "predsednik_skupstine";
 					$scope.dateFrom = "";
 					$scope.dateTo = "";
-					$scope.searchAktByMeta = function() {
-						console.log("tekstic " + $scope.dateFrom);
+					$scope.searchAktByMeta = function(dateFrom, dateTo) {
+						console.log("tekstic " + dateFrom);
 						$http({
 						  method: 'GET',
 						  url: 'http://localhost:8080/XML_Projekat/rest/services/search/akt/meta',
-						  params: {"dateFrom":$scope.dateFrom, "dateTo":$scope.dateTo}	
+						  params: {"dateFrom":dateFrom, "dateTo":dateTo}	
 						}).then(function successCallback(response) {
-						    console.log("Usepsna pretraga po datumu")
+						    console.log("Usepsna pretraga po datumu");
+						    console.log(response.data);
 						  }, function errorCallback(response) {
-						    console.log("Greska prilikom pretrage po metapodacima")
+						    console.log("Greska prilikom pretrage po metapodacima");
 						  });
 					}
 					$scope.listaIzglasanihAmandmana = [];

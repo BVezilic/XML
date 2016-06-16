@@ -1,6 +1,8 @@
 package rest;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -90,16 +92,15 @@ public class Rest {
 	@GET
 	@Path("/search/akt/meta")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> pretragaAktaPoMetaPodacima(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) {
-		//TODO: Formirati datum da bude yyyy-mm-dd
-		System.out.println(dateFrom + " " + dateTo);
-		return null;
-//		try {
-//			return aktDao.findByMetaData(dateFrom,dateTo);
-//		} catch (IOException e) {
-//			System.out.println("Greska prilikom pretrage akta sa metapodacima");
-//			return null;
-//		}
+	public List<Object> pretragaAktaPoMetaPodacima(@QueryParam("dateFrom")String dateFrom, @QueryParam("dateTo")String dateTo) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		//System.out.println(sdf.format(sdf.parse(dateFrom)) + " " + sdf.format(sdf.parse(dateTo)));
+		try {
+			return aktDao.findByMetaData(sdf.format(sdf.parse(dateFrom)), sdf.format(sdf.parse(dateTo)));
+		} catch (IOException e) {
+			System.out.println("Greska prilikom pretrage akta sa metapodacima");
+			return null;
+		}
 	}
 	
 	@GET
