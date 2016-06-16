@@ -57,41 +57,18 @@ public class Rest {
 
 	@GET
 	@Path("/login/{username}/{password}")
-	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Korisnik loginUser(@PathParam("username") String username, @PathParam("password") String password) {
 
-		Korisnici korisnici = new Korisnici();
-		
-		Korisnik k1 = new Korisnik();
-		Korisnik k2 = new Korisnik();
-		Korisnik k3 = new Korisnik();
-		
-		k1.setKorisnickoIme("1");
-		k2.setKorisnickoIme("2");
-		k3.setKorisnickoIme("user3");
-
-		k1.setLozinka("1");
-		k2.setLozinka("2");
-		k3.setLozinka("pass3");
-		
-		k1.setUloga("gradjanin");
-		k2.setUloga("predsednikVlade");
-		k3.setUloga("najbolji");
-
-		
-		korisnici.getKorisnik().add(k1);
-		korisnici.getKorisnik().add(k2);
-		korisnici.getKorisnik().add(k3);
-		
-		
-		for (Korisnik  k : korisnici.getKorisnik()) {
-			if (k.getKorisnickoIme().equals(username) && k.getLozinka().equals(password)){
-				return k;
-			}
+		Korisnici korisnici = korisnikDao.getUsers();
+		Korisnik retVal = null;
+		for(Korisnik k:korisnici.getKorisnik())
+		{
+			if(k.getKorisnickoIme().equals(username) && k.getLozinka().equals(password))
+				retVal = k;
 		}
 		
-		return null;
+		return retVal;
 		
 	}
 

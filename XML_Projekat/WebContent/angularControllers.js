@@ -1,4 +1,4 @@
-var user = "predsednikVlade";
+var user = "predsednik_skupstine";
 var odabraniAmandmani = [];
 
 var app = angular
@@ -173,7 +173,7 @@ var app = angular
 												if (user == 'gradjanin') {
 													$window.location.href = 'http://localhost:8080/XML_Projekat/#/gr';
 												}
-												if (user == 'predsednikVlade') {
+												if (user == 'predsednik_skupstine') {
 													$window.location.href = 'http://localhost:8080/XML_Projekat/#/vl';
 												}
 											}
@@ -212,7 +212,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
 												'predsednikVlade.html',
 												$stateParams);
@@ -229,7 +229,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
 												'kreiranjeAmandmana.html',
 												$stateParams);
@@ -247,7 +247,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
 												'odabirAkata2.html',
 												$stateParams);
@@ -264,7 +264,7 @@ var app = angular
 								templateProvider : function(session,
 										$stateParams, $templateFactory) {
 									session.loadRole();
-									if (session.role == 'predsednikVlade') {
+									if (session.role == 'predsednik_skupstine') {
 
 										return $templateFactory.fromUrl(
 												'glasanje2.html', $stateParams);

@@ -48,6 +48,7 @@ import com.marklogic.client.semantics.SPARQLQueryManager;
 import conversion.XMLMarshaller;
 import model.akt.Akt;
 import model.amandman.Amandman;
+import model.korisnik.Korisnici;
 import transformations.XSLFOTransformator;
 import util.CollectionConstants;
 import util.ConnectionUtils;
@@ -455,5 +456,15 @@ public class EntityManager<T, ID extends Serializable> {
 		
 		// Release the client
 		return arl;
+	}
+	public Korisnici getKorisnici() throws JAXBException
+	{
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+		JAXBContext context = JAXBContext.newInstance("model.korisnik");
+		JAXBHandle content = new JAXBHandle(context);
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+		xmlManager.read("korisnici.xml", metadata, content);
+		Korisnici doc = (Korisnici)content.get();
+		return doc;
 	}
 }
