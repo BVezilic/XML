@@ -1,4 +1,4 @@
-var user = "predsednikVlade";
+var user = "gradjanin";
 var odabraniAmandmani = [];
 
 var app = angular
@@ -28,7 +28,7 @@ var app = angular
 						}
 						$http(req).then(function successCallback(response) {
 							$scope.listaAmandmana = response.data;
-
+							
 						});
 					};
 
@@ -77,10 +77,12 @@ var app = angular
 
 					// INIT FUNKCIJE
 					loadAkt();
-					loadOdabaniAkt();
+					//loadOdabaniAkt();
 					loadAmandman();
-					loadPredlozeniAmandman();
-					
+					//loadPredlozeniAmandman();
+					$scope.pullAmandmani = function(){
+						loadAmandman();
+					};
 					
 					$scope.sadrzajAkta = "";
 					$scope.viewAkt = "";
@@ -96,10 +98,35 @@ var app = angular
 						removeAkt(name);
 					};
 
+					
+					$scope.viewAkt = "";
 					$scope.prikazSadrzajaAkta = function(id) {
-						$scope.viewAkt = 'gen/html/' + id;
-					};
+						
+						/*var req = {
+								method : 'GET',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/akt/html/'+id.documentURI
+								
 
+							};
+							$http(req)
+									.then(
+											function successCallback(response) {
+												$scope.viewAkt = response.data;
+											});*/
+						$scope.viewAkt = 'http://localhost:8080/XML_Projekat/rest/services/akt/html/'+id.documentURI;
+						 //$window.open('http://localhost:8080/XML_Projekat/rest/services/akt/html/'+id.documentURI, '_blank');
+							
+							
+					};
+					
+					$scope.viewAmandman = "";
+					
+					$scope.prikazSadrzajaAmandmana = function(id){
+						
+						$scope.viewAmandman = 'http://localhost:8080/XML_Projekat/rest/services/amandman/html?uri='+id.documentURI;
+						
+					}
+					
 					$scope.proba = "";
 
 					$scope.selectedAkt = "";
@@ -270,7 +297,7 @@ var app = angular
 							session.loadRole();
 							if (session.role == 'gradjanin') {
 								return $templateFactory.fromUrl(
-										'pregledAmandmana.html', $stateParams);
+										'pregledAmandmana2.html', $stateParams);
 							} else {
 								return $templateFactory.fromUrl(
 										'nisteUlogovani.html', $stateParams);
@@ -291,17 +318,14 @@ var app = angular
 		.controller(
 				'amandmaniController',
 				function($scope, $http) {
-
-					var addAmandman = function(naslovAkta, naslovAmandmana,
+					
+					var addAmandman = function(
 							content) {
+						console.log($scope.sadrzajAmandmana);
 						var req = {
-							method : 'PUT',
-							url : 'http://localhost:8080/XML_Projekat/rest/services/amandman/add/'
-									+ naslovAkta
-									+ '/'
-									+ naslovAmandmana
-									+ '/'
-									+ content
+							method : 'POST',
+							url : 'http://localhost:8080/XML_Projekat/rest/services/amandman/add',
+							data: $scope.sadrzajAmandmana
 						}
 						$http(req).then(function successCallback(response) {
 							$scope.$parent.listaAmandmana = response.data;
@@ -313,8 +337,8 @@ var app = angular
 
 					};
 
-					$scope.createAmandman = function(akt, name, content) {
-						addAmandman(akt, name, content);
+					$scope.createAmandman = function(content) {
+						addAmandman(content);
 
 					};
 

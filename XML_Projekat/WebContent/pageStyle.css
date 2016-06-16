@@ -19,6 +19,13 @@
 	color: white;
 }
 
+iframe{
+	
+	background-color: white;
+	height: 100vh;
+	
+}
+
 .table-hover tbody tr:hover td {
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4f5459+0,222d33+40,222d33+60,4e5459+100 */
 	background: rgb(79, 84, 89); /* Old browsers */

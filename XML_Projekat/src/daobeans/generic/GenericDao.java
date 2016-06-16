@@ -17,35 +17,36 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 
 	protected EntityManager<T,ID> em; 
 	
-	@Override
-	public T findById(String id, String tip) throws JAXBException, IOException {
+	public GenericDao()
+	{
+		super();
 		em = new EntityManager<T,ID>();
+	}
+	
+	@Override
+	public T findById(String id, String tip) throws JAXBException, IOException {	
 		return (T)em.findById(id, tip);
 	}
 
 	@Override
 	public List<T> findAll() throws IOException, JAXBException {
-		em = new EntityManager<T,ID>();
 		return (List<T>)em.findAll();
 	}
 	
 	@Override
 	public List<Object> findByMetaData(String dateFrom, String dateTo) throws IOException
 	{
-		em = new EntityManager<T,ID>();
 		return em.findByMetaData(dateFrom, dateTo);
 	}
 	
 	@Override
 	public List<Object> findByKeyWord(String keyword) throws IOException
 	{
-		em = new EntityManager<T,ID>();
 		return em.findByKeyWord(keyword);
 	}
 
 	@Override
 	public T persist(T entity, String id) throws JAXBException, IOException {
-		em = new EntityManager<T,ID>();
 		try {
 			em.persist(entity, id);
 		} catch (SAXException e) {
@@ -60,7 +61,6 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 
 	@Override
 	public T merge(String id) throws IOException, JAXBException {
-		em = new EntityManager<T,ID>();
 		try {
 			em.update(id);
 		} catch (XMLStreamException e) {
@@ -71,8 +71,8 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	}
 
 	@Override
-	public void remove(ID id) throws IOException {
-		// TODO Auto-generated method stub
+	public void remove(String id) throws IOException {
+		em.delete(id);
 		
 	}
 
@@ -84,14 +84,12 @@ public abstract class GenericDao <T, ID extends Serializable> implements Generic
 	
 	@Override
 	public void changeCollection(String id, String[] Collections) throws IOException
-	{
-		em = new EntityManager<T,ID>();
+	{		
 		em.changeCollection(id, Collections);
 	}
 	@Override
 	public List<Object> findAllAmandmani() throws IOException
 	{
-		em = new EntityManager<T,ID>();
 		return em.findAllAmandmani();
 	}
 

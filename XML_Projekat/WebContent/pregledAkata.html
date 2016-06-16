@@ -32,9 +32,10 @@
 			</thead>
 			<tbody>
 				<tr style="text-align: left;" ng-repeat="akt in listaAkata">
-					<td style="vertical-align: middle;" ng-click="prikazSadrzajaAkta(akt)"><label>{{akt}}</label></td>
+					<td style="vertical-align: middle;" ng-click="prikazSadrzajaAkta(akt)"><label>{{akt.documentName}}</label></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
 </div>
+<div class="well col-xs-8"><iframe class="col-xs-12" src="{{viewAkt}}"></iframe></div>

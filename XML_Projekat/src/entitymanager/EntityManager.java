@@ -65,18 +65,24 @@ public class EntityManager<T, ID extends Serializable> {
 	public EntityManager()
 	{
 		super();
-	}
-	
-	public List<Object> findByKeyWord(String keyword) throws IOException
-	{
-		List<Object> arl = new ArrayList<Object>();
-		props = ConnectionUtils.loadProperties();
+		try {
+			props = ConnectionUtils.loadProperties();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if (props.database.equals("")) {
 			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
 		} else {
 			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
 		}
+	}
+	
+	public List<Object> findByKeyWord(String keyword) throws IOException
+	{
+		List<Object> arl = new ArrayList<Object>();
+
 		
 		QueryManager queryManager = client.newQueryManager();
 		
@@ -132,19 +138,13 @@ public class EntityManager<T, ID extends Serializable> {
 		}
 		
 		// Release the client
-		client.release();
+		//client.release();
 		return arl;
 	}
 	public List<Object> findByMetaData(String dateFrom, String dateTo) throws IOException
 	{
 		List<Object> arl = new ArrayList<Object>();
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		String query = "PREFIX xsi: <http://www.w3.org/2001/XMLSchema#>"
 				+ "SELECT * FROM <grafovi> WHERE { "
 				+ "?s <http://www.ftn.uns.ac.rs/skupstina/predpredlozen> ?date ."
@@ -197,13 +197,7 @@ public class EntityManager<T, ID extends Serializable> {
 	
 	public Object findById(String id, String tipDokumenta) throws IOException, JAXBException, UnsupportedEncodingException
 	{
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		JAXBContext context = JAXBContext.newInstance("model."+tipDokumenta);
 		Marshaller marshaller = context.createMarshaller();
@@ -218,21 +212,13 @@ public class EntityManager<T, ID extends Serializable> {
 		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
 		String retVal = XSLFOTransformator.dokumentToHTMLStream(isFromFirstData, tipDokumenta);
 		// Release the client
-		client.release();
 		return retVal;
 	}
 	
 	public List<Object> findAll() throws IOException
 	{
 		List<Object> arl = new ArrayList<Object>();
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
-		
+
 		QueryManager queryManager = client.newQueryManager();
 		
 		// Query definition is used to specify Google-style query string
@@ -264,7 +250,7 @@ public class EntityManager<T, ID extends Serializable> {
 			String name = "";
 			if (response.hasNext()) {
 				for (EvalResult rs : response) {
-					System.out.println(rs.getString());
+					System.out.println("JESI LI TI NULL? "+rs.getString());
 					name = rs.getString();
 				}
 			}
@@ -287,7 +273,6 @@ public class EntityManager<T, ID extends Serializable> {
 		}
 		
 		// Release the client
-		client.release();
 		return arl;
 	}
 	public InputStream executeQuery(String xQuery, boolean wrap)
@@ -296,15 +281,7 @@ public class EntityManager<T, ID extends Serializable> {
 	}
 	public void persist(T entity, String id) throws IOException, SAXException, TransformerException
 	{
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			System.out.println("[INFO] Using default database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			System.out.println("[INFO] Using \"" + props.database + "\" database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		
@@ -349,20 +326,11 @@ public class EntityManager<T, ID extends Serializable> {
 			template.setDirectory(id+"/");
 			DocumentDescriptor desc = xmlManager.create(template, metadata, handle);
 		}
-		client.release();
 		
 	}
 	public void delete(String resourceId) throws IOException
 	{
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			System.out.println("[INFO] Using default database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			System.out.println("[INFO] Using \"" + props.database + "\" database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		xmlManager.delete(resourceId);
@@ -370,15 +338,6 @@ public class EntityManager<T, ID extends Serializable> {
 	
 	public void update(String resourceId) throws IOException, JAXBException, XMLStreamException
 	{
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			System.out.println("[INFO] Using default database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			System.out.println("[INFO] Using \"" + props.database + "\" database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
 		
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		JAXBContext context = JAXBContext.newInstance("model.amandman");
@@ -433,15 +392,7 @@ public class EntityManager<T, ID extends Serializable> {
 	
 	public void changeCollection(String id, String[] Collections) throws IOException
 	{
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			System.out.println("[INFO] Using default database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			System.out.println("[INFO] Using \"" + props.database + "\" database.");
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		DOMHandle content = new DOMHandle();
@@ -453,13 +404,7 @@ public class EntityManager<T, ID extends Serializable> {
 	public List<Object> findAllAmandmani() throws IOException
 	{
 		List<Object> arl = new ArrayList<Object>();
-		props = ConnectionUtils.loadProperties();
-		
-		if (props.database.equals("")) {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.user, props.password, props.authType);
-		} else {
-			client = DatabaseClientFactory.newClient(props.host, props.port, props.database, props.user, props.password, props.authType);
-		}
+
 		
 		QueryManager queryManager = client.newQueryManager();
 		
@@ -505,7 +450,6 @@ public class EntityManager<T, ID extends Serializable> {
 		}
 		
 		// Release the client
-		client.release();
 		return arl;
 	}
 }

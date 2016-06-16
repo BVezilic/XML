@@ -21,7 +21,7 @@ public interface GenericDaoLocal<T, ID extends Serializable> {
 
 	public T merge(String id) throws IOException, JAXBException;
 
-	public void remove(ID id) throws IOException;
+	public void remove(String id) throws IOException;
 	
 	public InputStream findBy(String xQuery, boolean wrap) throws IOException;
 	

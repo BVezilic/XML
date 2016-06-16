@@ -38,9 +38,11 @@
 			<tbody>
 				<tr style="text-align: left;" ng-repeat="amandman in listaIzglasanihAmandmana">
 					<td style="vertical-align: middle;"
-						ng-click="prikazSadrzajaAmandmana(amandman)"><label>{{amandman}}</label></td>
+						ng-click="prikazSadrzajaAmandmana(amandman)"><label>{{amandman.documentName}}</label></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
 </div>
+
+<div class="well col-xs-8"><iframe class="col-xs-12" src="{{viewAmandman}}"></iframe></div>

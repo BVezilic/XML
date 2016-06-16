@@ -41,7 +41,7 @@ public class ConnectionUtils {
 		InputStream propsStream = openStream(propsName);
 		if (propsStream == null)
 			//throw new IOException("Could not read properties " + propsName);
-			System.out.println("NULL");
+			System.out.println("OVAJ NULL");
 
 		Properties props = new Properties();
 		props.load(propsStream);

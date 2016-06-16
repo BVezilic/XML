@@ -122,9 +122,10 @@ public class Rest {
 	}
 	
 	@GET
-	@Path("/akt/html")
+	@Path("/akt/html/{uri}")
 	@Produces(MediaType.TEXT_HTML)
-	public String getHTMLAkt(@QueryParam("uri")String uri) {
+	public String getHTMLAkt(@PathParam("uri")String uri) {
+		System.out.println(uri);
 		try {
 			return (String)aktDao.findById(uri, "akt");
 		} catch (JAXBException | IOException e) {
@@ -326,10 +327,11 @@ public class Rest {
 		return getNasloviOdabranihAkata();
 	}
 	
-	@PUT
+	@POST
 	@Path("/amandman/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean dodajAmandman(String document){
+		System.out.println(document);
 		Object retVal;
 		if((retVal = XMLValidator.validateXML("amandman", document)) == null)
 			System.out.println("Nije validan xml");
