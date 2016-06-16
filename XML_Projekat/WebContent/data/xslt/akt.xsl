@@ -25,6 +25,9 @@
 		</html>
 	</xsl:template>
 	
+	<xsl:template match="sk:MetaPodaci">
+	</xsl:template>
+	
 	<xsl:template match="sk:Naslov">
 		<h1><xsl:value-of select="text()"/></h1>
 	</xsl:template>
