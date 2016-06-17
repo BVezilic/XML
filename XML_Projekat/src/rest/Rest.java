@@ -78,11 +78,11 @@ public class Rest {
 		
 	}
 
-	@POST
-	@Path("/search/akt/keyword/{keyword}")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("/search/akt/keyword")
+	
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> pretragaAktaPoKljucnojReci(@PathParam("keyword")String keyword)
+	public List<Object> pretragaAktaPoKljucnojReci(@QueryParam("keyword")String keyword)
 	{
 		List<Object> retVal = null;
 		try {
@@ -216,6 +216,7 @@ public class Rest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean dodajNoviAkt(String document) throws JAXBException, IOException
 	{
+		System.out.println(document);
 		Object retVal;
 		if((retVal = XMLValidator.validateXML("akt", document)) == null)
 			System.out.println("Nije validan xml");

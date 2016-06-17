@@ -5,7 +5,7 @@
     xmlns="http://www.w3.org/ns/rdfa#" 
     xmlns:pred="http://www.ftn.uns.ac.rs/skupstina/predikat">
     <sk:MetaPodaci
-        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_zastiti_zemljista">
+        about="http://www.ftn.uns.ac.rs/skupstina/zakon_o_zaštiti_zemljišta">
         <sk:DatumPredlaganja property="pred:predlozen" datatype="xsi:date">1991-11-21</sk:DatumPredlaganja>
     </sk:MetaPodaci>
     <sk:Naslov>ZAKON O ZAŠTITI ZEMLjIŠTA</sk:Naslov>

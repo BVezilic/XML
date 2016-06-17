@@ -9,6 +9,7 @@ var app = angular
 					$scope.user = "predsednik_skupstine";
 					$scope.dateFrom = "";
 					$scope.dateTo = "";
+					
 					$scope.searchAktByMeta = function(dateFrom, dateTo) {
 						console.log("tekstic " + dateFrom);
 						$http({
@@ -22,6 +23,59 @@ var app = angular
 						    console.log("Greska prilikom pretrage po metapodacima");
 						  });
 					}
+					
+					$scope.modalShown = false;
+				      $scope.toggleModal = function() {
+				       
+				      };
+					
+					$scope.deleteAkt = function(akt){
+						console.log("usao u deleteAkt: " + akt.documentName + " " + akt.documentCollection);
+						if(akt.documentCollection == "AKT U PROCEDURI"){
+							var req = {
+									method : 'POST',
+									url : 'http://localhost:8080/XML_Projekat/rest/services/remove',
+									data: akt.documentURI
+								}
+								$http(req).then(function successCallback(response) {
+									loadAkt();
+									$scope.selectedAkt = {};
+								});
+						}else{
+							window.alert("Ne moze se obrisati izglasan akt!");
+						}
+						
+					};
+					
+					$scope.serchAkt = function(input){
+						
+						
+						var req = {
+								method : 'GET',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/search/akt/keyword?keyword='+input
+								
+							}
+							$http(req).then(function successCallback(response) {
+								$scope.listaAkata = response.data;
+							});
+					};
+					
+					$scope.serchAmandman = function(input){};
+					
+					$scope.sadrzajAkta="";
+					
+					$scope.createAkt = function (sadrzaj){
+						console.log(sadrzaj);
+						var req = {
+							method : 'POST',
+							url : 'http://localhost:8080/XML_Projekat/rest/services/akt/add',
+							data: sadrzaj
+						}
+						$http(req).then(function successCallback(response) {
+							loadAkt();
+						});
+					};
+					
 					$scope.listaIzglasanihAmandmana = [];
 					// HTTP FUNKCIJE
 					var loadAmandman = function() {
@@ -245,7 +299,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'kreiranjeAmandmana.html',
+												'kreiranjeAmandmana3.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -281,7 +335,7 @@ var app = angular
 									if (session.role == 'predsednik_skupstine') {
 
 										return $templateFactory.fromUrl(
-												'glasanje2.html', $stateParams);
+												'glasanje3.html', $stateParams);
 									} else {
 										return $templateFactory.fromUrl(
 												'nisteUlogovani.html',
@@ -452,4 +506,24 @@ var app = angular
 							loadPredlozeniAmandman();
 						});
 					}
-				});
+				}).directive('modalDialog', function() {
+				      return {
+				          restrict: 'E',
+				          scope: {
+				            show: '=info'
+				          },
+				          replace: true, // Replace with the template below
+				          transclude: true, // we want to insert custom content inside the directive
+				          link: function(scope, element, attrs) {
+				            scope.dialogStyle = {};
+				            if (attrs.width)
+				              scope.dialogStyle.width = attrs.width;
+				            if (attrs.height)
+				              scope.dialogStyle.height = attrs.height;
+				            scope.hideModal = function() {
+				              scope.show = false;
+				            };
+				          },
+				          template: "<div class='ng-modal' ng-show='show'><div class='ng-modal-overlay' ng-click='hideModal()'></div><div class='ng-modal-dialog' ng-style='dialogStyle'><div class='ng-modal-close' ng-click='hideModal()'>X</div><div class='ng-modal-dialog-content' ng-transclude></div></div></div>"
+				        };
+				      });

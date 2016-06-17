@@ -254,7 +254,6 @@ public class EntityManager<T, ID extends Serializable> {
 			String name = "";
 			if (response.hasNext()) {
 				for (EvalResult rs : response) {
-					System.out.println("JESI LI TI NULL? "+rs.getString());
 					name = rs.getString();
 				}
 			}

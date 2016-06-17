@@ -1,68 +1,57 @@
 
 <div id="listView" class="well col-xs-4 ">
 	<div class="well well-sm col-xs-12">
-		<button class="btn btn-primary col-xs-2" ng-click="searchAktByMeta(dateFrom, dateTo)">
+		<button class="btn btn-primary col-xs-2"
+			ng-click="searchAktByMeta(dateFrom, dateTo)">
 			<span class="glyphicon glyphicon-search"></span>
 		</button>
 		<div class="col-xs-4">
-			<input type="date" class="form-control" ng-model="dateFrom"/>
+			<input type="date" class="form-control" ng-model="dateFrom" />
 		</div>
 		<div class="col-xs-2" style="text-align: center;">
 			<span class="glyphicon glyphicon-minus"></span>
 		</div>
 		<div class="col-xs-4">
-			<input type="date" class="form-control" ng-model="dateTo"/>
+			<input type="date" class="form-control" ng-model="dateTo" />
 		</div>
 	</div>
 
 	<div class="well well-sm col-xs-12">
-		<button class="btn btn-primary col-xs-2">
+		<button class="btn btn-primary col-xs-2"
+			ng-click="serchAkt(filterAkt)">
 			<span class="glyphicon glyphicon-search"></span>
 		</button>
 		<div class="col-xs-10">
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" ng-model="filterAkt" />
 		</div>
+	</div>
+	<div class="well well-sm col-xs-12">
+		<button class="btn btn-primary col-xs-6"
+			ng-click="createAkt(sadrzajAkta)">Kreiranje akta</button>
+		<button class="btn btn-primary col-xs-6"
+			ng-click="deleteAkt(selectedAkt)">Brisanje akta</button>
 	</div>
 	<form role="form">
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
 					<th><h3>Postojeci akti</h3></th>
-					<th></th>
+
 				</tr>
 
 			</thead>
 			<tbody>
 				<tr style="text-align: left;" ng-repeat="akt in listaAkata">
-					<td style="vertical-align: middle;" ng-click="addAkt(akt)"><label>{{akt.documentName}}</label></td>
-					<td style="vertical-align: middle;"><button
-							style="width: 100%;" type="button" class="btn btn-primary"
-							ng-click="prikazSadrzajaAkta(akt)">Pregled akta</button></td>
+					<td style="vertical-align: middle;" ng-click="selectAkt(akt)"><label>{{akt.documentName}}</label></td>
+
 				</tr>
 			</tbody>
 		</table>
 	</form>
 </div>
-<div class="well col-xs-6">
-	<form role="form">
-		<!-- <div ng-include="viewAkt"></div>  -->
-	</form>
+<div class="well col-xs-8">
+	<div class="col-xs-12">
+		<textarea class="form-control" ng-model="sadrzajAkta"></textarea>
+	</div>
 </div>
 
-<div class="well col-xs-2">
-	<table class="table table-hover table-bordered">
-		<thead>
-			<tr>
-				<th><h3>Odabrani Akti</h3></th>
-
-			</tr>
-
-		</thead>
-		<tbody>
-			<tr style="text-align: left;" ng-repeat="akt in listaOdabranihAkata">
-				<td style="vertical-align: middle;" ng-click="removeAkt(akt)"><label>{{akt}}</label></td>
-
-			</tr>
-		</tbody>
-	</table>
-</div>
