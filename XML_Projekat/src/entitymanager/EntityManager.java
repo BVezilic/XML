@@ -201,7 +201,6 @@ public class EntityManager<T, ID extends Serializable> {
 	
 	public Object findById(String id, String tipDokumenta) throws IOException, JAXBException, UnsupportedEncodingException
 	{
-
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		JAXBContext context = JAXBContext.newInstance("model."+tipDokumenta);
 		Marshaller marshaller = context.createMarshaller();
@@ -215,6 +214,26 @@ public class EntityManager<T, ID extends Serializable> {
 		marshaller.marshal(doc, baos);
 		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
 		String retVal = XSLFOTransformator.dokumentToHTMLStream(isFromFirstData, tipDokumenta);
+		// Release the client
+		return retVal;
+	}
+	
+	public byte[] getAktToPDF(String id) throws IOException, JAXBException, UnsupportedEncodingException
+	{
+		System.out.println("ID: " + id);
+		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
+		JAXBContext context = JAXBContext.newInstance("model.akt");
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		
+		JAXBHandle content = new JAXBHandle(context);
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+		xmlManager.read(id, metadata, content);
+		Object doc = (Object)content.get();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		marshaller.marshal(doc, baos);
+		InputStream isFromFirstData = new ByteArrayInputStream(baos.toByteArray());
+		byte[] retVal = XSLFOTransformator.aktToPDFStream(isFromFirstData);
 		// Release the client
 		return retVal;
 	}
@@ -279,14 +298,14 @@ public class EntityManager<T, ID extends Serializable> {
 		// Release the client
 		return arl;
 	}
+	
 	public InputStream executeQuery(String xQuery, boolean wrap)
 	{
 		return null;
 	}
+	
 	public void persist(T entity, String id) throws IOException, SAXException, TransformerException
 	{
-
-		
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		
 		InputStreamHandle handle = new InputStreamHandle(XMLMarshaller.objectoToXML(entity));
