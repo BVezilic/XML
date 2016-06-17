@@ -9,7 +9,7 @@ var app = angular
 					$scope.user = "predsednik_skupstine";
 					$scope.dateFrom = "";
 					$scope.dateTo = "";
-					
+					$scope.filterAkt = "";
 					$scope.searchAktByMeta = function(dateFrom, dateTo) {
 						console.log("tekstic " + dateFrom);
 						$http({
