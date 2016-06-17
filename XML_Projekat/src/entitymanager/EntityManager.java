@@ -316,31 +316,38 @@ public class EntityManager<T, ID extends Serializable> {
 			metadata.getCollections().add(CollectionConstants.aktProcedura);
 			metadata.getCollections().add(CollectionConstants.akti);
 			
-			xmlManager.write(id ,metadata ,handle);
+			try{
+				DocumentDescriptor dsc =  xmlManager.exists(id);
+				System.out.println(dsc.getUri());
+			}catch(Exception e)
+			{
+				xmlManager.write(id ,metadata ,handle);
+				String xmlFilePath = "temp.xml";
+				String rdfFilePath = "rdf.rdf";
+				
+				
+				MetadataExtractor metadataExtractor = new MetadataExtractor();
+				
+				GraphManager graphManager = client.newGraphManager();
+				
+				// Set the default media type (RDF/XML)
+				graphManager.setDefaultMimetype(RDFMimeTypes.RDFXML);
+				
+				XMLMarshaller.objectToFile(entity);
+				
+				metadataExtractor.extractMetadata(
+						new FileInputStream(new File(xmlFilePath)), 
+						new FileOutputStream(new File(rdfFilePath)));
+				
+				FileHandle rdfFileHandle =
+						new FileHandle(new File(rdfFilePath))
+						.withMimetype(RDFMimeTypes.RDFXML);
+				
+				String SPARQL_NAMED_GRAPH_URI = "grafovi";
+				graphManager.merge(SPARQL_NAMED_GRAPH_URI, rdfFileHandle);
+			}
 			
-			String xmlFilePath = "temp.xml";
-			String rdfFilePath = "rdf.rdf";
-			
-			
-			MetadataExtractor metadataExtractor = new MetadataExtractor();
-			
-			GraphManager graphManager = client.newGraphManager();
-			
-			// Set the default media type (RDF/XML)
-			graphManager.setDefaultMimetype(RDFMimeTypes.RDFXML);
-			
-			XMLMarshaller.objectToFile(entity);
-			
-			metadataExtractor.extractMetadata(
-					new FileInputStream(new File(xmlFilePath)), 
-					new FileOutputStream(new File(rdfFilePath)));
-			
-			FileHandle rdfFileHandle =
-					new FileHandle(new File(rdfFilePath))
-					.withMimetype(RDFMimeTypes.RDFXML);
-			
-			String SPARQL_NAMED_GRAPH_URI = "grafovi";
-			graphManager.merge(SPARQL_NAMED_GRAPH_URI, rdfFileHandle);
+
 		}else if(entity instanceof Amandman)
 		{
 			DocumentMetadataHandle metadata = new DocumentMetadataHandle();

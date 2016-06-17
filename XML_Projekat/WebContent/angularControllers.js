@@ -50,7 +50,7 @@ var app = angular
 					
 					$scope.serchAkt = function(input){
 						
-						
+						console.log("pogodio serch akt");
 						var req = {
 								method : 'GET',
 								url : 'http://localhost:8080/XML_Projekat/rest/services/search/akt/keyword?keyword='+input
@@ -61,7 +61,17 @@ var app = angular
 							});
 					};
 					
-					$scope.serchAmandman = function(input){};
+					$scope.serchAmandman = function(input){
+						console.log("pogodio serchAmandman");
+						var req = {
+								method : 'GET',
+								url : 'http://localhost:8080/XML_Projekat/rest/services/search/amandman/keyword?keyword='+input
+								
+							}
+							$http(req).then(function successCallback(response) {
+								$scope.listaAmandmana = response.data;
+							});
+					};
 					
 					$scope.sadrzajAkta="";
 					
@@ -248,6 +258,9 @@ var app = angular
 												if (user == 'predsednik_skupstine') {
 													$window.location.href = 'http://localhost:8080/XML_Projekat/#/vl';
 												}
+												if (user == 'odbornik') {
+													$window.location.href = 'http://localhost:8080/XML_Projekat/#/od';
+												}
 											}
 										});
 					};
@@ -303,7 +316,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'kreiranjeAmandmana3.html',
+												'kreiranjeAmandmana1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -321,7 +334,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'odabirAkata.html',
+												'odabirAkata1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -372,7 +385,7 @@ var app = angular
 							console.log("uloga" + session.role);
 							if (session.role == 'gradjanin') {
 								return $templateFactory.fromUrl(
-										'pregledAkata2.html', $stateParams);
+										'pregledAkata.html', $stateParams);
 							} else {
 								return $templateFactory.fromUrl(
 										'nisteUlogovani.html', $stateParams);
@@ -386,13 +399,67 @@ var app = angular
 							session.loadRole();
 							if (session.role == 'gradjanin') {
 								return $templateFactory.fromUrl(
-										'pregledAmandmana.html', $stateParams);
+										'pregledAmandmana2.html', $stateParams);
 							} else {
 								return $templateFactory.fromUrl(
 										'nisteUlogovani.html', $stateParams);
 							}
 						}
 					});
+					
+					$stateProvider.state('odbornik',{
+						// naziv stanja!
+							url : '/od',
+							templateProvider : function(session,
+									$stateParams, $templateFactory) {
+								session.loadRole();
+								if (session.role == 'odbornik') {
+									return $templateFactory.fromUrl(
+											'odbornik2.html',
+											$stateParams);
+								} else {
+									return $templateFactory.fromUrl(
+											'nisteUlogovani.html',
+											$stateParams);
+								}
+							}
+						
+					}).state(
+							'odbornik.amandmani',
+							{
+								url : '/amandmani',
+								templateProvider : function(session,
+										$stateParams, $templateFactory) {
+									session.loadRole();
+									if (session.role == 'odbornik') {
+										return $templateFactory.fromUrl(
+												'kreiranjeAmandmana1.html',
+												$stateParams);
+									} else {
+										return $templateFactory.fromUrl(
+												'nisteUlogovani.html',
+												$stateParams);
+									}
+								},
+								controller : 'amandmaniController'
+							}).state(
+							'odbornik.akt',
+							{
+								url : '/akt',
+								templateProvider : function(session,
+										$stateParams, $templateFactory) {
+									session.loadRole();
+									if (session.role == 'odbornik') {
+										return $templateFactory.fromUrl(
+												'odabirAkata1.html',
+												$stateParams);
+									} else {
+										return $templateFactory.fromUrl(
+												'nisteUlogovani.html',
+												$stateParams);
+									}
+								}
+							});
 
 				})
 		.service('session', function($timeout, $q) {
