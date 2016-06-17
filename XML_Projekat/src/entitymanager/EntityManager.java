@@ -18,6 +18,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
+import org.apache.batik.bridge.RelaxedExternalResourceSecurity;
 import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -353,10 +354,21 @@ public class EntityManager<T, ID extends Serializable> {
 	}
 	public void delete(String resourceId) throws IOException
 	{
-
-		
 		XMLDocumentManager xmlManager = client.newXMLDocumentManager();
 		xmlManager.delete(resourceId);
+		String xQuery = "xquery version \"1.0-ml\";"
+				+ "import module namespace sem = \"http://marklogic.com/semantics\" "
+				+ "  at \"/MarkLogic/semantics.xqy\";"
+				+ "let $triples := cts:triples(sem:iri(\"http://www.ftn.uns.ac.rs/skupstina/"+resourceId+"\"),()())"
+				+ "for $triple in $triples return (sem:database-nodes($triple) ! xdmp:node-delete(.))";
+		
+		ServerEvaluationCall invoker = client.newServerEval();
+		
+		invoker.xquery(xQuery);
+		
+		// Interpret the results
+		EvalResultIterator response = invoker.eval();
+		
 	}
 	
 	public void update(String resourceId) throws IOException, JAXBException, XMLStreamException
