@@ -316,7 +316,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'kreiranjeAmandmana3.html',
+												'kreiranjeAmandmana1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -334,7 +334,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'predsednik_skupstine') {
 										return $templateFactory.fromUrl(
-												'odabirAkata.html',
+												'odabirAkata1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -433,7 +433,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'odbornik') {
 										return $templateFactory.fromUrl(
-												'kreiranjeAmandmana3.html',
+												'kreiranjeAmandmana1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
@@ -451,7 +451,7 @@ var app = angular
 									session.loadRole();
 									if (session.role == 'odbornik') {
 										return $templateFactory.fromUrl(
-												'odabirAkata.html',
+												'odabirAkata1.html',
 												$stateParams);
 									} else {
 										return $templateFactory.fromUrl(
