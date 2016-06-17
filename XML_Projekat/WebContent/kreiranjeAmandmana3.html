@@ -2,24 +2,29 @@
 <div>
 
 	<div class="col-xs-4">
-		
+
 
 		<div id="listView" class="well col-xs-12 ">
-			
-			
+
+
 			<div class="well well-sm col-xs-12">
 				<button class="btn btn-primary col-xs-2">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
-			<div class="col-xs-10">
-				<input type="text" class="form-control" />
-			</div>
+				<div class="col-xs-10">
+					<input type="text" class="form-control" />
+				</div>
 			</div>
 
-			<button class="btn btn-primary col-xs-4" ng-click="removeAmandman(selectedAmandman.documentURI)">Uklanjanje
+			<div class="col-xs-12 well well-sm"><button class="btn btn-primary col-xs-4"
+				ng-click="removeAmandman(selectedAmandman.documentURI)">Uklanjanje
 				amandmana</button>
-			<h4 class="col-xs-8">{{selectedAmandman.documentName}}</h4>
 
+			<h4 class="col-xs-8">{{selectedAmandman.documentName}}</h4>
+			</div>
+			<button class="btn btn-primary col-xs-4"
+				ng-click="createAmandman(sadrzajAmandmana)">Kreiranje
+				amandmana</button>
 			<form role="form">
 				<table class="table table-hover table-bordered">
 					<thead>

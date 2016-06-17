@@ -19,6 +19,7 @@ var app = angular
 						}).then(function successCallback(response) {
 						    console.log("Usepsna pretraga po datumu");
 						    console.log(response.data);
+						    $scope.listaAkata = response.data;
 						  }, function errorCallback(response) {
 						    console.log("Greska prilikom pretrage po metapodacima");
 						  });
