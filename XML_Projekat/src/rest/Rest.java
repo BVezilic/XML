@@ -1,5 +1,9 @@
 package rest;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -114,6 +118,28 @@ public class Rest {
 			System.out.println("Greska prilikom prikaza akt html-a");
 			return null;
 		} 
+	}
+	
+	@GET
+	@Path("/akt/pdf")
+	@Produces("application/pdf")
+	public byte[] getPDFAkt() {
+		FileInputStream fis;
+		BufferedInputStream inputStream;
+		byte[] fileBytes = null;
+		try {
+			File file = new File("D:/FTN/Semestar_8/XML/Projekat/XML/XML_Projekat/WebContent/gen/pdf/zakon_o_izvrsenju_i_obezbedjenju.pdf"); 
+			fis = new FileInputStream(file);
+			inputStream = new BufferedInputStream(fis);
+			fileBytes = new byte[(int) file.length()];
+	        inputStream.read(fileBytes);
+	        inputStream.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}   
+        return fileBytes;
 	}
 	
 	@GET

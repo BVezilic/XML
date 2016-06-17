@@ -117,11 +117,11 @@ public class XSLFOTransformator {
 			// Setup the XSLT transformer factory
 			transformerFactory = new TransformerFactoryImpl();
 			// Point to the XSL-FO file
-			File xsltFile = new File("data/xslt/akt_fo.xsl");
+			File xsltFile = new File("WebContent/data/xslt/akt_fo.xsl");
 			// Create transformation source
 			StreamSource transformSource = new StreamSource(xsltFile);
 			// Initialize the transformation subject
-			StreamSource source = new StreamSource(new File("data/xml/"+xmlName+".xml"));
+			StreamSource source = new StreamSource(new File("WebContent/data/xml/"+xmlName+".xml"));
 			// Initialize user agent needed for the transformation
 			FOUserAgent userAgent = fopFactory.newFOUserAgent();
 			// Create the output stream to store the results
@@ -154,16 +154,14 @@ public class XSLFOTransformator {
 		System.out.println("Uspesno zavrsena transformacija "+xmlName+ " u pdf, na putanji: WebContent/gen/"+xmlName+".pdf");
 	}
 	public static void main(String[] args) {
-		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
-		XSLFOTransformator.aktToHTML("zakon_o_izvrsenju_i_obezbedjenju");
-		XSLFOTransformator.aktToHTML("zakon_o_policiji");
-		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
+//		XSLFOTransformator.aktToHTML("zakon_o_zastiti_zemljista");
+//		XSLFOTransformator.aktToHTML("zakon_o_izvrsenju_i_obezbedjenju");
+//		XSLFOTransformator.aktToHTML("zakon_o_policiji");
+//		XSLFOTransformator.aktToHTML("zakon_o_ozakonjenju_objekta");
 		
-//		XSLFOTransformator.amandmanToHTML("amandman_zakona_o_izvrsenju");
-		
-//		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
-//		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
-//		XSLFOTransformator.aktToPDF("zakon_o_policiji");
-//		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
+		XSLFOTransformator.aktToPDF("zakon_o_zastiti_zemljista");
+		XSLFOTransformator.aktToPDF("zakon_o_izvrsenju_i_obezbedjenju");
+		XSLFOTransformator.aktToPDF("zakon_o_policiji");
+		XSLFOTransformator.aktToPDF("zakon_o_ozakonjenju_objekta");
 	}
 }
