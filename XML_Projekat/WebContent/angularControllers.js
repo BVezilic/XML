@@ -117,6 +117,7 @@ var app = angular
 					
 					$scope.sadrzajAkta = "";
 					$scope.viewAkt = "";
+					$scope.exportToPDF = "";
 					// 'gen/html/zakon_o_izvrsenju_i_obezbedjenju.html'
 					$scope.listaAkata = [];
 					$scope.listaOdabranihAkata = [];
@@ -131,6 +132,7 @@ var app = angular
 
 					
 					$scope.viewAkt = "";
+					$scope.exportToPDF = "";
 					$scope.prikazSadrzajaAkta = function(id) {
 						
 						/*var req = {
@@ -145,6 +147,7 @@ var app = angular
 												$scope.viewAkt = response.data;
 											});*/
 						$scope.viewAkt = 'http://localhost:8080/XML_Projekat/rest/services/akt/html/'+id.documentURI;
+						$scope.exportToPDF = 'http://localhost:8080/XML_Projekat/rest/services/akt/pdf/'+id.documentURI;
 						 //$window.open('http://localhost:8080/XML_Projekat/rest/services/akt/html/'+id.documentURI, '_blank');
 							
 							

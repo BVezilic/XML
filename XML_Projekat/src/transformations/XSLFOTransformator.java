@@ -108,6 +108,45 @@ public class XSLFOTransformator {
 		}
 	}
 	
+	public static byte[] aktToPDFStream(InputStream xmlName) {	
+		FopFactory fopFactory;
+		TransformerFactory transformerFactory;
+		try {
+			// Initialize FOP factory object
+			fopFactory = FopFactory.newInstance(new File("../standalone/deployments/XML_Projekat.war/config/fop.xconf"));
+			// Setup the XSLT transformer factory
+			transformerFactory = new TransformerFactoryImpl();
+			// Point to the XSL-FO file
+			File xsltFile = new File("../standalone/deployments/XML_Projekat.war/data/xslt/akt_fo.xsl");
+			// Create transformation source
+			StreamSource transformSource = new StreamSource(xsltFile);
+			// Initialize the transformation subject
+			StreamSource source = new StreamSource(xmlName);
+			// Initialize user agent needed for the transformation
+			FOUserAgent userAgent = fopFactory.newFOUserAgent();
+			// Create the output stream to store the results
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+			// Initialize the XSL-FO transformer object
+			Transformer xslFoTransformer = transformerFactory.newTransformer(transformSource);
+			// Construct FOP instance with desired output format
+			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, userAgent, outStream);
+			// Resulting SAX events 
+			Result res = new SAXResult(fop.getDefaultHandler());
+			// Start XSLT transformation and FOP processing
+			xslFoTransformer.transform(source, res);
+			// Generate PDF file
+//			File pdfFile = new File("WebContent/gen/pdf/"+xmlName+".pdf");
+//			OutputStream out = new BufferedOutputStream(new FileOutputStream(pdfFile));
+//			out.write(outStream.toByteArray());
+//			out.close();
+			System.out.println("Uspesno zavrsena transformacija u pdf");
+			return outStream.toByteArray();
+		} catch (Exception e) {
+			System.out.println("greska prilikom generisanja pdf fajla");
+			return null;
+		}	
+	}
+	
 	public static void aktToPDF(String xmlName) {	
 		FopFactory fopFactory;
 		TransformerFactory transformerFactory;
